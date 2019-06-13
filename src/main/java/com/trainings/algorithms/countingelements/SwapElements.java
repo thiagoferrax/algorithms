@@ -2,8 +2,8 @@ package com.trainings.algorithms.countingelements;
 
 /**
  * Check whether swapping one element of each array will result in equal sums of elements form each array.
+ * https://codility.com/media/train/2-CountingElements.pdf
  * Detected time complexity: O(N2))
- *
  */
 public class SwapElements {
 	public int solution(int[] A, int[] B, int m) {
