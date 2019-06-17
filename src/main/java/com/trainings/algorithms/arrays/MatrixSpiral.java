@@ -14,28 +14,16 @@ public class MatrixSpiral {
 		int startColumn = 0;
 		int endColumn = N - 1;
 
-		int value = 0;
+		
 		int[][] aSolution = new int[N][N];
 
-		while (value < N * N) {
-			aSolution[row][column] = ++value;
+		for (int value = 1; value <= N * N; value++) {
+			aSolution[row][column] = value;
 
 			if (row == endRow && column == endColumn) {
 				column--;
 			} else if (row == endRow && column == startColumn) {
 				row--;
-			} else if (row != endRow && column == endColumn) {
-				row++;
-
-				if (row == endRow) {
-					startRow++;
-				}
-			} else if (row == endRow && column != startColumn) {
-				column--;
-
-				if (column == startColumn) {
-					endColumn--;
-				}
 			} else if (row != startRow && column == startColumn) {
 				row--;
 
@@ -43,7 +31,13 @@ public class MatrixSpiral {
 					startColumn++;
 					endRow--;
 				}
-			} else if (column != endColumn) {
+			} else if (row != endRow && column == endColumn) {
+				row++;
+				if (row == endRow) startRow++;				
+			} else if (row == endRow && column != startColumn) {
+				column--;
+				if (column == startColumn) endColumn--;
+			} else {
 				column++;
 			}
 		}
