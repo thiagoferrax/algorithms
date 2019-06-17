@@ -2,20 +2,21 @@ package com.trainings.algorithms.arrays;
 
 /**
  * Write a function that accepts an integer N and returns a NxN spiral matrix.
+ * https://www.udemy.com/coding-interview-bootcamp-algorithms-and-data-structure/
+ * Detected time complexity: O(N)
  */
 public class MatrixSpiral {
 	public int[][] solution(int N) {
-		int[][] aSolution = new int[N][N];
-
-		int value = 0;
-
-		int startColumn = 0;
-		int endColumn = N - 1;
+		int row = 0;
+		int column = 0;
 		int startRow = 0;
 		int endRow = N - 1;
+		int startColumn = 0;
+		int endColumn = N - 1;
 
-		int column = 0;
-		int row = 0;
+		int value = 0;
+		int[][] aSolution = new int[N][N];
+
 		while (value < N * N) {
 			aSolution[row][column] = ++value;
 
@@ -23,30 +24,30 @@ public class MatrixSpiral {
 				column--;
 			} else if (row == endRow && column == startColumn) {
 				row--;
-				startColumn++;
-			} else if (column == endColumn && row != endRow) {
+			} else if (row != endRow && column == endColumn) {
 				row++;
-				
-				if(row == endRow) {
+
+				if (row == endRow) {
 					startRow++;
 				}
 			} else if (row == endRow && column != startColumn) {
 				column--;
-				
-				if(column == startColumn) {
+
+				if (column == startColumn) {
 					endColumn--;
 				}
-			} else if (column == startColumn && row != startRow) {
+			} else if (row != startRow && column == startColumn) {
 				row--;
-				
-				if(row == startRow) {
+
+				if (row == startRow) {
+					startColumn++;
 					endRow--;
 				}
-			} else if(column != endColumn ) {
+			} else if (column != endColumn) {
 				column++;
 			}
-
 		}
+
 		return aSolution;
 	}
 }
