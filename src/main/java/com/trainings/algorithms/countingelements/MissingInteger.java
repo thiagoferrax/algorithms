@@ -1,0 +1,34 @@
+package com.trainings.algorithms.countingelements;
+
+import java.util.Arrays;
+
+/**
+ * Find the smallest positive integer that does not occur in a given sequence.
+ * https://app.codility.com/programmers/lessons/4-counting_elements/missing_integer/
+ * Detected time complexity: O(N) or O(N * log(N))
+ */
+public class MissingInteger {
+	public int solution(int[] A) {
+
+		Arrays.sort(A);
+
+		int N = A.length;
+		if (N == 0 || A[0] > 1 || A[N - 1] < 0) {
+			return 1;
+		}
+
+		for (int n = 1; n < N; n++) {
+
+			if (A[n] < 0)
+				continue;
+
+			int before = A[n - 1] < 0 ? 0 : A[n - 1];
+
+			if (A[n] - before > 1) {
+				return before + 1;
+			}
+		}
+
+		return A[N - 1] + 1;
+	}
+}
