@@ -17,9 +17,9 @@ public class MinAvgTwoSlice {
 		
 		for (int n = 0; n < N - 1; n++) {
 			for (int m = n + 1; m < N; m++) {
-				sum[m] = sum[n] + A[m];
+				sum[m] = sum[m-1] + A[m];
 				
-				float sliceNM = (n >= 1 ? sum[m] - sum[n - 1] : sum[m]) / (m - n + 1);
+				float sliceNM = (float)(n >= 1 ? sum[m] - sum[n - 1] : sum[m]) / (m - n + 1);
 				
 				if (sliceNM < minSlice) {
 					minSlice = sliceNM;
