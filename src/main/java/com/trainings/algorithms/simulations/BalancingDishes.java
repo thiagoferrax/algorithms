@@ -41,7 +41,7 @@ public class BalancingDishes {
 			int minTime = time;
 			int minStick = index;
 			for (int s = 0; s < nSticks; s++) {
-				if(skipDish(sticks, s) && stoppedDish(sticks, time, s)) {
+				if(dishWasRotated(sticks, s) && stoppedDish(sticks, time, s)) {
 					allDishesMoving = false;
 					
 					int whenStopped = sticks[s][CURRENT_TIME] + sticks[s][TIME_TO_STOP];
@@ -62,7 +62,7 @@ public class BalancingDishes {
 		scan.close();
 	}
 
-	private static boolean skipDish(int[][] sticks, int s) {
+	private static boolean dishWasRotated(int[][] sticks, int s) {
 		return sticks[s][CURRENT_TIME] > 0;
 	}
 
