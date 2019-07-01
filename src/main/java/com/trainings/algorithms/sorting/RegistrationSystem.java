@@ -8,7 +8,8 @@ import java.util.Scanner;
 /**
  * The new Secretary of Education mandated that a Computerized Enrollment System
  * be created to prevent children and workers from reading information and
- * information on Public Health. https://ucoder.com.br/problems/1005/
+ * information on Public Health. 
+ * https://ucoder.com.br/problems/1005/
  */
 public class RegistrationSystem {
 
