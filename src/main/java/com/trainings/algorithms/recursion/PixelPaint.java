@@ -1,16 +1,19 @@
 package com.trainings.algorithms.recursion;
 
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * When a user clicks the mouse over a pixel of an image, the ink can fills all
  * the pixels that have exactly the same color and that are in the
  * 4-neighborhood of the pixel in question and then do so with the pixels
- * painted and so onwards. https://ucoder.com.br/problems/1006/
+ * painted and so onwards. 
+ * https://ucoder.com.br/problems/1006/
  */
 public class PixelPaint {
+	private static final int COLUMN = 1;
+	private static final int ROW = 0;
+	private static final int MAX_NEIGHBORS = 4;
+
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 
@@ -31,7 +34,7 @@ public class PixelPaint {
 			int r = scan.nextInt();
 			int c = scan.nextInt();
 
-			System.out.println(getPixelsToPaint(pixels, r - 1, c - 1));
+			System.out.println(getPixelsToPaint(pixels, r, c));
 
 			rows = scan.nextInt();
 			columns = scan.nextInt();
@@ -41,107 +44,88 @@ public class PixelPaint {
 	}
 
 	public static int getPixelsToPaint(short[][] pixels, int r, int c) {
-		Set<Pixel> paint = new HashSet<Pixel>();
-		Set<Pixel> neighbors = new HashSet<Pixel>();
 
-		Pixel pixel = buildPixel(r, c);
-		pixel.value = pixels[r][c];
+		short[][] paint = new short[pixels.length][pixels.length == 0 ? 0 : pixels[0].length];
+		paint[r - 1][c - 1] = 1;
 
-		paint.add(pixel);
-		neighbors.add(pixel);
+		int[][] neighbors = new int[][] { { r, c } };
 
-		addPixelsToPaint(pixels, neighbors, paint);
+		short value = pixels[r - 1][c - 1];
 
-		return paint.size();
+		return addPixelsToPaint(pixels, value, neighbors, paint, 1);
 	}
 
-	private static void addPixelsToPaint(short[][] pixels, Set<Pixel> neighbors, Set<Pixel> paint) {
+	private static int addPixelsToPaint(short[][] pixels, short value, int[][] neighbors, short[][] paint, int count) {
 		int rows = pixels.length;
 		int columns = rows > 0 ? pixels[0].length : 0;
 
-		Set<Pixel> newNeighbors = new HashSet<PixelPaint.Pixel>();
+		int maxNeighbors = getMaxNeighbors(neighbors);
 
-		for (Pixel pixel : neighbors) {
+		int[][] newNeighbors = new int[maxNeighbors][2];
 
-			int r = pixel.row;
-			int c = pixel.column;
-			short value = pixel.value;
+		int neighbor = 0;
+		for (int nr = 0; nr < neighbors.length; nr++) {
 
-			Pixel topPixel = buildPixel(r - 1, c);
-			boolean addTop = r - 1 > 0 && pixels[r - 1][c] == value && !paint.contains(topPixel);
+			if (neighbors[nr][ROW] == 0) {
+				continue;
+			}
+
+			int r = neighbors[nr][ROW] - 1;
+			int c = neighbors[nr][COLUMN] - 1;
+
+			boolean addTop = r - 1 > 0 && pixels[r - 1][c] == value && paint[r - 1][c] != 1;
 			if (addTop) {
-				topPixel.value = pixels[r - 1][c];
-				paint.add(topPixel);
-				newNeighbors.add(topPixel);
+				paint[r - 1][c] = 1;
+				count++;
+
+				newNeighbors[neighbor][ROW] = r;
+				newNeighbors[neighbor][COLUMN] = c + 1;
+				neighbor++;
 			}
 
-			Pixel bottomPixel = buildPixel(r + 1, c);
-			boolean addBottom = r + 1 < rows && pixels[r + 1][c] == value && !paint.contains(bottomPixel);
+			boolean addBottom = r + 1 < rows && pixels[r + 1][c] == value && paint[r + 1][c] != 1;
 			if (addBottom) {
-				bottomPixel.value = pixels[r + 1][c];
-				paint.add(bottomPixel);
-				newNeighbors.add(bottomPixel);
+				paint[r + 1][c] = 1;
+				count++;
+
+				newNeighbors[neighbor][ROW] = r + 2;
+				newNeighbors[neighbor][COLUMN] = c + 1;
+				neighbor++;
 			}
 
-			Pixel leftPixel = buildPixel(r, c - 1);
-			boolean addLeft = c - 1 > 0 && pixels[r][c - 1] == value && !paint.contains(leftPixel);
+			boolean addLeft = c - 1 > 0 && pixels[r][c - 1] == value && paint[r][c - 1] != 1;
 			if (addLeft) {
-				leftPixel.value = pixels[r][c - 1];
-				paint.add(leftPixel);
-				newNeighbors.add(leftPixel);
+				paint[r][c - 1] = 1;
+				count++;
+
+				newNeighbors[neighbor][ROW] = r + 1;
+				newNeighbors[neighbor][COLUMN] = c;
+				neighbor++;
 			}
 
-			Pixel rightPixel = buildPixel(r, c + 1);
-			boolean addRight = c + 1 < columns && pixels[r][c + 1] == value && !paint.contains(rightPixel);
+			boolean addRight = c + 1 < columns && pixels[r][c + 1] == value && paint[r][c + 1] != 1;
 			if (addRight) {
-				rightPixel.value = pixels[r][c + 1];
-				paint.add(rightPixel);
-				newNeighbors.add(rightPixel);
+				paint[r][c + 1] = 1;
+				count++;
+
+				newNeighbors[neighbor][ROW] = r + 1;
+				newNeighbors[neighbor][COLUMN] = c + 2;
+				neighbor++;
 			}
 		}
 
-		if (!newNeighbors.isEmpty()) {
-			addPixelsToPaint(pixels, newNeighbors, paint);
+		if (neighbor > 0) {
+			return addPixelsToPaint(pixels, value, newNeighbors, paint, count);
 		}
+
+		return count;
 	}
 
-	private static Pixel buildPixel(int r, int c) {
-		return new PixelPaint().new Pixel(r, c);
-	}
-
-	private class Pixel {
-		public Pixel(int row, int column) {
-			this.row = row;
-			this.column = column;
+	private static int getMaxNeighbors(int[][] neighbors) {
+		int maxNeighbors = 0;
+		for (int nr = 0; nr < neighbors.length && neighbors[nr][0] != 0; nr++) {
+			maxNeighbors++;
 		}
-
-		private int row;
-		private int column;
-		private short value;
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + column;
-			result = prime * result + row;
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Pixel other = (Pixel) obj;
-			if (column != other.column)
-				return false;
-			if (row != other.row)
-				return false;
-			return true;
-		}
+		return maxNeighbors * MAX_NEIGHBORS;
 	}
 }
