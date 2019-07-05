@@ -34,7 +34,7 @@ public class PixelPaint {
 			int r = scan.nextInt();
 			int c = scan.nextInt();
 
-			System.out.println(getPixelsToPaint(pixels, r, c));
+			System.out.println(countPixelsToPaint(pixels, r, c));
 
 			rows = scan.nextInt();
 			columns = scan.nextInt();
@@ -43,82 +43,80 @@ public class PixelPaint {
 		scan.close();
 	}
 
-	public static int getPixelsToPaint(short[][] pixels, int r, int c) {
+	public static int countPixelsToPaint(short[][] pixels, int r, int c) {
 
-		short[][] paint = new short[pixels.length][pixels.length == 0 ? 0 : pixels[0].length];
-		paint[r - 1][c - 1] = 1;
+		int rows = pixels.length;
+		int columns = rows == 0 ? 0 : pixels[0].length;
 
-		int[][] neighbors = new int[][] { { r, c } };
+		short[][] paint = new short[rows][columns];
+		paintPixel(paint, r - 1, c - 1);
+		int count = 1;
 
+		int[][] neighbors = { { r, c } };
 		short value = pixels[r - 1][c - 1];
 
-		return addPixelsToPaint(pixels, value, neighbors, paint, 1);
+		return addPixelsToPaint(pixels, value, neighbors, paint, count);
 	}
 
 	private static int addPixelsToPaint(short[][] pixels, short value, int[][] neighbors, short[][] paint, int count) {
-		int rows = pixels.length;
-		int columns = rows > 0 ? pixels[0].length : 0;
 
-		int maxNeighbors = getMaxNeighbors(neighbors);
+		int[][] newNeighbors = new int[getMaxNeighbors(neighbors)][2];
 
-		int[][] newNeighbors = new int[maxNeighbors][2];
+		int neighborCount = 0;
+		for (int[] neighbor : neighbors) {
 
-		int neighbor = 0;
-		for (int nr = 0; nr < neighbors.length; nr++) {
-
-			if (neighbors[nr][ROW] == 0) {
+			if (neighbor[ROW] == 0) {
 				continue;
 			}
 
-			int r = neighbors[nr][ROW] - 1;
-			int c = neighbors[nr][COLUMN] - 1;
+			int r = neighbor[ROW] - 1;
+			int c = neighbor[COLUMN] - 1;
 
-			boolean addTop = r - 1 > 0 && pixels[r - 1][c] == value && paint[r - 1][c] != 1;
-			if (addTop) {
-				paint[r - 1][c] = 1;
-				count++;
-
-				newNeighbors[neighbor][ROW] = r;
-				newNeighbors[neighbor][COLUMN] = c + 1;
-				neighbor++;
-			}
-
-			boolean addBottom = r + 1 < rows && pixels[r + 1][c] == value && paint[r + 1][c] != 1;
-			if (addBottom) {
-				paint[r + 1][c] = 1;
-				count++;
-
-				newNeighbors[neighbor][ROW] = r + 2;
-				newNeighbors[neighbor][COLUMN] = c + 1;
-				neighbor++;
-			}
-
-			boolean addLeft = c - 1 > 0 && pixels[r][c - 1] == value && paint[r][c - 1] != 1;
-			if (addLeft) {
-				paint[r][c - 1] = 1;
-				count++;
-
-				newNeighbors[neighbor][ROW] = r + 1;
-				newNeighbors[neighbor][COLUMN] = c;
-				neighbor++;
-			}
-
-			boolean addRight = c + 1 < columns && pixels[r][c + 1] == value && paint[r][c + 1] != 1;
-			if (addRight) {
-				paint[r][c + 1] = 1;
-				count++;
-
-				newNeighbors[neighbor][ROW] = r + 1;
-				newNeighbors[neighbor][COLUMN] = c + 2;
-				neighbor++;
+			int[][] nearNeighbors = { { r - 1, c }, { r + 1, c }, { r, c - 1 }, { r, c + 1 } };
+			for (int[] pixel : nearNeighbors) {
+				if (addPixel(pixels, value, paint, newNeighbors, neighborCount, pixel[ROW], pixel[COLUMN])) {
+					neighborCount++;
+					count++;
+				}
 			}
 		}
 
-		if (neighbor > 0) {
+		if (neighborCount > 0) {
 			return addPixelsToPaint(pixels, value, newNeighbors, paint, count);
 		}
 
 		return count;
+	}
+
+	private static boolean addPixel(short[][] pixels, short value, short[][] paint, int[][] newNeighbors, int neighbor,
+			int row, int column) {
+		int rows = pixels.length;
+		int columns = rows > 0 ? pixels[0].length : 0;
+
+		boolean add = validPosition(rows, columns, row, column) && pixels[row][column] == value
+				&& !isPainted(paint, row, column);
+		if (add) {
+			paintPixel(paint, row, column);
+			addNeighbor(newNeighbors, neighbor, row, column);
+		}
+		return add;
+	}
+
+	private static void addNeighbor(int[][] newNeighbors, int neighbor, int row, int column) {
+		newNeighbors[neighbor][ROW] = row + 1;
+		newNeighbors[neighbor][COLUMN] = column + 1;
+	}
+
+	private static boolean isPainted(short[][] paint, int row, int column) {
+		return paint[row][column] == 1;
+	}
+
+	private static void paintPixel(short[][] paint, int row, int column) {
+		paint[row][column] = 1;
+	}
+
+	private static boolean validPosition(int rows, int columns, int row, int column) {
+		return row >= 0 && row < rows && column >= 0 && column < columns;
 	}
 
 	private static int getMaxNeighbors(int[][] neighbors) {
