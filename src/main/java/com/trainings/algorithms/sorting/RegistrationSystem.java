@@ -18,9 +18,12 @@ public class RegistrationSystem {
 
 		List<Student> students = new ArrayList<Student>();
 
-		while (scan.hasNextLine()) {
-			String studentData = scan.nextLine();
-			students.add(new RegistrationSystem().new Student(studentData));
+		while (scan.hasNext()) {
+			String studentData = scan.next();
+			while (scan.hasNext() && !studentData.contains(";")) {
+				studentData += " " + scan.next();
+			}
+			students.add(new RegistrationSystem().new Student(studentData));			
 		}
 
 		students.sort(new RegistrationSystem().new StudentComparator());
