@@ -9,10 +9,7 @@ public class MaxCounters {
 	// Detected time complexity: O(N * M)
 	public int[] solution(int N, int[] A) {
 		int[] aSolution = new int[N];
-		for (int n = 0; n < N; n++) {
-			aSolution[n] = 0;
-		}
-
+		
 		int M = A.length;
 		int max = 0;
 		for (int m = 0; m < M; m++) {
@@ -34,10 +31,7 @@ public class MaxCounters {
 	public int[] bestSolution(int N, int[] A) {
 
 		int[] aSolution = new int[N];
-		for (int n = 0; n < N; n++) {
-			aSolution[n] = 0;
-		}
-
+		
 		int max = 0;
 		int maxN1 = 0;
 		int M = A.length;
