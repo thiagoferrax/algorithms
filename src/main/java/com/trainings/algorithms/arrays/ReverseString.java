@@ -6,7 +6,7 @@ package com.trainings.algorithms.arrays;
  */
 public class ReverseString {
 	public String reverse(String word) {
-		if (word == null || word.isEmpty()) {
+		if (word == null || word.length() < 2) {
 			return word;
 		}
 
