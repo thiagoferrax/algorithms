@@ -1,15 +1,8 @@
 package com.trainings.algorithms.trees;
 
-import java.util.Comparator;
-
-public class MyBinarySearchTree<T> {
+public class MyBinarySearchTree<T extends Comparable<T>> {
 	private Node<T> root;
 	private int length;
-	private Comparator<T> comparator;
-
-	public MyBinarySearchTree(Comparator<T> comparator) {
-		this.comparator = comparator;
-	}
 
 	public void insert(T value) {
 		if(this.root == null) {
@@ -21,13 +14,11 @@ public class MyBinarySearchTree<T> {
 	}
 
 	private void insert(MyBinarySearchTree<T>.Node<T> node, T value) {
-		if (comparator.compare(value, node.value) <= 0) {
+		if (value.compareTo(node.value) <= 0) {
 			if(node.left == null) {
 				node.left = new Node<T>(value);
 				this.length++;
-			} else if () {
-				
-			}else {
+			} else {
 				insert(node.left, value);
 			}
 		} else {
