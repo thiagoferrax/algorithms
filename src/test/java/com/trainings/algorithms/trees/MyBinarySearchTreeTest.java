@@ -18,8 +18,7 @@ class MyBinarySearchTreeTest {
 		};
 		
 		MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<Integer>(comparator);
-		tree.insert(1);
-		tree.print();
+		tree.insert(10);
 		
 		Assert.assertEquals(1, tree.length());
 		

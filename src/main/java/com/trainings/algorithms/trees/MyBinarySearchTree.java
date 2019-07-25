@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 public class MyBinarySearchTree<T> {
 	private Node<T> root;
-	private int lenght;
+	private int length;
 	private Comparator<T> comparator;
 
 	public MyBinarySearchTree(Comparator<T> comparator) {
@@ -12,17 +12,31 @@ public class MyBinarySearchTree<T> {
 	}
 
 	public void insert(T value) {
-		insert(this.root, value);
+		if(this.root == null) {
+			this.root = new Node<T>(value);
+			this.length++;
+		} else {
+			insert(this.root, value);
+		}
 	}
 
 	private void insert(MyBinarySearchTree<T>.Node<T> node, T value) {
-		if (node == null) {
-			node = new Node<T>(value);
-			lenght++;
-		} else if (comparator.compare(value, node.value) <= 0) {
-			insert(node.left, value);
+		if (comparator.compare(value, node.value) <= 0) {
+			if(node.left == null) {
+				node.left = new Node<T>(value);
+				this.length++;
+			} else if () {
+				
+			}else {
+				insert(node.left, value);
+			}
 		} else {
-			insert(node.right, value);
+			if(node.right == null) {
+				node.right = new Node<T>(value);
+				this.length++;
+			} else {
+				insert(node.right, value);
+			}
 		}
 	}
 
@@ -31,7 +45,7 @@ public class MyBinarySearchTree<T> {
 	}
 	
 	public int length() {
-		return lenght;
+		return length;
 	}
 
 	private class Node<U> {
