@@ -46,4 +46,16 @@ class MyBinarySearchTreeTest {
 
 		Assert.assertEquals(5, tree.length());
 	}
+	
+	@Test
+	void whenSearchingAnExistingElementShouldReturnTrue() {
+		MyBinarySearchTree<MyObject> tree = new MyBinarySearchTree<MyObject>();
+		tree.insert(new MyObject(10));
+		tree.insert(new MyObject(12));
+		tree.insert(new MyObject(11));
+		tree.insert(new MyObject(6));
+		tree.insert(new MyObject(9));
+
+		Assert.assertTrue(tree.search(new MyObject(6)));
+	}
 }

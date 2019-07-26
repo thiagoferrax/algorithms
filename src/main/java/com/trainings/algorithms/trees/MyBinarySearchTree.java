@@ -53,4 +53,23 @@ public class MyBinarySearchTree<T extends Comparable<T>> {
 			return "Node [value=" + value + ", left=" + left + ", right=" + right + "]";
 		}
 	}
+
+	public boolean search(T value) {
+		if(value == null || root == null) {
+			return false;
+		}
+		
+		Node<T> node = root;
+		while(node != null) {
+			if (value.compareTo(node.value) == 0) {
+				return true;
+			} else if(value.compareTo(node.value) < 0) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+		}
+		
+		return false;
+	}
 }
