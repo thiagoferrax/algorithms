@@ -41,8 +41,6 @@ class MyBinarySearchTreeTest {
 		tree.insert(new MyObject(11));
 		tree.insert(new MyObject(6));
 		tree.insert(new MyObject(9));
-		
-		tree.print();
 
 		Assert.assertEquals(5, tree.length());
 	}
@@ -56,6 +54,31 @@ class MyBinarySearchTreeTest {
 		tree.insert(new MyObject(6));
 		tree.insert(new MyObject(9));
 
-		Assert.assertTrue(tree.search(new MyObject(6)));
+		Assert.assertNotNull(tree.search(new MyObject(6)));
+	}
+	
+	@Test
+	void whenRemovingAnExistingElementInATreeThatOnlyContainsTheRoot() {
+		MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<Integer>();
+		tree.insert(10);
+		
+		Assert.assertTrue(tree.remove(10));
+		
+		Assert.assertEquals(0, tree.length());
+	}
+	
+	@Test
+	void whenRemovingAnExistingElementWithNoChildreenInATreeWithElements() {
+		MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<Integer>();
+		tree.insert(10);
+		tree.insert(7);
+		tree.insert(12);
+		tree.print();
+		
+		Assert.assertTrue(tree.remove(12));
+		
+		tree.print();
+		
+		Assert.assertEquals(2, tree.length());
 	}
 }
