@@ -13,6 +13,13 @@ public class MyBinarySearchTree<T extends Comparable<T>> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public void insert(T... values) {
+		for (int i = 0; i < values.length; i++) {
+			insert(values[i]);
+		}
+	}
+
 	private void insert(MyBinarySearchTree<T>.Node<T> node, T value) {
 		if (value.compareTo(node.value) <= 0) {
 			if (node.left == null) {
@@ -79,46 +86,48 @@ public class MyBinarySearchTree<T extends Comparable<T>> {
 		}
 
 		if (length == 1) {
-			if (value.compareTo(root.value) == 0) {
-				this.root = null;
+			if (root.value.compareTo(value) == 0) {
+				root = null;
 				length--;
 				return true;
 			}
 			return false;
 		}
 
-		Node<T> parentNode = null;
-		Node<T> foundNode = null;
-		Node<T> node = root;
-		while (node != null) {
-			if (value.compareTo(node.value) == 0) {
-				foundNode = node;
-				break;
-			} else if (value.compareTo(node.value) < 0) {
-				node = node.left;
-				parentNode = node;
+		Node<T> currentNode = root, parentNode = null;
+		while (currentNode != null) {
+			if (value.compareTo(currentNode.value) == 0) {
+
+				if (currentNode.left == null) {
+					updateTree(parentNode, currentNode, currentNode.right);
+				} else if (currentNode.right == null) {
+					updateTree(parentNode, currentNode, currentNode.left);
+				} else if (currentNode.right.left != null) {
+					updateTree(parentNode, currentNode, currentNode.right.left);
+				} else {
+					updateTree(parentNode, currentNode, currentNode.right);
+					updateTree(parentNode.left, currentNode, currentNode.left);
+				}
+				length--;
+				return true;
+
+			} else if (value.compareTo(currentNode.value) < 0) {
+				parentNode = currentNode;
+				currentNode = currentNode.left;
 			} else {
-				node = node.right;
-				parentNode = node;
+				parentNode = currentNode;
+				currentNode = currentNode.right;
 			}
-		}
-
-		if (foundNode == null) {
-			return false;
-		}
-
-		if (foundNode.left == null && foundNode.right == null) {
-			if (foundNode.value.compareTo(parentNode.value) <= 0) {
-				parentNode.left = null;
-			} else {
-				parentNode.right = null;
-			}
-			length--;
-			return true;
-		} else {
-
 		}
 
 		return false;
+	}
+
+	private void updateTree(Node<T> parentNode, Node<T> selectedNode, MyBinarySearchTree<T>.Node<T> side) {
+		if (selectedNode.value.compareTo(parentNode.value) <= 0) {
+			parentNode.left = side;
+		} else {
+			parentNode.right = side;
+		}
 	}
 }
