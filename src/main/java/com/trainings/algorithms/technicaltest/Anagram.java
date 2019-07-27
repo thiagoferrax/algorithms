@@ -24,6 +24,49 @@ public class Anagram {
 			return false;
 		}
 
+		Map<Character, Integer> wordMap = new HashMap<Character, Integer>();
+		for (char charAt : firstWord.toCharArray()) {
+			incrementCounter(wordMap, charAt);
+		}
+
+		for (char charAt : secondWord.toCharArray()) {
+			if (!wordMap.containsKey(charAt)) {
+				return false;
+			} else {
+				boolean decremented = decrementCounter(wordMap, charAt);
+				if(!decremented) {
+					return false;
+				}
+			}
+		}
+		
+		return wordMap.keySet().isEmpty();
+	}
+
+	
+	private static boolean decrementCounter(Map<Character, Integer> wordMap, char charAt) {
+		if (!wordMap.containsKey(charAt)) {
+			return false;
+		} else {
+			Integer count = wordMap.get(charAt) - 1;
+			
+			if(count < 0) {
+				return false;
+			} else if (count == 0) {
+				wordMap.remove(charAt);
+			} else {
+				wordMap.put(charAt, count);
+			}
+			
+			return true;
+		}
+	}
+
+	public static boolean isAnagramSecondSolution(String firstWord, String secondWord) {
+		if (firstWord.length() != secondWord.length()) {
+			return false;
+		}
+
 		Map<Character, Integer> firstWordMap = new HashMap<Character, Integer>();
 		for (char charAt : firstWord.toCharArray()) {
 			incrementCounter(firstWordMap, charAt);
