@@ -70,9 +70,8 @@ class MyBinarySearchTreeTest {
 	@Test
 	void whenRemovingAnExistingElementWithNoChildreenInATreeWithElements() {
 		MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<Integer>();
-		tree.insert(10);
-		tree.insert(7);
-		tree.insert(12);
+		tree.insert(10, 7, 12);
+
 		tree.print();
 		
 		Assert.assertTrue(tree.remove(12));
@@ -80,5 +79,56 @@ class MyBinarySearchTreeTest {
 		tree.print();
 		
 		Assert.assertEquals(2, tree.length());
+	}
+	
+	@Test
+	void whenRemovingAnExistingElementWithNoChildreenInATreeWithElements_OnlyRightNode() {
+		MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<Integer>();
+		tree.insert(10, 7, 12, 14);
+
+		tree.print();
+		
+		Assert.assertTrue(tree.remove(12));
+		
+		tree.print();
+		
+		Assert.assertEquals(3, tree.length());
+	}
+	
+	@Test
+	void whenRemovingAnExistingElementWithNoChildreenInATreeWithElements_OnlyLeftNode() {
+		MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<Integer>();
+		tree.insert(10, 7, 12, 11);
+
+		tree.print();
+		
+		Assert.assertTrue(tree.remove(11));
+		
+		tree.print();
+		
+		Assert.assertEquals(3, tree.length());
+	}
+	
+	
+	@Test
+	void whenRemovingAnExistingElementWithNoChildreenInATreeWithElements_WithLeftAndRightNodes() {
+		MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<Integer>();
+		tree.insert(10, 7, 13, 12, 15, 11);
+
+		tree.print();
+		
+		Assert.assertTrue(tree.remove(13));
+		
+		tree.print();
+		
+		Assert.assertEquals(5, tree.length());
+	}
+	
+	@Test
+	void whenTryingToRemoveANonExistingNode() {
+		MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<Integer>();
+		tree.insert(10, 7, 13, 12, 15, 11);
+		
+		Assert.assertFalse(tree.remove(1));	
 	}
 }
