@@ -14,7 +14,6 @@ public class Anagram {
 			String secondWord = scan.next();
 
 			System.out.println(isAnagram(firstWord, secondWord));
-
 		}
 
 		scan.close();
@@ -26,18 +25,16 @@ public class Anagram {
 		}
 
 		Map<Character, Integer> firstWordMap = new HashMap<Character, Integer>();
-		for (int n = 0; n < firstWord.length(); n++) {
-			char charAt = firstWord.charAt(n);
-			incrementCount(firstWordMap, charAt);
+		for (char charAt : firstWord.toCharArray()) {
+			incrementCounter(firstWordMap, charAt);
 		}
 
 		Map<Character, Integer> secondWordMap = new HashMap<Character, Integer>();
-		for (int m = 0; m < secondWord.length(); m++) {
-			char charAt = secondWord.charAt(m);
+		for (char charAt : secondWord.toCharArray()) {
 			if (!firstWordMap.containsKey(charAt)) {
 				return false;
 			} else {
-				incrementCount(secondWordMap, charAt);
+				incrementCounter(secondWordMap, charAt);
 			}
 		}
 		
@@ -54,12 +51,12 @@ public class Anagram {
 		return true;
 	}
 
-	private static void incrementCount(Map<Character, Integer> firstWordMap, char charAt) {
-		if (!firstWordMap.containsKey(charAt)) {
-			firstWordMap.put(charAt, 1);
+	private static void incrementCounter(Map<Character, Integer> wordMap, char charAt) {
+		if (!wordMap.containsKey(charAt)) {
+			wordMap.put(charAt, 1);
 		} else {
-			Integer count = firstWordMap.get(charAt);
-			firstWordMap.put(charAt, count + 1);
+			Integer count = wordMap.get(charAt);
+			wordMap.put(charAt, count + 1);
 		}
 	}
 

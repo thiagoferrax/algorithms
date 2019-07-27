@@ -7,8 +7,9 @@ class AnagramTest {
 
 	@Test
 	void test() {
-		Assert.assertEquals(true, Anagram.isAnagram("AUTOR", "OUTRA"));
-		Assert.assertEquals(false, Anagram.isAnagram("AUTOR", "OUTRORA"));
+		Assert.assertEquals(true, Anagram.isAnagram("AUTHOR", "OUTRHA"));
+		Assert.assertEquals(false, Anagram.isAnagram("AUTHOR", "OUTRORA"));
+		Assert.assertEquals(true, Anagram.isAnagram("BETTER", "RETTEB"));
 	}
 
 }
