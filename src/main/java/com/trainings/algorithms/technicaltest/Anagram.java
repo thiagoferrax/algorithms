@@ -32,8 +32,8 @@ public class Anagram {
 		}
 
 		Map<Character, Integer> secondWordMap = new HashMap<Character, Integer>();
-		for (int m = 0; m < firstWord.length(); m++) {
-			char charAt = firstWord.charAt(m);
+		for (int m = 0; m < secondWord.length(); m++) {
+			char charAt = secondWord.charAt(m);
 			if (!firstWordMap.containsKey(charAt)) {
 				return false;
 			} else {
