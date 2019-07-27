@@ -14,14 +14,17 @@ public class Factorial {
 	}
 	
 	public static int factorialIterative(int n) {
-		int[] factorials = new int[n+1];
-		factorials[0] = 1;
-	
-		for (int i = 1; i < factorials.length; i++) {
-			factorials[i] = i * factorials[i - 1];
+		int answer = 1;
+		
+		if(n < 2) {
+			return answer;
 		}
 		
-		return factorials[n];
+		for (int i = 2; i <= n; i++) {
+			answer *= i;
+		}
+		
+		return answer;
 	}
 
 }
