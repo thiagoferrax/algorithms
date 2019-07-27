@@ -40,6 +40,8 @@ public class BalancedParentheses {
 			case ')':
 				if (!stack.isEmpty() && stack.peek() == '(') {
 					stack.pop();
+				} else if (stack.isEmpty()) {
+					return false;
 				} else {
 					stack.push(')');
 				}
