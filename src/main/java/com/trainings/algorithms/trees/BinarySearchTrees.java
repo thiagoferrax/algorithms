@@ -2,16 +2,6 @@ package com.trainings.algorithms.trees;
 
 import java.util.Scanner;
 
-class Node {
-	Node left, right;
-	int data;
-
-	Node(int data) {
-		this.data = data;
-		left = right = null;
-	}
-}
-
 /**
  * Find the height of a BST. The height of a binary search tree is the number of
  * edges between the tree's root and its furthest leaf.
