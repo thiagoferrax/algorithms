@@ -7,20 +7,32 @@ public class MergeSort {
 	}
 
 	private static int[] mergeSort(int[] values, int start, int end) {
-		int n = end - start + 1;
+		int length = end - start + 1;
 
-		if (n < 2) {
+		if (length < 2) {
 			return values;
 		}
 
-		int middle = start + (n / 2) - 1;
+		if (length == 2) {
+			if (values[start] > values[end]) {
+				swap(values, start, end);
+			}
+			return values;
+		}
+
+		int middle = start + (length / 2);
 
 		mergeSort(values, start, middle);
 		mergeSort(values, middle + 1, end);
-
 		merge(values, start, middle, end);
 
 		return values;
+	}
+
+	private static void swap(int[] values, int start, int end) {
+		int temp = values[start];
+		values[start] = values[end];
+		values[end] = temp;
 	}
 
 	private static void merge(int[] values, int start, int middle, int end) {
@@ -30,7 +42,13 @@ public class MergeSort {
 		int[] mergedValues = new int[end - start + 1];
 
 		for (int n = 0; left <= middle || right <= end; n++) {
-			if (values[left] < values[right]) {
+			if (left == middle + 1 && right <= end) { // There is no more elements in he left side
+				mergedValues[n] = values[right];
+				right++;
+			} else if (right == end + 1 && left <= middle) { // There is no more elements in he right side
+				mergedValues[n] = values[left];
+				left++;
+			} else if (values[left] < values[right]) {
 				mergedValues[n] = values[left];
 				left++;
 			} else {
