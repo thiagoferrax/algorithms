@@ -9,7 +9,7 @@ public class HeapSort {
 		}
 
 		while (length > 0) {
-			for (int i = 0; i < length; i++) {
+			for (int i = 0; 2 * i + 1 < length; i++) {
 				heapMaxfy(values, length, i);
 			}
 			swap(values, length - 1, 0);
@@ -23,18 +23,23 @@ public class HeapSort {
 		int largest = i;
 		int left = 2 * i + 1;
 		int right = 2 * i + 2;
-
+		int parent = 0;
+		
 		if (left < length && values[left] > values[largest]) {
 			largest = left;
+			parent =  (i - 1) / 2;
 		}
 
 		if (right < length && values[right] > values[largest]) {
 			largest = right;
+			parent =  (i - 2) / 2;
 		}
 
 		if (largest != i) {
 			swap(values, i, largest);
-			//heapMaxfy(values, length - 1, largest);
+			if(i != 0) {
+				heapMaxfy(values, length - 1, parent);
+			}			
 		}
 	}
 
