@@ -1,1 +1,63 @@
-# algorithms
+# algorithms 
+
+- HeapSort - Stating the implementation of heap sort.
+- QuickSort - Implementing the quick sort algorithm.
+- MergeSort - Starting implementation of merge sort.
+- InsertionSort - Implement the insertion sort algorithm.
+- SelectionSort - Implemeting the selection sort algorithm.
+- ConnectionPool - Create a connection pool according the Connection and ConnectionPool interface already specified - Atlassian Technical Test.
+- BSTLevelOrderTraversal - A level-order traversal, also known as a breadth-first search, visits each level of a tree's nodes from left to right, top to bottom. You are given a pointer, root, pointing to the root of a binary search tree.
+- BinarySearchTrees - Find the height of a BST. The height of a binary search tree is the number of edges between the tree's root and its furthest leaf.
+- BubbleSort - Given an array, a, of size n distinct elements, sort the array in ascending order using the Bubble Sort algorithm.
+- Palindrome - A palindrome is a word, phrase, number, or other sequence of characters which reads the same backwards and forwards. Using stacks and queues.
+- Fibonacci - Calculate fibonacci with recursion and iteration.
+- Factorial - Calculate factorial using recursion and iteration.
+- Palindrome - A palindrome is a word, phrase, number, or other sequence of characters which reads the same backwards and forwards.
+- MyBinarySearchTree - Implementing a BinarySearchTree.
+- MyQueueWithStacks - Implement a queue using stacks.
+- MyQueue - Implement a queue using a LinkedList.
+- MyStackWithLinkedList - Implementing a Stack using LinkedList.
+- MergeSortedArrays - Merge two sorted arrays of integers.
+- ReverseString - Return a string in reverse order.
+- DynamicArray - The function is expected to return an INTEGER_ARRAY. The function accepts the following parameters: 1. INTEGER n 2. 2D_INTEGER_ARRAY queries.
+- PairsEqualTotal - Given an array and a value, it checks to see if it contains any pair of items whose sum results in the specified value.
+- CommonItems - Given two arrays, create a function the lets the user knows whether theses arrays contain any common items.
+- AccountAndTransactionSolution - SAS Technical Test, question about Threads.
+- ArrayManipulation - Starting with a 1-indexed array of zeros and a list of operations, for each operation add a value to each of the array element between two given indices, inclusive. Once all operations have been performed, return the maximum value in your array.
+- MinimumSwaps2 - You are given an unordered array consisting of consecutive integers  [1, 2, 3, ..., n] without any duplicates. You are allowed to swap any two elements. You need to find the minimum number of swaps required to sort the array in ascending order.
+- NewYearChaos - Print an integer denoting the minimum number of bribes needed to get the queue into its final state. Print Too chaotic if the state is invalid, i.e. it requires a person to have bribed more than 2 people.
+- LeftRotation - Given an array a of n integers and a number, d, perform d left rotations on the array. Return the updated array to be printed as a single line of space-separated integers.
+- TwoDArrayDS - Calculate the hourglass sum for every hourglass in arr, then print the maximum hourglass sum.
+- CompareTheTriplets - It must return an array of two integers, the first being Alice's score and the second being Bob's.
+- RepeatedString - Given an integer, n, find and print the number of letter a's in the first letters of Lilah's infinite string.
+- JumpingOnTheClouds - Determine the minimum number of jumps it will take Emma to jump from her starting postion to the last cloud. It is always possible to win the game.
+- CountingValleys -  It must return an integer that denotes the number of valleys Gary traversed.
+- SockMerchant - Given an array of integers representing the color of each sock, determine how many pairs of socks with matching colors there are.
+- EquiLeader - Find the index S such that the leaders of the sequences A[0], A[1], ..., A[S] and A[S + 1], A[S + 2], ..., A[N - 1] are the same.
+- Dominator - Find an index of an array such that its value occurs at more than half of indices in the array.
+- Anagram and BalancedParentheses - Technical Test - I Want Education
+- Kangaroo - Given a matrix representing the kangaroos in each enclosure, find out if the composition is correct or, if it is not, for which surrounded the kangaroo has to return.
+- RegistrationSystem - Code review and improvements.
+- Bathroom - Find out how long and which bathroom a certain person in the queue will occupy based on the average time each person takes in the bathroom.
+- EulerNumber - Given a value of n, calculate the approximate value of e by the Taylor series.
+- PixelPaint - When a user clicks the mouse over a pixel of an image, the ink can fills all the pixels that have exactly the same color and that are in the 4-neighborhood of the pixel in question and then do so with the pixels painted and so onwards.
+- RegistrationSystem - The new Secretary of Education mandated that a Computerized Enrollment System be created to prevent children and workers from reading information and information on Public Health.
+- BalancingDishes - As he moves and rotates new plates, the ones he has already rotated are losing strength and he has to return quickly so that the plates do not stop spinning, falling and breaking.
+- Neighborhood - As a broker interested in selling lots, your problem is not to convince people to buy the land, everyone is willing to stay with anyone, as long as they respect the personal differences that exist among some.
+- Nesting - Determine whether a given string of parentheses (single type) is properly nested.
+- Fish - N voracious fish are moving along a river. Calculate how many fish are alive.
+- Brackets - Determine whether a given string of parentheses (multiple types) is properly nested.
+- NumberOfDiscIntersections - Compute the number of intersections in a sequence of discs.
+- Triangle - New solution with recursion, better performance, but still N^3.
+- Distinct - Compute number of distinct values in an array.
+- MaxProductOfThree - Maximize A[P] * A[Q] * A[R] for any triplet (P, Q, R).
+- CountDiv - Compute number of integers divisible by k in range [a..b].
+- MinAvgTwoSlice - Find the minimal average of any slice containing at least two elements.
+- GenomicRangeQuery - Find the minimal nucleotide from a range of sequence DNA.
+- PassingCars - Count the number of passing cars on the road.
+- MissingInteger - Find the smallest positive integer that does not occur in a given sequence.
+- MatrixSpiral - Write a function that accepts an integer N and returns a NxN spiral matrix.
+- MaxCounters - Calculate the values of counters after applying all alternating operations.
+- FrogRiverOne - Find the earliest time when a frog can jump to the other side of a river.
+- SwapElements - Check whether swapping one element of each array will result in equal sums of elements form each array.
+- PermCheck - Check whether array A is a permutation.
