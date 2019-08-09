@@ -6,7 +6,7 @@ import java.util.Deque;
 import java.util.List;
 
 /**
- * Traversal of a binary search tree in pre order.
+ * Traversal of a binary search tree in pre-order.
  * https://www.udemy.com/master-the-coding-interview-data-structures-algorithms/learn/lecture/12431196#overview
  */
 public class BSTDepthPreOrderTraversal {
