@@ -1,5 +1,6 @@
 # algorithms 
 
+- [BSTDepthPostOrderTraversal](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/trees/BSTDepthPostOrderTraversal.java) - Traversal of a binary search tree in post-order. 
 - [BSTDepthPreOrderTraversal](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/trees/BSTDepthPreOrderTraversal.java) - Traversal of a binary search tree in pre-order. 
 - [HeapSort](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/sorting/HeapSort.java) - Stating the implementation of heap sort.
 - [QuickSort](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/sorting/QuickSort.java) - Implementing the quick sort algorithm.
