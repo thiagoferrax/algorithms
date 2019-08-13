@@ -44,8 +44,7 @@ class ResultMaxEvents {
 			if (arrivalTime >= nextAvailableTime) {
 				max++;
 				nextAvailableTime = arrivalTime + eventDuration;
-			} else if (isCurrentArrivalEqualsPrevius(arrival, c)
-					&& thereIsTimeToAddThisEvent(arrival, nextAvailableTime, c, eventDuration)) {
+			} else if (thereIsTimeToAddThisEvent(arrival, nextAvailableTime, c, eventDuration)) {
 				max++;
 				nextAvailableTime += eventDuration;
 			}
@@ -64,12 +63,7 @@ class ResultMaxEvents {
 			return nextAvailableTime + eventDuration <= distinctArrivals.get(index + 1);
 		}
 
-		return true;
-	}
-
-	private static boolean isCurrentArrivalEqualsPrevius(List<Integer> arrival, int c) {
-		Integer arrivalTime = arrival.get(c);
-		return c - 1 >= 0 && arrivalTime == arrival.get(c - 1);
+		return index == distinctArrivals.size() - 1;
 	}
 
 	private static Map<Integer, PriorityQueue<Integer>> getArrivalDurationMap(List<Integer> arrival,
