@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.stream.IntStream;
 
 class ResultMaxEvents {
@@ -35,17 +35,17 @@ class ResultMaxEvents {
 		int max = 0;
 		int nextAvailableTime = arrival.get(0);
 
-		Map<Integer, ArrayList<Integer>> arrivalDurationMap = getArrivalDurationMap(arrival, duration);
+		Map<Integer, PriorityQueue<Integer>> arrivalDurationMap = getArrivalDurationMap(arrival, duration);
 
 		for (int c = 0; c < companies; c++) {
 			Integer arrivalTime = arrival.get(c);
-			Integer eventDuration = getMinDuration(arrivalDurationMap, arrivalTime);
+			Integer eventDuration = arrivalDurationMap.get(arrivalTime).poll();
 
 			if (arrivalTime >= nextAvailableTime) {
 				max++;
 				nextAvailableTime = arrivalTime + eventDuration;
-			} else if (isCurrentArrivalEqualsPrevius(arrival, c) && 
-					thereIsTimeToAddThisEvent(arrival, nextAvailableTime, c, eventDuration)) {
+			} else if (isCurrentArrivalEqualsPrevius(arrival, c)
+					&& thereIsTimeToAddThisEvent(arrival, nextAvailableTime, c, eventDuration)) {
 				max++;
 				nextAvailableTime += eventDuration;
 			}
@@ -56,14 +56,14 @@ class ResultMaxEvents {
 
 	private static boolean thereIsTimeToAddThisEvent(List<Integer> arrival, int nextAvailableTime, int c,
 			Integer eventDuration) {
-		
+
 		List<Integer> distinctArrivals = new ArrayList<Integer>(new HashSet<Integer>(arrival));
 		int index = distinctArrivals.indexOf(arrival.get(c));
-		
-		if(index + 1 < distinctArrivals.size()) {
+
+		if (index + 1 < distinctArrivals.size()) {
 			return nextAvailableTime + eventDuration <= distinctArrivals.get(index + 1);
 		}
-		
+
 		return true;
 	}
 
@@ -72,40 +72,23 @@ class ResultMaxEvents {
 		return c - 1 >= 0 && arrivalTime == arrival.get(c - 1);
 	}
 
-	private static Map<Integer, ArrayList<Integer>> getArrivalDurationMap(List<Integer> arrival,
+	private static Map<Integer, PriorityQueue<Integer>> getArrivalDurationMap(List<Integer> arrival,
 			List<Integer> duration) {
 
-		Map<Integer, ArrayList<Integer>> durationByArrival = new HashMap<Integer, ArrayList<Integer>>();
+		Map<Integer, PriorityQueue<Integer>> durationByArrival = new HashMap<>();
 
 		for (int i = 0; i < arrival.size(); i++) {
 			Integer arrivalTime = arrival.get(i);
 			Integer durationValue = duration.get(i);
 
 			if (!durationByArrival.containsKey(arrivalTime)) {
-				durationByArrival.put(arrivalTime, new ArrayList<Integer>(Arrays.asList(durationValue)));
+				durationByArrival.put(arrivalTime, new PriorityQueue<Integer>(Arrays.asList(durationValue)));
 			} else {
-				addDurationValueInList(durationByArrival, arrivalTime, durationValue);
+				durationByArrival.get(arrivalTime).add(durationValue);
 			}
 		}
 
 		return durationByArrival;
-	}
-
-	private static void addDurationValueInList(Map<Integer, ArrayList<Integer>> durationByArrival, Integer arrivalTime,
-			Integer durationValue) {
-		ArrayList<Integer> durations = new ArrayList<Integer>(durationByArrival.get(arrivalTime));
-		durations.add(durationValue);
-		durationByArrival.put(arrivalTime, durations);
-	}
-
-	private static int getMinDuration(Map<Integer, ArrayList<Integer>> durationByArrival, Integer arrival) {
-		ArrayList<Integer> list = durationByArrival.get(arrival);
-
-		if (list.size() > 1) {
-			Collections.sort(list);
-		}
-
-		return list.remove(0);
 	}
 
 }
