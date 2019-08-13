@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -25,28 +26,57 @@ class ResultMaxEvents {
 	 */
 
 	public static int maxEvents(List<Integer> arrival, List<Integer> duration) {
-		if (arrival.size() < 2) {
-			return arrival.size();
+		int companies = arrival.size();
+
+		if (companies < 2) {
+			return companies;
 		}
 
 		int max = 0;
 		int nextAvailableTime = arrival.get(0);
 
-		Map<Integer, ArrayList<Integer>> arrivalDurationMap = getDurationByArrivalMap(arrival, duration);
-		for (int i = 0; i < arrival.size(); i++) {
-			Integer arrivalTime = arrival.get(i);
+		Map<Integer, ArrayList<Integer>> arrivalDurationMap = getArrivalDurationMap(arrival, duration);
+
+		for (int c = 0; c < companies; c++) {
+			Integer arrivalTime = arrival.get(c);
+			Integer eventDuration = getMinDuration(arrivalDurationMap, arrivalTime);
+
 			if (arrivalTime >= nextAvailableTime) {
 				max++;
-				nextAvailableTime += getMinDuration(arrivalDurationMap, arrivalTime);
+				nextAvailableTime = arrivalTime + eventDuration;
+			} else if (isCurrentArrivalEqualsPrevius(arrival, c) && 
+					thereIsTimeToAddThisEvent(arrival, nextAvailableTime, c, eventDuration)) {
+				max++;
+				nextAvailableTime += eventDuration;
 			}
 		}
 
 		return max;
 	}
 
-	private static Map<Integer, ArrayList<Integer>> getDurationByArrivalMap(List<Integer> arrival,
+	private static boolean thereIsTimeToAddThisEvent(List<Integer> arrival, int nextAvailableTime, int c,
+			Integer eventDuration) {
+		
+		List<Integer> distinctArrivals = new ArrayList<Integer>(new HashSet<Integer>(arrival));
+		int index = distinctArrivals.indexOf(arrival.get(c));
+		
+		if(index + 1 < distinctArrivals.size()) {
+			return nextAvailableTime + eventDuration <= distinctArrivals.get(index + 1);
+		}
+		
+		return true;
+	}
+
+	private static boolean isCurrentArrivalEqualsPrevius(List<Integer> arrival, int c) {
+		Integer arrivalTime = arrival.get(c);
+		return c - 1 >= 0 && arrivalTime == arrival.get(c - 1);
+	}
+
+	private static Map<Integer, ArrayList<Integer>> getArrivalDurationMap(List<Integer> arrival,
 			List<Integer> duration) {
+
 		Map<Integer, ArrayList<Integer>> durationByArrival = new HashMap<Integer, ArrayList<Integer>>();
+
 		for (int i = 0; i < arrival.size(); i++) {
 			Integer arrivalTime = arrival.get(i);
 			Integer durationValue = duration.get(i);
@@ -54,16 +84,16 @@ class ResultMaxEvents {
 			if (!durationByArrival.containsKey(arrivalTime)) {
 				durationByArrival.put(arrivalTime, new ArrayList<Integer>(Arrays.asList(durationValue)));
 			} else {
-				ArrayList<Integer> durationList = durationByArrival.get(arrivalTime);
-				addDurationValueInList(durationByArrival, arrivalTime, durationValue, durationList);
+				addDurationValueInList(durationByArrival, arrivalTime, durationValue);
 			}
 		}
+
 		return durationByArrival;
 	}
 
 	private static void addDurationValueInList(Map<Integer, ArrayList<Integer>> durationByArrival, Integer arrivalTime,
-			Integer durationValue, List<Integer> durationList) {
-		ArrayList<Integer> durations = new ArrayList<Integer>(durationList);
+			Integer durationValue) {
+		ArrayList<Integer> durations = new ArrayList<Integer>(durationByArrival.get(arrivalTime));
 		durations.add(durationValue);
 		durationByArrival.put(arrivalTime, durations);
 	}

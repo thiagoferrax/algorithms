@@ -13,7 +13,11 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+
+import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.RegexConversion;
 
 /**
  * Complete the 'getEmailThreads' function below.
@@ -92,6 +96,12 @@ class Result {
 			key = email2 + "_" + email1;
 		}
 		return key;
+	}
+
+	public static String[] getEmailParts(String email) {
+		Pattern pattern = Pattern.compile("(.*),(.*),(.*)");
+		Matcher matcher = pattern.matcher(email);
+		return new String[] {matcher.group(0), matcher.group(1), matcher.group(2)};
 	}
 
 }

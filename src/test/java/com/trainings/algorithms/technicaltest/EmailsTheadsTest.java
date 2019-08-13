@@ -25,6 +25,12 @@ class EmailsTheadsTest {
 		Assert.assertEquals(expecteds, Result.getEmailThreads(emails));
 	}
 	
+	@Test
+	void testEmailParts() {
+		
+		Assert.assertArrayEquals(new String[] {"abc@gmail.com", "x@gmail.com", "hello x, how are you?"}, Result.getEmailParts("abc@gmail.com, x@gmail.com, hello x, how are you?"));
+	}
+	
 	
 
 }
