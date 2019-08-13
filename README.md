@@ -1,5 +1,6 @@
 # algorithms 
-
+- [MaxEvents](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/technicaltest/MaxEvents.java) - Calculate the maximum number of promotional events a hotel could do according to the companies arrival times and events durations - Invillia Technical Test.
+- [EmailThreads](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/technicaltest/EmailThreads.java) - Complete the 'getEmailThreads' function - Invillia Technical Test.
 - [BSTDepthPostOrderTraversal](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/trees/BSTDepthPostOrderTraversal.java) - Traversal of a binary search tree in post-order. 
 - [BSTDepthPreOrderTraversal](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/trees/BSTDepthPreOrderTraversal.java) - Traversal of a binary search tree in pre-order. 
 - [HeapSort](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/sorting/HeapSort.java) - Stating the implementation of heap sort.
