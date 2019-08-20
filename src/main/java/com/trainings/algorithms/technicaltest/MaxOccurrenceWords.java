@@ -70,13 +70,11 @@ public class MaxOccurrenceWords {
 			}
 		});
 
-		String[] words = text.split(" ");
+		String[] words = text.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
 
 		HashMap<String, Integer> map = new HashMap<>();
 		HashMap<String, Integer> queueMap = new HashMap<>();
 		for (String word : words) {
-			word = word.toLowerCase();
-
 			if (!map.containsKey(word)) {
 				map.put(word, 1);
 				if (queue.size() < total) {
