@@ -11,9 +11,8 @@ class MaxOccurrenceWordsTest {
 
 	@Test
 	void test() {
-		String text = "Falling down balloon Falling down balloon, Falling down balloon It falls here in my hand!";
-		int n = 3;
-		Assert.assertEquals(new ArrayList<String>(Arrays.asList("balloon", "down", "falling")), MaxOccurrenceWords.findMaxOccurrences(text, n));
+		String text = "Falling down balloon Falling down balloon Falling down balloon It falls here in my hand!";
+		Assert.assertEquals(new ArrayList<String>(Arrays.asList("down", "falling", "balloon")), MaxOccurrenceWords.findMaxOccurrences(text, 3));
 	}
 
 }

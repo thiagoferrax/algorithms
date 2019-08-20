@@ -1,16 +1,20 @@
 package com.trainings.algorithms.technicaltest;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 
 class Occurrence {
 	private String word;
 	private Integer count;
+
+	public Occurrence(String word) {
+		super();
+		this.word = word;
+		this.count = 1;
+	}
 
 	public Occurrence(String word, Integer count) {
 		super();
@@ -40,17 +44,8 @@ class Occurrence {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
 		Occurrence other = (Occurrence) obj;
-		if (word == null) {
-			if (other.word != null)
-				return false;
-		} else if (!word.equals(other.word))
+		if (!word.equals(other.word))
 			return false;
 		return true;
 	}
@@ -59,80 +54,58 @@ class Occurrence {
 	public String toString() {
 		return word + ": " + count;
 	}
-	
-	
 
 }
 
-class OccurenceComparator implements Comparator<Occurrence> {
-
-	@Override
-	public int compare(Occurrence o1, Occurrence o2) {
-		return o1.getCount().compareTo(o2.getCount());
-	}
-
-}
-
+/**
+ * Find the n words that repeat most in the text.
+ */
 public class MaxOccurrenceWords {
 
-	private static final int INITIAL_COUNT = 1;
-
-	public static List<String> findMaxOccurrences(String text, int initialCapacity) {
-		PriorityQueue<Occurrence> occurrencesQueue = new PriorityQueue<>(initialCapacity, new OccurenceComparator());
-
-		Map<String, Integer> occurrencesMap = new HashMap<>();
+	public static List<String> findMaxOccurrences(String text, int total) {
+		PriorityQueue<Occurrence> queue = new PriorityQueue<>(total, new Comparator<Occurrence>() {
+			@Override
+			public int compare(Occurrence o1, Occurrence o2) {
+				return o1.getCount().compareTo(o2.getCount());
+			}
+		});
 
 		String[] words = text.split(" ");
 
+		HashMap<String, Integer> map = new HashMap<>();
+		HashMap<String, Integer> queueMap = new HashMap<>();
 		for (String word : words) {
 			word = word.toLowerCase();
-			if (!occurrencesMap.containsKey(word)) {
-				int count = INITIAL_COUNT;
-				occurrencesMap.put(word, count);
-				addToQueue(initialCapacity, occurrencesQueue, word, count);
-			} else {
-				Integer count = occurrencesMap.get(word);
-				occurrencesMap.put(word, ++count);
-				addToQueue(initialCapacity, occurrencesQueue, word, count);
-			}
-		}
 
-		return getMaxOccurrences(occurrencesQueue);
-	}
-
-	private static List<String> getMaxOccurrences(PriorityQueue<Occurrence> occurrencesQueue) {
-		List<String> maxOccurrences = new ArrayList<String>();
-		Occurrence occurrence = occurrencesQueue.poll();
-		while (occurrence != null) {
-			maxOccurrences.add(occurrence.getWord());
-			occurrence = occurrencesQueue.poll();
-		}
-		return maxOccurrences;
-	}
-
-	private static void addToQueue(int initialCapacity, PriorityQueue<Occurrence> occurrencesQueue, String word,
-			int count) {
-		Occurrence occurrence = new Occurrence(word, count);
-
-		if (occurrencesQueue.size() < initialCapacity) {
-			occurrencesQueue.add(occurrence);
-		} else if (count > occurrencesQueue.peek().getCount()) {
-			if (!occurrencesQueue.contains(occurrence)) {
-				occurrencesQueue.poll();
-				occurrencesQueue.add(occurrence);				
-			} else {
-				Iterator<Occurrence> iterator = occurrencesQueue.iterator();
-				Occurrence foundOccurrence = null;
-				while (iterator.hasNext()) {
-					foundOccurrence = (Occurrence) iterator.next();
-					if (foundOccurrence.equals(occurrence)) {
-						break;
-					}
+			if (!map.containsKey(word)) {
+				map.put(word, 1);
+				if (queue.size() < total) {
+					queue.add(new Occurrence(word));
+					queueMap.put(word, 1);
 				}
-				occurrencesQueue.remove(foundOccurrence);
-				occurrencesQueue.add(new Occurrence(word, count));
+			} else {
+				Integer count = map.get(word) + 1;
+				map.put(word, count);
+
+				Integer found = queueMap.get(word);
+				if (found != null) {
+					queue.remove(new Occurrence(word));
+					queue.add(new Occurrence(word, count));
+					queueMap.put(word, count);
+				} else if (queue.size() < total) {
+					queue.add(new Occurrence(word, count));
+					queueMap.put(word, count);
+				} else if (count > queue.peek().getCount()) {
+					Occurrence polled = queue.poll();
+					queue.add(new Occurrence(word, count));
+					
+					queueMap.remove(polled.getWord());
+					queueMap.put(word, count);
+				}
 			}
 		}
+
+		return Arrays.asList(queue.stream().map(o -> o.getWord()).toArray(String[]::new));
 	}
 
 }
