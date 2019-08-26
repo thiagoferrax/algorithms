@@ -3,8 +3,11 @@ package com.trainings.algorithms.arrays;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -22,21 +25,21 @@ import java.util.Scanner;
 class Interval {
 	private Integer start;
 	private Integer end;
-	private Integer maxValue;
+	private Long value;
 
-	public Interval(int start, int end, int maxValue) {
+	public Interval(int start, int end, long value) {
 		super();
 		this.start = start;
 		this.end = end;
-		this.maxValue = maxValue;
+		this.value = value;
 	}
 
-	public Integer getMaxValue() {
-		return maxValue;
+	public Long getValue() {
+		return value;
 	}
 
-	public void setMaxValue(int maxValue) {
-		this.maxValue = maxValue;
+	public void setValue(long value) {
+		this.value = value;
 	}
 
 	public Integer getStart() {
@@ -49,7 +52,52 @@ class Interval {
 
 	@Override
 	public String toString() {
-		return "start=" + start + ", end=" + end + ", maxValue=" + maxValue;
+		return "start=" + start + ", end=" + end + ", value=" + value;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		result = prime * result + ((start == null) ? 0 : start.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Interval other = (Interval) obj;
+		if (end == null) {
+			if (other.end != null)
+				return false;
+		} else if (!end.equals(other.end))
+			return false;
+		if (start == null) {
+			if (other.start != null)
+				return false;
+		} else if (!start.equals(other.start))
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		return true;
+	}
+}
+
+class IntervalComparator implements Comparator<Interval> {
+
+	@Override
+	public int compare(Interval i1, Interval i2) {
+		return i1.getEnd().compareTo(i2.getEnd());
 	}
 
 }
@@ -90,80 +138,107 @@ public class ArrayManipulation {
 			return queries[0][VALUE_TO_ADD];
 		}
 
-		long max = 0;
+		PriorityQueue<Interval> intervalsQueue = new PriorityQueue<>(new IntervalComparator());
+		for (int q = 0; q < queries.length; q++) {
+			Interval interval = buildInterval(queries, q);
 
-		PriorityQueue<Interval> intervals = new PriorityQueue<Interval>(new Comparator<Interval>() {
-			@Override
-			public int compare(Interval o1, Interval o2) {
-				return o1.getStart().compareTo(o2.getStart());
+			if (intervalsQueue.isEmpty()) {
+				intervalsQueue.add(interval);
+			} else {
+				union(intervalsQueue, interval);
 			}
-		});
-		intervals.add(buildInterval(queries, 0));
-
-		for (int q = 1; q < queries.length; q++) {
-			Interval current = buildInterval(queries, q);
-
-			List<Interval> mergedIntervals = merge(current, intervals.poll());
-			intervals.addAll(mergedIntervals);
-
 		}
 
-		for (Interval interval : intervals) {
-			max = Math.max(max, interval.getMaxValue());
+		long max = 0;
+		for (Interval interval : intervalsQueue) {
+			max = Math.max(max, interval.getValue());
 		}
 
 		return max;
 
 	}
 
-	private static List<Interval> merge(Interval interval1, Interval interval2) {
-		List<Interval> mergedIntervals = new ArrayList<>();
+	private static void union(PriorityQueue<Interval> intervalsQueue, Interval interval) {
+		List<Interval> unionList = new ArrayList<>();
+		int initialQueueSize = intervalsQueue.size();
+		int hasNoIntersection = 0;
 
-		Integer start1 = interval1.getStart();
-		Integer end1 = interval1.getEnd();
+		while (!intervalsQueue.isEmpty()) {
+			Interval i = intervalsQueue.peek();
 
-		Integer start2 = interval2.getStart();
-		Integer end2 = interval2.getEnd();
-
-		if (start1 < start2) {
-			int end = Math.min(end1, start2) - 1;
-			mergedIntervals.add(new Interval(start1, end, interval1.getMaxValue()));
-
-			if (start2 <= end1) {
-				int endMin = Math.min(end1, end2);
-				int endMax = Math.max(end1, end2);
-
-				mergedIntervals.add(new Interval(start2, endMin, interval1.getMaxValue() + interval2.getMaxValue()));
-				mergedIntervals.add(new Interval(endMin + 1, endMax, interval2.getMaxValue()));
-			} else if (end1 < start2) {
-				mergedIntervals.add(new Interval(start2, end2, interval2.getMaxValue()));
-			}
-
-		} else if (start1 > start2) {
-			int end = Math.min(end2, start1) - 1;
-			mergedIntervals.add(new Interval(start2, end, interval2.getMaxValue()));
-
-			if (start1 <= end2) {
-				int endMin = Math.min(end1, end2);
-				int endMax = Math.max(end1, end2);
-
-				mergedIntervals.add(new Interval(start1, endMin, interval1.getMaxValue() + interval2.getMaxValue()));
-				mergedIntervals.add(new Interval(endMin + 1, endMax, interval1.getMaxValue()));
-			} else if (end2 < start1) {
-				mergedIntervals.add(new Interval(start1, end1, interval1.getMaxValue()));
-			}
-		} else {
-			int end = Math.min(end1, end2);
-			mergedIntervals.add(new Interval(start2, end, interval1.getMaxValue() + interval2.getMaxValue()));
-
-			if (end1 <= end2) {
-				mergedIntervals.add(new Interval(end1 + 1, end2, interval2.getMaxValue()));
+			if (!hasIntersection(i, interval)) {
+				hasNoIntersection++;
+				unionList.add(intervalsQueue.poll());
+				continue;
 			} else {
-				mergedIntervals.add(new Interval(end2 + 1, end1, interval1.getMaxValue()));
+				intervalsQueue.poll();
+				unionList.addAll(Arrays.asList(unionWihIntersection(i, interval).toArray(new Interval[] {})));
 			}
 		}
 
-		return mergedIntervals;
+		if (hasNoIntersection == initialQueueSize) {
+			unionList.add(interval);
+		}
+
+		intervalsQueue.addAll(unionList);
+	}
+
+	public static boolean hasIntersection(Interval i1, Interval i2) {
+		Integer start1 = i1.getStart();
+		Integer end1 = i1.getEnd();
+
+		Integer start2 = i2.getStart();
+		Integer end2 = i2.getEnd();
+
+		return start1 <= start2 && start2 <= end1 || start1 <= end2 && end2 <= end1
+				|| start2 <= start1 && start1 <= end2 || start2 <= end1 && end1 <= end2;
+	}
+
+	public static List<Interval> unionWihIntersection(Interval i1, Interval i2) {
+		List<Interval> unionQueue = new ArrayList<>();
+
+		oneIntervalCompletlyInTheOther(unionQueue, i1, i2);
+		oneIntervalCompletlyInTheOther(unionQueue, i2, i1);
+		oneIntervalStartingBeforeTheOther(unionQueue, i1, i2);
+		oneIntervalStartingBeforeTheOther(unionQueue, i2, i1);
+
+		return unionQueue;
+	}
+
+	private static void oneIntervalStartingBeforeTheOther(List<Interval> unionQueue, Interval i1, Interval i2) {
+		Integer start1 = i1.getStart();
+		Integer end1 = i1.getEnd();
+
+		Integer start2 = i2.getStart();
+		Integer end2 = i2.getEnd();
+
+		if (start1 <= start2 && start2 <= end1 && end2 > end1) {
+			if (start1 < start2) {
+				unionQueue.add(new Interval(start1, start2 - 1, i1.getValue()));
+			}
+			unionQueue.add(new Interval(start2, end1, i1.getValue() + i2.getValue()));
+			unionQueue.add(new Interval(end1 + 1, end2, i2.getValue()));
+		}
+	}
+
+	private static void oneIntervalCompletlyInTheOther(List<Interval> unionQueue, Interval i1, Interval i2) {
+		Integer start1 = i1.getStart();
+		Integer end1 = i1.getEnd();
+
+		Integer start2 = i2.getStart();
+		Integer end2 = i2.getEnd();
+
+		if (start1 <= start2 && start2 <= end1 && start1 <= end2 && end2 <= end1) {
+			if (start1 < start2) {
+				unionQueue.add(new Interval(start1, start2 - 1, i1.getValue()));
+			}
+
+			unionQueue.add(new Interval(start2, end2, i1.getValue() + i2.getValue()));
+
+			if (end2 < end1) {
+				unionQueue.add(new Interval(end2 + 1, end1, i1.getValue()));
+			}
+		}
 	}
 
 	private static Interval buildInterval(int[][] queries, int i) {
