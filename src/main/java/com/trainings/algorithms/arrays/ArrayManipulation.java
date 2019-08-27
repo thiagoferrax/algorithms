@@ -3,14 +3,17 @@ package com.trainings.algorithms.arrays;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Starting with a 1-indexed array of zeros and a list of operations, for each
@@ -91,13 +94,14 @@ class Interval {
 			return false;
 		return true;
 	}
+
 }
 
 class IntervalComparator implements Comparator<Interval> {
 
 	@Override
 	public int compare(Interval i1, Interval i2) {
-		return i1.getEnd().compareTo(i2.getEnd());
+		return i1.getStart().compareTo(i2.getStart());
 	}
 
 }
@@ -133,6 +137,66 @@ public class ArrayManipulation {
 	}
 
 	public static long arrayManipulation(int n, int[][] queries) {
+
+		if (queries.length == 1) {
+			return queries[0][VALUE_TO_ADD];
+		}
+
+		Set<Integer> points = new HashSet<>();
+		for (int[] query : queries) {
+			points.add(query[START]);
+			points.add(query[END]);
+		}
+
+		List<Integer> pointList = Arrays.asList(points.toArray(new Integer[] {}));
+		Collections.sort(pointList);
+
+		List<Interval> intervals = new ArrayList<Interval>();
+		for (int i = 1; i < pointList.size(); i++) {
+			intervals.add(new Interval(pointList.get(i - 1), pointList.get(i) - 1, 0));
+		}
+		intervals.add(new Interval(pointList.get(pointList.size() - 1), pointList.get(pointList.size() - 1), 0));
+
+		List<Interval> ordered = getOrderedQueries(queries);
+		
+		Map<Integer, Integer> startIndex = new HashMap<>();
+		for (int i = 0; i < intervals.size(); i++) {
+			Integer start = intervals.get(i).getStart();
+			if(!startIndex.containsKey(start)) {
+				startIndex.put(start, i);
+			}
+		}
+
+		long max = 0;
+		int count = 0;
+		for (Interval queryInterval : ordered) {
+			count = startIndex.get(queryInterval.getStart());
+			for (int i = count; i < intervals.size(); i++) {
+				Interval interval = intervals.get(i);
+				if (hasIntersection(interval, queryInterval)) {
+					interval.setValue(interval.getValue() + queryInterval.getValue());
+					max = Math.max(max, interval.getValue());
+				} else {
+					break;
+				}
+			}
+
+		}
+
+		return max;
+
+	}
+
+	private static List<Interval> getOrderedQueries(int[][] queries) {
+		List<Interval> orderedQueries = new ArrayList<Interval>();
+		for (int[] query : queries) {
+			orderedQueries.add(new Interval(query[START], query[END], query[VALUE_TO_ADD]));
+		}
+		Collections.sort(orderedQueries, new IntervalComparator());
+		return orderedQueries;
+	}
+
+	public static long arrayManipulationSecondVersion(int n, int[][] queries) {
 
 		if (queries.length == 1) {
 			return queries[0][VALUE_TO_ADD];

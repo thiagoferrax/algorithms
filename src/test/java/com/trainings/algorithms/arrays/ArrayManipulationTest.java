@@ -29,6 +29,9 @@ class ArrayManipulationTest {
 								{ 25, 40, 536 }, { 5, 9, 190 }, { 17, 20, 809 }, { 8, 20, 453 }, { 22, 37, 298 },
 								{ 19, 37, 112 }, { 2, 5, 186 }, { 21, 29, 184 }, { 23, 30, 625 }, { 2, 8, 960 } }));
 
+		Assert.assertEquals(882L,
+				ArrayManipulation.arrayManipulation(10, new int[][] { { 2, 3, 603 }, { 1, 1, 286 }, { 4, 4, 882 } }));
+
 	}
 
 	@Test
