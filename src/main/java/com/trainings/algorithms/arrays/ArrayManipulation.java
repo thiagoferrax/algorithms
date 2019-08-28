@@ -107,6 +107,7 @@ class IntervalComparator implements Comparator<Interval> {
 }
 
 public class ArrayManipulation {
+	private static final long INITIAL_VALUE = 0L;
 	private static final int VALUE_TO_ADD = 2;
 	private static final int END = 1;
 	private static final int START = 0;
@@ -142,6 +143,59 @@ public class ArrayManipulation {
 			return queries[0][VALUE_TO_ADD];
 		}
 
+		Map<Integer, Long> pointValueMap = new HashMap<>();
+		Set<Integer> points = new HashSet<>();
+		for (int[] query : queries) {
+			int start = query[START];
+			int end = query[END];
+
+			pointValueMap.put(start, INITIAL_VALUE);
+			pointValueMap.put(end, INITIAL_VALUE);
+
+			points.add(start);
+			points.add(end);
+		}
+		List<Integer> sortedPoints = new ArrayList<>(points);
+		Collections.sort(sortedPoints);
+
+		Map<Integer, Integer> pointIndexMap = new HashMap<>();
+		int p = 0;
+		for (Integer point : sortedPoints) {
+			pointIndexMap.put(point, p++);
+		}
+
+		long max = 0;
+		
+		for (int[] query : queries) {
+			int start = query[START];
+			int end = query[END];
+			long value = query[VALUE_TO_ADD];
+
+			max = Math.max(max, value);
+
+			int startIndex = pointIndexMap.get(start);
+			int endIndex = pointIndexMap.get(end);
+
+			for (int index = startIndex; index <= endIndex; index++) {
+				int point = sortedPoints.get(index);
+				if (pointValueMap.containsKey(point)) {
+					long newValue = value + pointValueMap.get(point);
+					pointValueMap.put(point, newValue);
+					max = Math.max(max, newValue);
+				}
+			}
+
+		}
+
+		return max;
+	}
+
+	public static long arrayManipulationThirdSolution(int n, int[][] queries) {
+
+		if (queries.length == 1) {
+			return queries[0][VALUE_TO_ADD];
+		}
+
 		Set<Integer> points = new HashSet<>();
 		for (int[] query : queries) {
 			points.add(query[START]);
@@ -158,11 +212,11 @@ public class ArrayManipulation {
 		intervals.add(new Interval(pointList.get(pointList.size() - 1), pointList.get(pointList.size() - 1), 0));
 
 		List<Interval> ordered = getOrderedQueries(queries);
-		
+
 		Map<Integer, Integer> startIndex = new HashMap<>();
 		for (int i = 0; i < intervals.size(); i++) {
 			Integer start = intervals.get(i).getStart();
-			if(!startIndex.containsKey(start)) {
+			if (!startIndex.containsKey(start)) {
 				startIndex.put(start, i);
 			}
 		}
