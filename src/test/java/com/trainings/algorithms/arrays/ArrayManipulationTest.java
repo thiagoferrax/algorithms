@@ -21,7 +21,7 @@ class ArrayManipulationTest {
 				new int[][] { { 2, 6, 8 }, { 3, 5, 7 }, { 1, 8, 1 }, { 5, 9, 15 } }));
 
 		Assert.assertEquals(6314L,
-				ArrayManipulation.arrayManipulation(10,
+				ArrayManipulation.arrayManipulation(100,
 						new int[][] { { 19, 28, 419 }, { 4, 23, 680 }, { 5, 6, 907 }, { 19, 33, 582 }, { 5, 9, 880 },
 								{ 10, 13, 438 }, { 21, 39, 294 }, { 13, 18, 678 }, { 12, 26, 528 }, { 15, 30, 261 },
 								{ 8, 9, 48 }, { 21, 23, 131 }, { 20, 21, 7 }, { 13, 40, 65 }, { 13, 23, 901 },

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
@@ -106,6 +107,69 @@ class IntervalComparator implements Comparator<Interval> {
 
 }
 
+class BetterArrayManipulation {
+	private int n;
+	private int start = n - 1;
+	private int end = 0;
+
+	private Map<Integer, Long> intersectionPoints = new HashMap<>();
+	private List<Interval> intervals = new ArrayList<>();
+
+	public BetterArrayManipulation(int n) {
+		this.n = n;
+		this.start = n - 1;
+		this.end = 0;
+	}
+
+	public Interval addInterval(int start, int end, long value) {
+		Interval interval = new Interval(start, end, value);
+		
+		this.intersectionPoints.put(start, 0L);
+		this.intersectionPoints.put(end, 0L);
+		
+		this.intervals.add(interval);
+		
+		this.start = Math.min(interval.start - 1, this.start);
+		this.end = Math.max(interval.end - 1, this.end);
+		
+		return interval;
+	}
+
+	public long getMaxValue() {
+		long maxValue = 0;
+
+		for (Integer point : intersectionPoints.keySet()) {
+			for (Interval interval : intervals) {
+				if (interval.covers(point)) {
+					Long newValue = intersectionPoints.get(point) + interval.value;
+					intersectionPoints.put(point, newValue);
+					maxValue = Math.max(maxValue, newValue);
+				}
+			}
+
+		}
+
+		return maxValue;
+	}
+
+	class Interval {
+		private Integer start;
+		private Integer end;
+		private Long value;
+
+		public Interval(Integer start, Integer end, Long value) {
+			super();
+			this.start = start;
+			this.end = end;
+			this.value = value;
+		}
+
+		public boolean covers(int position) {
+			return start <= position && position <= end;
+		}
+	}
+}
+
 public class ArrayManipulation {
 	private static final long INITIAL_VALUE = 0L;
 	private static final int VALUE_TO_ADD = 2;
@@ -139,6 +203,82 @@ public class ArrayManipulation {
 
 	public static long arrayManipulation(int n, int[][] queries) {
 
+		BetterArrayManipulation manipulation = new BetterArrayManipulation(n);
+
+		for (int[] query : queries) {
+			manipulation.addInterval(query[START], query[END], query[VALUE_TO_ADD]);
+		}
+
+		return manipulation.getMaxValue();
+	}
+
+	public static long arrayManipulationFifthSolution(int n, int[][] queries) {
+
+		if (queries.length == 1) {
+			return queries[0][VALUE_TO_ADD];
+		}
+
+		Set<Integer> points = new HashSet<>();
+		for (int[] query : queries) {
+			int start = query[START];
+			int end = query[END];
+
+			points.add(start);
+			points.add(end);
+		}
+		List<Integer> sortedPoints = new ArrayList<>(points);
+		Collections.sort(sortedPoints);
+
+		Map<Integer, Integer> pointIndexMap = new HashMap<>();
+		int p = 0;
+		Map<Integer, Long> pointValueMap = new HashMap<>();
+		for (int point = sortedPoints.get(0); point <= sortedPoints.get(sortedPoints.size() - 1); point++) {
+			pointIndexMap.put(point, p++);
+			pointValueMap.put(point, INITIAL_VALUE);
+		}
+
+		for (int[] query : queries) {
+			int start = query[START];
+			int end = query[END];
+			long value = query[VALUE_TO_ADD];
+
+			if (pointValueMap.containsKey(start)) {
+				long newValue = value + pointValueMap.get(start);
+				pointValueMap.put(start, newValue);
+			}
+
+			if (start != end && pointValueMap.containsKey(end)) {
+				long newValue = value + pointValueMap.get(end);
+				pointValueMap.put(end, newValue);
+			}
+		}
+
+		long max = 0;
+		int maxPoint = 0;
+		for (Entry<Integer, Long> entrySet : pointValueMap.entrySet()) {
+			Integer key = entrySet.getKey();
+			Long value = entrySet.getValue();
+			if (value > max) {
+				max = value;
+				maxPoint = key;
+			}
+		}
+
+		for (int[] query : queries) {
+			int start = query[START];
+			int end = query[END];
+			long value = query[VALUE_TO_ADD];
+
+			if (start < maxPoint && maxPoint < end) {
+				max += value;
+			}
+		}
+
+		return max;
+	}
+
+	public static long arrayManipulationFourthSolution(int n, int[][] queries) {
+
 		if (queries.length == 1) {
 			return queries[0][VALUE_TO_ADD];
 		}
@@ -165,7 +305,7 @@ public class ArrayManipulation {
 		}
 
 		long max = 0;
-		
+
 		for (int[] query : queries) {
 			int start = query[START];
 			int end = query[END];
