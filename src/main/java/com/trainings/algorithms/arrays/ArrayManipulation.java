@@ -202,6 +202,24 @@ public class ArrayManipulation {
 	}
 
 	public static long arrayManipulation(int n, int[][] queries) {
+		long[] values = new long[n+2];
+		for(int[] query: queries) {
+			int value = query[VALUE_TO_ADD];
+			values[query[START]] += value;
+			values[query[END]+1] -= value;
+		}
+		
+		long max = 0;
+		for (int i = 1; i < values.length - 1; i++) {
+			values[i] += values[i-1];
+			max = Math.max(max, values[i]);
+		}
+			
+		return max;
+	}
+
+	
+	public static long arrayManipulationSixthSolution(int n, int[][] queries) {
 
 		BetterArrayManipulation manipulation = new BetterArrayManipulation(n);
 
