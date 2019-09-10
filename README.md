@@ -1,4 +1,5 @@
 # algorithms
+- [SherlockAndAnagrams](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/dictionariesandhashmaps/SherlockAndAnagrams.java) - Given a string, find the number of pairs of substrings of the string that are anagrams of each other.
 - [TwoStrings](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/dictionariesandhashmaps/TwoStrings.java) - Given two strings, determine if they share a common substring.
 - [BitwiseAND](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/arrays/BitwiseAND.java) - Given set S={1, 2, 3, ..., N}. Find two integers, A and B (where A < B), from set S such that the value of A&B is the maximum possible and also less than a given integer, K.
 - [RegExPatternsAndDatabases](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/arrays/RegExPatternsAndDatabases.java) - Given N rows of data simulating the Emails table, print an alphabetically-ordered list of people whose email address ends in @gmail.com.
