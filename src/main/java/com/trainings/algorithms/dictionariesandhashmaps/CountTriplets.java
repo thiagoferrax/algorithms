@@ -22,41 +22,74 @@ import java.util.stream.Stream;
  */
 public class CountTriplets {
 	// Complete the countTriplets function below.
+	static long countTripletsFirtsSolution(List<Long> arr, long r) {
+
+		Map<Long, List<Integer>> map = new HashMap<>();
+		for (int i = 0; i < arr.size(); i++) {
+			Long key = arr.get(i);
+			if (!map.containsKey(key)) {
+				map.put(key, Arrays.asList(i));
+			} else {
+				List<Integer> indexes = new ArrayList<>(map.get(key));
+				indexes.add(i);
+				map.put(key, indexes);
+			}
+		}
+
+		int triplets = 0;
+		for (int i = 0; i < arr.size(); i++) {
+			Long t1 = arr.get(i);
+			Long t2 = t1 * r;
+			Long t3 = t2 * r;
+
+			if (map.containsKey(t2) && map.containsKey(t3)) {
+				for (Integer j : map.get(t2)) {
+					if (j > i) {
+						for (Integer k : map.get(t3)) {
+							if (k > j) {
+								triplets++;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return triplets;
+	}
+
+	// Complete the countTriplets function below.
 	static long countTriplets(List<Long> arr, long r) {
+		long triplets = 0;
 
-        Map<Long, List<Integer>> map = new HashMap<>();
-        for (int i = 0; i < arr.size(); i++) {
-            Long key = arr.get(i);
-            if (!map.containsKey(key)) {
-                map.put(key, Arrays.asList(i));
-            } else {
-                List<Integer> indexes = new ArrayList<>(map.get(key));
-                indexes.add(i);
-                map.put(key, indexes);
-            }
-        }
+		Map<Long, Long> combinations = new HashMap<>();
+		Map<Long, Long> possibilities = new HashMap<>();
 
-        int triplets = 0;
-        for (int i = 0; i < arr.size(); i++) {
-            Long t1 = arr.get(i);
-            Long t2 = t1 * r;
-            Long t3 = t2 * r;
+		for (Long element : arr) {
+			if (combinations.containsKey(element)) {
+				triplets += combinations.get(element);
+			}
 
-            if (map.containsKey(t2) && map.containsKey(t3)) {
-                for (Integer j : map.get(t2)) {
-                    if (j > i) {
-                        for (Integer k : map.get(t3)) {
-                            if (k > j) {
-                                triplets++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+			Long nextElement = element * r;
 
-        return triplets;
-    }
+			if (possibilities.containsKey(element)) {
+				Long value = possibilities.get(element);
+				if (!combinations.containsKey(nextElement)) {
+					combinations.put(nextElement, value);
+				} else {
+					combinations.put(nextElement, combinations.get(nextElement) + value);
+				}
+			}
+
+			if (!possibilities.containsKey(nextElement)) {
+				possibilities.put(nextElement, 1L);
+			} else {
+				possibilities.put(nextElement, possibilities.get(nextElement) + 1);
+			}
+		}
+
+		return triplets;
+	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
