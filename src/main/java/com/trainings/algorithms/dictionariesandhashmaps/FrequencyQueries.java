@@ -1,7 +1,6 @@
 package com.trainings.algorithms.dictionariesandhashmaps;
 
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,50 +11,60 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FrequencyQueries {
 
+	private static final int VALUE = 1;
+	private static final int OPERATION = 0;
+	private static final int SEARCH = 3;
+	private static final int REMOVE = 2;
+	private static final int ADD = 1;
+
 	// Complete the freqQuery function below.
-	static List<Integer> freqQuery(List<List<Integer>> queries) {
+	static List<Integer> freqQuery(List<int[]> queries) {
 		List<Integer> matches = new ArrayList<Integer>();
 
 		Map<Integer, Integer> values = new HashMap<Integer, Integer>();
 		Map<Integer, Map<Integer, Integer>> frequencies = new HashMap<Integer, Map<Integer, Integer>>();
 
-		for (List<Integer> query : queries) {
-			Integer operation = query.get(0), value = query.get(1);
-			Integer frequency = null, newFrequency = null;
-
-			if (operation == 1) {
-				newFrequency = 1;
-
-				if (!values.containsKey(value)) {
-					values.put(value, newFrequency);
-				} else {
-					frequency = values.get(value);
-					newFrequency = values.get(value) + 1;
-					values.put(value, newFrequency);
-				}
-
-				updateFrequencies(frequencies, value, frequency, newFrequency);
-
-			} else if (operation == 2) {
-				if (values.containsKey(value)) {
-					frequency = values.get(value);
-					newFrequency = Math.max(0, values.get(value) - 1);
-					values.put(value, newFrequency);
-
-					updateFrequencies(frequencies, value, frequency, newFrequency);
-				}
-			} else if (operation == 3) {
-				Integer matched = frequencies.containsKey(value) ? 1 : 0;
-				matches.add(matched);
+		for (int[] query : queries) {
+			Integer operation = query[OPERATION], value = query[VALUE];
+			if (operation == ADD) {
+				add(values, frequencies, value);
+			} else if (operation == REMOVE) {
+				remove(values, frequencies, value);
+			} else if (operation == SEARCH) {
+				matches.add(frequencies.get(value) != null ? 1 : 0);
 			}
 		}
 
 		return matches;
+	}
+
+	private static void remove(Map<Integer, Integer> values, Map<Integer, Map<Integer, Integer>> frequencies,
+			Integer value) {
+
+		Integer frequency = values.get(value);
+		if (frequency != null) {
+			Integer newFrequency = Math.max(0, frequency - 1);
+
+			values.put(value, newFrequency);
+
+			updateFrequencies(frequencies, value, frequency, newFrequency);
+		}
+	}
+
+	private static void add(Map<Integer, Integer> values, Map<Integer, Map<Integer, Integer>> frequencies,
+			Integer value) {
+
+		Integer frequency = values.get(value);
+		Integer newFrequency = frequency == null ? 1 : frequency + 1;
+
+		values.put(value, newFrequency);
+
+		updateFrequencies(frequencies, value, frequency, newFrequency);
 	}
 
 	private static void updateFrequencies(Map<Integer, Map<Integer, Integer>> frequencies, Integer value,
@@ -70,9 +79,9 @@ public class FrequencyQueries {
 			}
 		}
 
-		Map<Integer, Integer> valuesMap = new HashMap<Integer, Integer>();
-		if (frequencies.containsKey(newFrequency)) {
-			valuesMap = frequencies.get(newFrequency);
+		Map<Integer, Integer> valuesMap = frequencies.get(newFrequency);
+		if (valuesMap == null) {
+			valuesMap = new HashMap<Integer, Integer>();
 		}
 		valuesMap.put(value, newFrequency);
 		frequencies.put(newFrequency, valuesMap);
@@ -80,27 +89,23 @@ public class FrequencyQueries {
 	}
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
-
-		int q = Integer.parseInt(bufferedReader.readLine().trim());
-
-		List<List<Integer>> queries = new ArrayList<>();
-
-		IntStream.range(0, q).forEach(i -> {
-			try {
-				queries.add(Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
-						.map(Integer::parseInt).collect(toList()));
-			} catch (IOException ex) {
-				throw new RuntimeException(ex);
+		try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
+			int q = Integer.parseInt(bufferedReader.readLine().trim());
+			List<int[]> queries = new ArrayList<>(q);
+			Pattern p = Pattern.compile("^(\\d+)\\s+(\\d+)\\s*$");
+			for (int i = 0; i < q; i++) {
+				int[] query = new int[2];
+				Matcher m = p.matcher(bufferedReader.readLine());
+				if (m.matches()) {
+					query[0] = Integer.parseInt(m.group(1));
+					query[1] = Integer.parseInt(m.group(2));
+					queries.add(query);
+				}
 			}
-		});
-
-		List<Integer> ans = freqQuery(queries);
-
-		bufferedWriter.write(ans.stream().map(Object::toString).collect(joining("\n")) + "\n");
-
-		bufferedReader.close();
-		bufferedWriter.close();
+			List<Integer> ans = freqQuery(queries);
+			try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")))) {
+				bufferedWriter.write(ans.stream().map(Object::toString).collect(joining("\n")) + "\n");
+			}
+		}
 	}
 }
