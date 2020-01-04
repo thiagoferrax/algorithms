@@ -19,36 +19,64 @@ public class FrequencyQueries {
 
 	// Complete the freqQuery function below.
 	static List<Integer> freqQuery(List<List<Integer>> queries) {
-		List<Integer> frequencies = new ArrayList<Integer>();
+		List<Integer> matches = new ArrayList<Integer>();
 
-		Map<Integer, Integer> map = new HashMap();
+		Map<Integer, Integer> values = new HashMap<Integer, Integer>();
+		Map<Integer, Map<Integer, Integer>> frequencies = new HashMap<Integer, Map<Integer, Integer>>();
 
 		for (List<Integer> query : queries) {
-			Integer operation = query.get(0);
-			Integer value = query.get(1);
+			Integer operation = query.get(0), value = query.get(1);
+			Integer frequency = null, newFrequency = null;
 
 			if (operation == 1) {
-				if (!map.containsKey(value)) {
-					map.put(value, 1);
+				newFrequency = 1;
+
+				if (!values.containsKey(value)) {
+					values.put(value, newFrequency);
 				} else {
-					int quantity = map.get(value) + 1;
-					map.put(value, quantity);
+					frequency = values.get(value);
+					newFrequency = values.get(value) + 1;
+					values.put(value, newFrequency);
 				}
+
+				updateFrequencies(frequencies, value, frequency, newFrequency);
+
 			} else if (operation == 2) {
-				if (map.containsKey(value)) {
-					map.put(value, Math.max(0, map.get(value) - 1));
+				if (values.containsKey(value)) {
+					frequency = values.get(value);
+					newFrequency = Math.max(0, values.get(value) - 1);
+					values.put(value, newFrequency);
+
+					updateFrequencies(frequencies, value, frequency, newFrequency);
 				}
 			} else if (operation == 3) {
-				Integer matched = matched(map, value);
-				frequencies.add(matched);
+				Integer matched = frequencies.containsKey(value) ? 1 : 0;
+				matches.add(matched);
 			}
 		}
 
-		return frequencies;
+		return matches;
 	}
 
-	private static Integer matched(Map<Integer, Integer> map, Integer value) {
-		return map.values().contains(value) ? 1 : 0;
+	private static void updateFrequencies(Map<Integer, Map<Integer, Integer>> frequencies, Integer value,
+			Integer frequency, Integer newFrequency) {
+		if (frequency != null) {
+			Map<Integer, Integer> valuesMap = frequencies.get(frequency);
+			if (valuesMap.size() <= 1) {
+				frequencies.remove(frequency);
+			} else {
+				valuesMap.remove(value);
+				frequencies.put(frequency, valuesMap);
+			}
+		}
+
+		Map<Integer, Integer> valuesMap = new HashMap<Integer, Integer>();
+		if (frequencies.containsKey(newFrequency)) {
+			valuesMap = frequencies.get(newFrequency);
+		}
+		valuesMap.put(value, newFrequency);
+		frequencies.put(newFrequency, valuesMap);
+
 	}
 
 	public static void main(String[] args) throws IOException {
