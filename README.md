@@ -1,4 +1,5 @@
 # algorithms
+- [MarkAndToys](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/sorting/MarkAndToys.java) - Mark has only a certain amount to spend, and he wants to maximize the number of toys he buys with this money.
 - [FrequencyQueries](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/dictionariesandhashmaps/FrequencyQueries.java) - Complete the freqQuery function that must return an array of integers where each element is a  if there is at least one element value with the queried number of occurrences in the current array, or 0 if there is not.
 - [SherlockAndAnagrams](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/dictionariesandhashmaps/SherlockAndAnagrams.java) - Given a string, find the number of pairs of substrings of the string that are anagrams of each other.
 - [TwoStrings](https://github.com/thiagoferrax/algorithms/blob/master/src/main/java/com/trainings/algorithms/dictionariesandhashmaps/TwoStrings.java) - Given two strings, determine if they share a common substring.
