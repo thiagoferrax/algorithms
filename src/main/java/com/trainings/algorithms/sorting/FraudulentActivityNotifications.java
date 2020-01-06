@@ -3,7 +3,9 @@ package com.trainings.algorithms.sorting;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.PriorityQueue;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class FraudulentActivityNotifications {
@@ -11,22 +13,23 @@ public class FraudulentActivityNotifications {
 	// Complete the activityNotifications function below.
 	static int activityNotifications(int[] expenditure, int d) {
 
-		PriorityQueue<Integer> priorityQueue = new PriorityQueue<Integer>();
+		List<Integer> amounts = new ArrayList<Integer>();
 
 		int notifications = 0, trailingDays = 0, count = 0;
 		for (int amountDay : expenditure) {
 			if (trailingDays < d) {
-				priorityQueue.add(amountDay);
+				amounts.add(amountDay);
 			} else if (trailingDays == d) {
 
-				double median = getMedian(priorityQueue);
+				double median = getMedian(amounts);
 
 				if (amountDay >= 2 * median) {
 					notifications++;
 				}
 
-				priorityQueue.remove(expenditure[count - d]);
-				priorityQueue.add(amountDay);
+				amounts.remove(Integer.valueOf(expenditure[count - d]));
+				amounts.add(amountDay);
+							
 				trailingDays--;
 			}
 
@@ -37,14 +40,17 @@ public class FraudulentActivityNotifications {
 		return notifications;
 	}
 
-	private static double getMedian(PriorityQueue<Integer> priorityQueue) {
+	private static double getMedian(List<Integer> amounts) {
+		
+		Collections.sort(amounts);
+		
 		double median;
-		int size = priorityQueue.size();
+		int size = amounts.size();
 		if (size % 2 == 0) {
-			median = (double) ((int) priorityQueue.toArray()[size / 2] + (int) priorityQueue.toArray()[(size - 1) / 2])
+			median = (double) ((int) amounts.toArray()[size / 2] + (int) amounts.toArray()[(size - 1) / 2])
 					/ 2;
 		} else {
-			median = (int) priorityQueue.toArray()[(size / 2)];
+			median = (int) amounts.toArray()[(size / 2)];
 		}
 		return median;
 	}
