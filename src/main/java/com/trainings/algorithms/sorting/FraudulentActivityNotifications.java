@@ -11,28 +11,29 @@ public class FraudulentActivityNotifications {
 	// Complete the activityNotifications function below.
 	static int activityNotifications(int[] expenditure, int d) {
 
-		PriorityQueue<Integer> left = new PriorityQueue<Integer>((arg0, arg1) -> arg1.compareTo(arg0));
-		PriorityQueue<Integer> right = new PriorityQueue<Integer>();
-		
+		int maxQueueSize = d / 2;
+
+		PriorityQueue<Integer> left = new PriorityQueue<Integer>(maxQueueSize, (arg0, arg1) -> arg1.compareTo(arg0));
+		PriorityQueue<Integer> right = new PriorityQueue<Integer>(maxQueueSize);
+
 		int notifications = 0, trailingDays = 0, count = 0;
-		Integer median = null;
+		Integer previousAmount = null;
 		for (int amountDay : expenditure) {
 			if (trailingDays < d) {
-				median = distributeAmounts(left, right, median, amountDay);
+				distribute(amountDay, previousAmount, left, right, maxQueueSize);
+				
+				previousAmount = amountDay;
 			} else if (trailingDays == d) {
-				Integer leftBig = left.peek();
-				Integer rightSmall = right.peek();
+				double median = d % 2 == 0 ? getMedianEven(previousAmount, left, right, maxQueueSize)
+						: getMedianOdd(previousAmount, left, right, maxQueueSize);
 				
-				if(d%2==0) {
-					
-				} else {
-					median = getMeanOdd(left, right, median, leftBig, rightSmall);
-					notifications = addNotification(notifications, median, amountDay);
-					median = removeFirstTrailingDay(expenditure, d, left, right, count, median);
-					median = distributeAmounts(left, right, median, amountDay);
+				if (isAFraudulentActivity(amountDay, median)) {
+					notifications++;
 				}
-				
-							
+
+				removeFirstInAmount(expenditure, d, count, median, left, right);
+
+				previousAmount = amountDay;
 				trailingDays--;
 			}
 
@@ -43,68 +44,107 @@ public class FraudulentActivityNotifications {
 		return notifications;
 	}
 
-	private static Integer getMeanOdd(PriorityQueue<Integer> left, PriorityQueue<Integer> right, Integer median,
-			Integer leftBig, Integer rightSmall) {
-		if(leftBig == null) {
-			if(median > rightSmall) {
-				left.add(right.poll());
-			} else {
-				left.add(median);
-				median = right.poll();
-			} 
-		} else if(median <= leftBig) {
-			Integer previusMedian = median;
-			median = left.poll();
-			left.add(previusMedian);
-		}
-		
-		if(rightSmall == null) {
-			if(median <= leftBig) {
-				right.add(left.poll());
-			} else {
-				right.add(median);
-				median = left.poll();
-			}
-		} else if(median > rightSmall) {
-			Integer previusMedian = median;
-			median = right.poll();
-			right.add(previusMedian);
-		}
-		return median;
+	private static boolean isAFraudulentActivity(int amountDay, double median) {
+		return amountDay >= 2 * median;
 	}
 
-	private static int addNotification(int notifications, Integer median, int amountDay) {
-		if (amountDay >= 2 * median) {
-			notifications++;
-		}
-		return notifications;
-	}
-
-	private static Integer removeFirstTrailingDay(int[] expenditure, int d, PriorityQueue<Integer> left,
-			PriorityQueue<Integer> right, int count, Integer median) {
-		int firstTrailingDay = expenditure[count - d];
-		if(median == firstTrailingDay) {
-			median = null;
-		} else if(median <= firstTrailingDay) {
-			right.remove(firstTrailingDay);
+	private static void removeFirstInAmount(int[] expenditure, int d, int count, double median,
+			PriorityQueue<Integer> left, PriorityQueue<Integer> right) {
+		int firstInElement = expenditure[count - d];
+		if (firstInElement > median) {
+			right.remove(firstInElement);
 		} else {
-			left.remove(firstTrailingDay);
+			left.remove(firstInElement);
+		}
+	}
+
+	private static double getMedianOdd(Integer previousAmount, PriorityQueue<Integer> left,
+			PriorityQueue<Integer> right, int maxQueueSize) {
+		Integer leftBig = left.peek();
+		Integer rightSmall = right.peek();
+
+		int median = previousAmount;
+		if (leftBig != null && previousAmount <= leftBig) {
+			median = left.poll();
+			left.add(previousAmount);
+
+			if (rightSmall != null && median > rightSmall) {
+				double previousMedian = median;
+				median = right.poll();
+				right.add((int) previousMedian);
+			}
+
+		} else if (rightSmall != null && previousAmount > rightSmall) {
+			median = right.poll();
+			right.add(previousAmount);
+
+			if (leftBig != null && median <= leftBig) {
+				double previousMedian = median;
+				median = left.poll();
+				left.add((int) previousMedian);
+			}
 		}
 		return median;
 	}
 
-	private static Integer distributeAmounts(PriorityQueue<Integer> left, PriorityQueue<Integer> right, Integer median,
-			int amountDay) {
-		if(median!=null) {
-			if(median <= amountDay) {
-				left.add(median);
+	private static double getMedianEven(Integer previousAmount, PriorityQueue<Integer> left,
+			PriorityQueue<Integer> right, int maxQueueSize) {
+		Integer leftBig = left.peek();
+		Integer rightSmall = right.peek();
+
+		double median;
+		if (previousAmount > leftBig) {
+			if (right.size() < maxQueueSize) {
+				right.add(previousAmount);
 			} else {
-				right.add(median);
+				rightSmall = right.poll();
+				left.add(rightSmall);
+				right.add(previousAmount);
+			}
+		} else {
+			leftBig = left.poll();
+			left.add(previousAmount);
+			right.add(leftBig);
+		}
+
+		leftBig = left.peek();
+		rightSmall = right.peek();
+
+		median = (double) (leftBig + rightSmall) / 2;
+		return median;
+	}
+
+	private static void distribute(int amountDay, Integer previousAmount, PriorityQueue<Integer> left,
+			PriorityQueue<Integer> right, int maxQueueSize) {
+		if (previousAmount != null) {
+			if (previousAmount > amountDay) {
+				if (right.size() < maxQueueSize) {
+					right.add(previousAmount);
+				} else {
+					Integer small = right.peek();
+					if (previousAmount > small) {
+						small = right.poll();
+						right.add(previousAmount);
+						left.add(small);
+					} else {
+						left.add(previousAmount);
+					}
+				}
+			} else {
+				if (left.size() < maxQueueSize) {
+					left.add(previousAmount);
+				} else {
+					Integer big = left.peek();
+					if (previousAmount <= big) {
+						big = left.poll();
+						left.add(previousAmount);
+						right.add(big);
+					} else {
+						right.add(previousAmount);
+					}
+				}
 			}
 		}
-		median = amountDay;
-
-		return median;
 	}
 
 	private static final Scanner scanner = new Scanner(System.in);
