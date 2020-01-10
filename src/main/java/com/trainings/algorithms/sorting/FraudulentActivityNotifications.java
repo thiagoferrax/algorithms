@@ -21,17 +21,44 @@ public class FraudulentActivityNotifications {
 		for (int amountDay : expenditure) {
 			if (trailingDays < d) {
 				distribute(amountDay, previousAmount, left, right, maxQueueSize);
-				
+
 				previousAmount = amountDay;
 			} else if (trailingDays == d) {
-				double median = d % 2 == 0 ? getMedianEven(previousAmount, left, right, maxQueueSize)
-						: getMedianOdd(previousAmount, left, right, maxQueueSize);
-				
-				if (isAFraudulentActivity(amountDay, median)) {
-					notifications++;
-				}
+				boolean even = d % 2 == 0;
 
-				removeFirstInAmount(expenditure, d, count, median, left, right);
+				double median;
+				if (even) {
+					median = getMedianEven(previousAmount, left, right, maxQueueSize);
+
+					if (isAFraudulentActivity(amountDay, median)) {
+						notifications++;
+					}
+
+					int firstInElement = expenditure[count - d];
+					if (firstInElement > median) {
+						right.remove(firstInElement);
+					} else {
+						left.remove(firstInElement);
+					}
+
+				} else {
+					median = getMedianOdd(previousAmount, left, right, maxQueueSize);
+
+					if (isAFraudulentActivity(amountDay, median)) {
+						notifications++;
+					}
+
+					int firstInElement = expenditure[count - d];
+
+					if (firstInElement > median) {
+						right.remove(firstInElement);
+						right.add((int)median);
+					} else if (firstInElement < median) {
+						left.remove(firstInElement);
+						left.add((int)median);
+					}
+
+				}
 
 				previousAmount = amountDay;
 				trailingDays--;
@@ -46,16 +73,6 @@ public class FraudulentActivityNotifications {
 
 	private static boolean isAFraudulentActivity(int amountDay, double median) {
 		return amountDay >= 2 * median;
-	}
-
-	private static void removeFirstInAmount(int[] expenditure, int d, int count, double median,
-			PriorityQueue<Integer> left, PriorityQueue<Integer> right) {
-		int firstInElement = expenditure[count - d];
-		if (firstInElement > median) {
-			right.remove(firstInElement);
-		} else {
-			left.remove(firstInElement);
-		}
 	}
 
 	private static double getMedianOdd(Integer previousAmount, PriorityQueue<Integer> left,
