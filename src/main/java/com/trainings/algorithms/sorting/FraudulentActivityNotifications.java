@@ -11,7 +11,7 @@ public class FraudulentActivityNotifications {
 	// Complete the activityNotifications function below.
 	static int activityNotifications(int[] expenditure, int d) {
 
-		int maxQueueSize = d / 2;
+		int maxQueueSize = Math.max(1, d / 2);
 
 		PriorityQueue<Integer> left = new PriorityQueue<Integer>(maxQueueSize, (arg0, arg1) -> arg1.compareTo(arg0));
 		PriorityQueue<Integer> right = new PriorityQueue<Integer>(maxQueueSize);
@@ -50,12 +50,12 @@ public class FraudulentActivityNotifications {
 
 					int firstInElement = expenditure[count - d];
 
-					if (firstInElement > median) {
+					if (right.size() > 0 && firstInElement > median) {
 						right.remove(firstInElement);
-						right.add((int)median);
-					} else if (firstInElement < median) {
+						right.add((int) median);
+					} else if (left.size() > 0 && firstInElement < median) {
 						left.remove(firstInElement);
-						left.add((int)median);
+						left.add((int) median);
 					}
 
 				}
@@ -110,7 +110,24 @@ public class FraudulentActivityNotifications {
 		Integer rightSmall = right.peek();
 
 		double median;
-		if (previousAmount > leftBig) {
+
+		if (leftBig == null) {
+			if (previousAmount <= rightSmall) {
+				left.add(previousAmount);
+			} else {
+				rightSmall = right.poll();
+				right.add(previousAmount);
+				left.add(rightSmall);
+			}
+		} else if (rightSmall == null) {
+			if (previousAmount > leftBig) {
+				right.add(previousAmount);
+			} else {
+				leftBig = left.poll();
+				left.add(previousAmount);
+				right.add(leftBig);
+			}
+		} else if (previousAmount > leftBig) {
 			if (right.size() < maxQueueSize) {
 				right.add(previousAmount);
 			} else {
