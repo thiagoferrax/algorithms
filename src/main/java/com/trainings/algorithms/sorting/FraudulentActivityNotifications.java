@@ -3,6 +3,9 @@ package com.trainings.algorithms.sorting;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -11,20 +14,25 @@ public class FraudulentActivityNotifications {
 	// Complete the activityNotifications function below.
 	static int activityNotifications(int[] expenditure, int d) {
 
+		int notifications = 0;
+		if (expenditure.length <= d) {
+			return notifications;
+		}
+
+		boolean even = d % 2 == 0;
 		int maxQueueSize = Math.max(1, d / 2);
 
 		PriorityQueue<Integer> left = new PriorityQueue<Integer>(maxQueueSize, (arg0, arg1) -> arg1.compareTo(arg0));
 		PriorityQueue<Integer> right = new PriorityQueue<Integer>(maxQueueSize);
 
-		int notifications = 0, trailingDays = 0, count = 0;
 		Integer previousAmount = null;
+		int trailingDays = 0, count = 0;
 		for (int amountDay : expenditure) {
 			if (trailingDays < d) {
 				distribute(amountDay, previousAmount, left, right, maxQueueSize);
 
 				previousAmount = amountDay;
 			} else if (trailingDays == d) {
-				boolean even = d % 2 == 0;
 
 				double median;
 				if (even) {
@@ -35,9 +43,9 @@ public class FraudulentActivityNotifications {
 					}
 
 					int firstInElement = expenditure[count - d];
-					if (firstInElement > median) {
+					if (right.size() > 0 && firstInElement > median) {
 						right.remove(firstInElement);
-					} else {
+					} else if (left.size() > 0) {
 						left.remove(firstInElement);
 					}
 
@@ -69,6 +77,50 @@ public class FraudulentActivityNotifications {
 		}
 
 		return notifications;
+	}
+
+	// expenditure - withdrawal list
+	// d - amount of withdrawals checked
+	// return - how many fraudulent activities
+	// fraud - if the amount drawn is twice the median
+	// median - middle element if odd and average of middle two if even
+
+	// Complete the activityNotifications function below.
+	static int activityNotificationsSecondSolution(int[] expenditure, int d) {
+
+		int notifications = 0;
+		if (expenditure.length <= d) {
+			return notifications;
+		}
+
+		Deque<Integer> analyzedAmounts = new ArrayDeque<Integer>();
+		for (int i = 0; i < d; i++) {
+			analyzedAmounts.add(expenditure[i]);
+		}
+
+		boolean oddMedian = (d % 2 == 0) ? false : true;
+		for (int i = d; i < expenditure.length; i++) {
+			Integer[] sortedArray = analyzedAmounts.toArray(new Integer[0]);
+			Arrays.sort(sortedArray);
+
+			double median = oddMedian ? getMedianOdd(d, sortedArray) : getMedianEven(d, sortedArray);
+			if (isAFraudulentActivity(expenditure[i], median)) {
+				notifications++;
+			}
+
+			analyzedAmounts.pop();
+			analyzedAmounts.add(expenditure[i]);
+		}
+		return notifications;
+
+	}
+
+	private static double getMedianEven(int d, Integer[] sortedArray) {
+		return (getMedianOdd(d, sortedArray) + Double.valueOf(String.valueOf(sortedArray[(d / 2) - 1]))) / 2;
+	}
+
+	private static Double getMedianOdd(int d, Integer[] sortedArray) {
+		return Double.valueOf(String.valueOf(sortedArray[d / 2]));
 	}
 
 	private static boolean isAFraudulentActivity(int amountDay, double median) {
