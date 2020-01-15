@@ -13,7 +13,7 @@ import java.util.Scanner;
  * If the amount spent by a client on a particular day is greater than or equal
  * to 2x the client's median spending for a trailing number of days, they send
  * the client a notification about potential fraud.
-
+ * 
  * https://www.hackerrank.com/challenges/fraudulent-activity-notifications/problem
  */
 public class FraudulentActivityNotifications {
@@ -26,13 +26,9 @@ public class FraudulentActivityNotifications {
 			return notifications;
 		}
 
-		Integer[] amounts = new Integer[201];
+		int[] amounts = new int[201];
 		for (int i = 0; i < d; i++) {
-			if (amounts[expenditure[i]] == null) {
-				amounts[expenditure[i]] = 1;
-			} else {
-				amounts[expenditure[i]]++;
-			}
+			amounts[expenditure[i]]++;
 		}
 
 		boolean even = d % 2 == 0;
@@ -43,12 +39,7 @@ public class FraudulentActivityNotifications {
 				notifications++;
 			}
 
-			if (amounts[expenditure[i]] == null) {
-				amounts[expenditure[i]] = 1;
-			} else {
-				amounts[expenditure[i]]++;
-			}
-
+			amounts[expenditure[i]]++;
 			amounts[expenditure[i - d]]--;
 		}
 
@@ -56,7 +47,7 @@ public class FraudulentActivityNotifications {
 
 	}
 
-	private static double getMedianOdd(Integer[] amounts, int d) {
+	private static double getMedianOdd(int[] amounts, int d) {
 
 		int count = 0;
 		double median = 0;
@@ -76,15 +67,16 @@ public class FraudulentActivityNotifications {
 
 	}
 
-	private static double getMedianEven(Integer[] amounts, int d) {
+	private static double getMedianEven(int[] amounts, int d) {
 		int count = 0;
+		
 		Integer left = null;
-		int right = 0;
+		Integer right = null;
 
 		for (int i = 0; i < amounts.length; i++) {
 			Integer amount = amounts[i];
 
-			if (amount != null && amount > 0) {
+			if (amount > 0) {
 				count += amount;
 
 				if (left == null && count >= d / 2) {
