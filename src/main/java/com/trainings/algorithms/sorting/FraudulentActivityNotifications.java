@@ -29,7 +29,9 @@ public class FraudulentActivityNotifications {
 		int trailingDays = 0, count = 0;
 		for (int amountDay : expenditure) {
 			if (trailingDays < d) {
-				distribute(amountDay, previousAmount, left, right, maxQueueSize);
+				if (previousAmount != null) {
+					distribute(amountDay, previousAmount, left, right, maxQueueSize);
+				}
 
 				previousAmount = amountDay;
 			} else if (trailingDays == d) {
@@ -79,13 +81,6 @@ public class FraudulentActivityNotifications {
 		return notifications;
 	}
 
-	// expenditure - withdrawal list
-	// d - amount of withdrawals checked
-	// return - how many fraudulent activities
-	// fraud - if the amount drawn is twice the median
-	// median - middle element if odd and average of middle two if even
-
-	// Complete the activityNotifications function below.
 	static int activityNotificationsSecondSolution(int[] expenditure, int d) {
 
 		int notifications = 0;
@@ -98,12 +93,12 @@ public class FraudulentActivityNotifications {
 			analyzedAmounts.add(expenditure[i]);
 		}
 
-		boolean oddMedian = (d % 2 == 0) ? false : true;
+		boolean even = d % 2 == 0;
 		for (int i = d; i < expenditure.length; i++) {
 			Integer[] sortedArray = analyzedAmounts.toArray(new Integer[0]);
 			Arrays.sort(sortedArray);
 
-			double median = oddMedian ? getMedianOdd(d, sortedArray) : getMedianEven(d, sortedArray);
+			double median = even ? getMedianEven(d, sortedArray) : getMedianOdd(d, sortedArray);
 			if (isAFraudulentActivity(expenditure[i], median)) {
 				notifications++;
 			}
@@ -115,16 +110,98 @@ public class FraudulentActivityNotifications {
 
 	}
 
+	static int activityNotificationsThirdSolution(int[] expenditure, int d) {
+
+		int notifications = 0;
+		if (expenditure.length <= d) {
+			return notifications;
+		}
+
+		Integer[] amounts = new Integer[201];
+		for (int i = 0; i < d; i++) {
+			if (amounts[expenditure[i]] == null) {
+				amounts[expenditure[i]] = 1;
+			} else {
+				amounts[expenditure[i]]++;
+			}
+		}
+
+		boolean even = d % 2 == 0;
+		for (int i = d; i < expenditure.length; i++) {
+			double median = even ? getMedianEven(amounts, d) : getMedianOdd(amounts, d);
+
+			if (isAFraudulentActivity(expenditure[i], median)) {
+				notifications++;
+			}
+
+			if (amounts[expenditure[i]] == null) {
+				amounts[expenditure[i]] = 1;
+			} else {
+				amounts[expenditure[i]]++;
+			}
+
+			amounts[expenditure[i - d]]--;
+		}
+
+		return notifications;
+
+	}
+
+	private static double getMedianOdd(Integer[] amounts, int d) {
+
+		int count = 0;
+		double median = 0;
+		for (int i = 0; i < amounts.length; i++) {
+			Integer amount = amounts[i];
+			if (amount != null && amount > 0) {
+				
+				count += amount;
+				if (count >= (d / 2) + 1) {
+					median = i;
+					break;
+				}
+				
+			}
+		}
+		return median;
+
+	}
+
+	private static double getMedianEven(Integer[] amounts, int d) {
+		int count = 0;
+		Integer left = null;
+		int right = 0;
+
+		for (int i = 0; i < amounts.length; i++) {
+			Integer amount = amounts[i];
+
+			if (amount != null && amount > 0) {
+				count += amount;
+
+				if (left == null && count >= d / 2) {
+					left = i;
+				}
+				
+				if (count >= (d / 2) + 1) {
+					right = i;
+					break;
+				} 
+				
+			}
+		}
+		return (double) (left + right) / 2;
+	}
+	
+	private static boolean isAFraudulentActivity(int amountDay, double median) {
+		return amountDay >= 2 * median;
+	}
+
 	private static double getMedianEven(int d, Integer[] sortedArray) {
 		return (getMedianOdd(d, sortedArray) + Double.valueOf(String.valueOf(sortedArray[(d / 2) - 1]))) / 2;
 	}
 
 	private static Double getMedianOdd(int d, Integer[] sortedArray) {
 		return Double.valueOf(String.valueOf(sortedArray[d / 2]));
-	}
-
-	private static boolean isAFraudulentActivity(int amountDay, double median) {
-		return amountDay >= 2 * median;
 	}
 
 	private static double getMedianOdd(Integer previousAmount, PriorityQueue<Integer> left,
@@ -138,9 +215,9 @@ public class FraudulentActivityNotifications {
 			left.add(previousAmount);
 
 			if (rightSmall != null && median > rightSmall) {
-				double previousMedian = median;
+				int previousMedian = median;
 				median = right.poll();
-				right.add((int) previousMedian);
+				right.add(previousMedian);
 			}
 
 		} else if (rightSmall != null && previousAmount > rightSmall) {
@@ -148,9 +225,9 @@ public class FraudulentActivityNotifications {
 			right.add(previousAmount);
 
 			if (leftBig != null && median <= leftBig) {
-				double previousMedian = median;
+				int previousMedian = median;
 				median = left.poll();
-				left.add((int) previousMedian);
+				left.add(previousMedian);
 			}
 		}
 		return median;
@@ -202,32 +279,30 @@ public class FraudulentActivityNotifications {
 
 	private static void distribute(int amountDay, Integer previousAmount, PriorityQueue<Integer> left,
 			PriorityQueue<Integer> right, int maxQueueSize) {
-		if (previousAmount != null) {
-			if (previousAmount > amountDay) {
-				if (right.size() < maxQueueSize) {
-					right.add(previousAmount);
-				} else {
-					Integer small = right.peek();
-					if (previousAmount > small) {
-						small = right.poll();
-						right.add(previousAmount);
-						left.add(small);
-					} else {
-						left.add(previousAmount);
-					}
-				}
+		if (previousAmount > amountDay) {
+			if (right.size() < maxQueueSize) {
+				right.add(previousAmount);
 			} else {
-				if (left.size() < maxQueueSize) {
-					left.add(previousAmount);
+				Integer small = right.peek();
+				if (previousAmount > small) {
+					small = right.poll();
+					right.add(previousAmount);
+					left.add(small);
 				} else {
-					Integer big = left.peek();
-					if (previousAmount <= big) {
-						big = left.poll();
-						left.add(previousAmount);
-						right.add(big);
-					} else {
-						right.add(previousAmount);
-					}
+					left.add(previousAmount);
+				}
+			}
+		} else {
+			if (left.size() < maxQueueSize) {
+				left.add(previousAmount);
+			} else {
+				Integer big = left.peek();
+				if (previousAmount <= big) {
+					big = left.poll();
+					left.add(previousAmount);
+					right.add(big);
+				} else {
+					right.add(previousAmount);
 				}
 			}
 		}
