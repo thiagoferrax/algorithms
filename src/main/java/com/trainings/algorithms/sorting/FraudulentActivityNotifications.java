@@ -9,10 +9,103 @@ import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
+/**
+ * If the amount spent by a client on a particular day is greater than or equal
+ * to 2x the client's median spending for a trailing number of days, they send
+ * the client a notification about potential fraud.
+
+ * https://www.hackerrank.com/challenges/fraudulent-activity-notifications/problem
+ */
 public class FraudulentActivityNotifications {
 
 	// Complete the activityNotifications function below.
 	static int activityNotifications(int[] expenditure, int d) {
+
+		int notifications = 0;
+		if (expenditure.length <= d) {
+			return notifications;
+		}
+
+		Integer[] amounts = new Integer[201];
+		for (int i = 0; i < d; i++) {
+			if (amounts[expenditure[i]] == null) {
+				amounts[expenditure[i]] = 1;
+			} else {
+				amounts[expenditure[i]]++;
+			}
+		}
+
+		boolean even = d % 2 == 0;
+		for (int i = d; i < expenditure.length; i++) {
+			double median = even ? getMedianEven(amounts, d) : getMedianOdd(amounts, d);
+
+			if (isAFraudulentActivity(expenditure[i], median)) {
+				notifications++;
+			}
+
+			if (amounts[expenditure[i]] == null) {
+				amounts[expenditure[i]] = 1;
+			} else {
+				amounts[expenditure[i]]++;
+			}
+
+			amounts[expenditure[i - d]]--;
+		}
+
+		return notifications;
+
+	}
+
+	private static double getMedianOdd(Integer[] amounts, int d) {
+
+		int count = 0;
+		double median = 0;
+		for (int i = 0; i < amounts.length; i++) {
+			Integer amount = amounts[i];
+			if (amount != null && amount > 0) {
+
+				count += amount;
+				if (count >= (d / 2) + 1) {
+					median = i;
+					break;
+				}
+
+			}
+		}
+		return median;
+
+	}
+
+	private static double getMedianEven(Integer[] amounts, int d) {
+		int count = 0;
+		Integer left = null;
+		int right = 0;
+
+		for (int i = 0; i < amounts.length; i++) {
+			Integer amount = amounts[i];
+
+			if (amount != null && amount > 0) {
+				count += amount;
+
+				if (left == null && count >= d / 2) {
+					left = i;
+				}
+
+				if (count >= (d / 2) + 1) {
+					right = i;
+					break;
+				}
+
+			}
+		}
+		return (double) (left + right) / 2;
+	}
+
+	private static boolean isAFraudulentActivity(int amountDay, double median) {
+		return amountDay >= 2 * median;
+	}
+
+	static int activityNotificationsFirstSolution(int[] expenditure, int d) {
 
 		int notifications = 0;
 		if (expenditure.length <= d) {
@@ -108,92 +201,6 @@ public class FraudulentActivityNotifications {
 		}
 		return notifications;
 
-	}
-
-	static int activityNotificationsThirdSolution(int[] expenditure, int d) {
-
-		int notifications = 0;
-		if (expenditure.length <= d) {
-			return notifications;
-		}
-
-		Integer[] amounts = new Integer[201];
-		for (int i = 0; i < d; i++) {
-			if (amounts[expenditure[i]] == null) {
-				amounts[expenditure[i]] = 1;
-			} else {
-				amounts[expenditure[i]]++;
-			}
-		}
-
-		boolean even = d % 2 == 0;
-		for (int i = d; i < expenditure.length; i++) {
-			double median = even ? getMedianEven(amounts, d) : getMedianOdd(amounts, d);
-
-			if (isAFraudulentActivity(expenditure[i], median)) {
-				notifications++;
-			}
-
-			if (amounts[expenditure[i]] == null) {
-				amounts[expenditure[i]] = 1;
-			} else {
-				amounts[expenditure[i]]++;
-			}
-
-			amounts[expenditure[i - d]]--;
-		}
-
-		return notifications;
-
-	}
-
-	private static double getMedianOdd(Integer[] amounts, int d) {
-
-		int count = 0;
-		double median = 0;
-		for (int i = 0; i < amounts.length; i++) {
-			Integer amount = amounts[i];
-			if (amount != null && amount > 0) {
-				
-				count += amount;
-				if (count >= (d / 2) + 1) {
-					median = i;
-					break;
-				}
-				
-			}
-		}
-		return median;
-
-	}
-
-	private static double getMedianEven(Integer[] amounts, int d) {
-		int count = 0;
-		Integer left = null;
-		int right = 0;
-
-		for (int i = 0; i < amounts.length; i++) {
-			Integer amount = amounts[i];
-
-			if (amount != null && amount > 0) {
-				count += amount;
-
-				if (left == null && count >= d / 2) {
-					left = i;
-				}
-				
-				if (count >= (d / 2) + 1) {
-					right = i;
-					break;
-				} 
-				
-			}
-		}
-		return (double) (left + right) / 2;
-	}
-	
-	private static boolean isAFraudulentActivity(int amountDay, double median) {
-		return amountDay >= 2 * median;
 	}
 
 	private static double getMedianEven(int d, Integer[] sortedArray) {
