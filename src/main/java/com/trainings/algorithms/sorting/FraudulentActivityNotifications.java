@@ -52,8 +52,8 @@ public class FraudulentActivityNotifications {
 		int count = 0;
 		double median = 0;
 		for (int i = 0; i < amounts.length; i++) {
-			Integer amount = amounts[i];
-			if (amount != null && amount > 0) {
+			int amount = amounts[i];
+			if (amount > 0) {
 
 				count += amount;
 				if (count >= (d / 2) + 1) {
