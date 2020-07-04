@@ -2,6 +2,8 @@ package com.trainings.algorithms.dictionariesandhashmaps;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.trainings.algorithms.arrays.NewYearChaos;
 
@@ -32,28 +34,44 @@ public class FlightItineraryProblem {
 	private static final int ORIGIN = 0;
 
 	public static String findItinerary(String[][] flights, String origin) {
-		Map<String, String> flightMap = new HashMap();
+		Map<String, Map<String, Boolean>> flightMap = new HashMap<String, Map<String, Boolean>>();
 		for (String[] flight : flights) {
-			flightMap.put(flight[ORIGIN], flight[DESTINATION]);
+			Map<String, Boolean> destionations = new HashMap<String, Boolean>();
+			destionations.put(flight[DESTINATION], Boolean.FALSE);
+			flightMap.put(flight[ORIGIN], destionations);
 		}
-		
-		int count = 0;
-		
-		String destination = flightMap.get(origin);
-		
+
 		StringBuilder itinerary = new StringBuilder();
-		itinerary.append(origin);
+		findRoute(origin, flightMap, itinerary);
+		String route = itinerary.toString();
 		
-		while (destination != null && count <= flights.length) {
-			count++;
-			
-			itinerary.append(", " + destination);
-			
-			String newOrigin = destination;
-			
-			destination = flightMap.get(newOrigin);
+		System.out.println(route);
+		
+		return route.split(",").length - 1 == flights.length ? route : null;
+	}
+
+	private static void findRoute(String origin, Map<String, Map<String, Boolean>> flightMap, StringBuilder itinerary) {
+		append(origin, itinerary);
+
+		Map<String, Boolean> destinations = flightMap.get(origin);
+		if (destinations != null) {
+			Set<Entry<String, Boolean>> entrySet = destinations.entrySet();
+			for (Entry<String, Boolean> entry : entrySet) {
+				String destinationKey = entry.getKey();
+				Boolean alreadyVisited = entry.getValue();
+
+				if (!alreadyVisited) {
+					destinations.put(destinationKey, Boolean.TRUE);
+					findRoute(destinationKey, flightMap, itinerary);
+				}
+			}
 		}
-		
-		return count == flights.length ? itinerary.toString() : null;		
+	}
+
+	private static void append(String origin, StringBuilder itinerary) {
+		if (itinerary.length() > 0) {
+			itinerary.append(", ");
+		}
+		itinerary.append(origin);
 	}
 }
