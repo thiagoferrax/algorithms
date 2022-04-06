@@ -20,5 +20,10 @@ class SpecialStringAgainTest {
 	void testasasd() {
 		Assert.assertEquals(7, SpecialStringAgain.substrCount(5, "asasd"));
 	}
+	
+	@Test
+	void testaaaa() {
+		Assert.assertEquals(10, SpecialStringAgain.substrCount(4, "aaaa"));
+	}
 
 }
