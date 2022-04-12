@@ -6,104 +6,53 @@ import java.util.Map;
 public class SpecialStringAgain {
 
 	static long substrCount(int n, String s) {
-		HashMap<String, Boolean> memory = new HashMap<String, Boolean>();
-		return (long) substrCountObj(n, s, memory, 0)[0];
+		return buildSubstringMemory(n, s, new HashMap<String, Boolean>(), 0, 0);
 	}
 
-	static Object[] substrCountObj(int n, String s, Map<String, Boolean> memory, int index) {
-		String key = s + "_" + index;
-		if (memory.containsKey(key)) {
-			return new Object[] { 0L, memory.get(key) };
-		}
+	static long buildSubstringMemory(int n, String s, Map<String, Boolean> memory, int index, long count) {
+		String key = buildKey(s, index);
 
-		long count = 0;
-		Boolean special = false;
-
-		if (n == 0) {
-			return new Object[] { 0L, Boolean.TRUE };
-		} else if (n == 1) {
+		if (memory.containsKey(key) || n == 0) {
+			return count;
+		} 
+		
+		if (n == 1) {
 			memory.put(key, Boolean.TRUE);
-			return new Object[] { 1L, Boolean.TRUE };
-		}
-		if (n % 2 == 0) {
-			if (n == 2) {
-
-				Object[] one = substrCountObj(1, String.valueOf(s.charAt(0)), memory, index);
-				Object[] two = substrCountObj(1, String.valueOf(s.charAt(1)), memory, index + 1);
-
-				long sum = (long) one[0] + (long) two[0];
-
-				special = s.charAt(0) == s.charAt(1);
-				count = special ? 1 + sum : sum;
-
-				memory.put(key, special);
-
-				return new Object[] { count, special };
-			} else {
-				if (s.charAt(0) == s.charAt(1) && s.charAt(n - 1) == s.charAt(n - 2)) {
-					Object[] response = substrCountObj(n - 2, s.substring(1, n - 1), memory, index + 1);
-
-					boolean substringSpecial = ((Boolean) response[1]).equals(Boolean.TRUE);
-					long wholeStringSpecial = 0L;
-					if (substringSpecial) {
-						wholeStringSpecial++;
-					}
-
-					Object[] responseB = substrCountObj(n - 1, s.substring(0, n - 1), memory, index);
-					Object[] responseA = substrCountObj(n - 1, s.substring(1, n), memory, index + 1);
-
-					memory.put(key, substringSpecial);
-					return new Object[] { ((Long) responseA[0]) + (Long) responseB[0] + wholeStringSpecial, substringSpecial };
-
-				} else {
-					Object[] responseB = substrCountObj(n - 1, s.substring(0, n - 1), memory, index);
-					Object[] responseA = substrCountObj(n - 1, s.substring(1, n), memory, index + 1);
-
-					memory.put(key, Boolean.FALSE);
-					return new Object[] { ((Long) responseA[0]) + (Long) responseB[0], Boolean.FALSE };
-				}
-			}
+			++count;
 		} else {
-			if (n == 3) {
-				Object[] one = substrCountObj(1, String.valueOf(s.charAt(0)), memory, index);
-				Object[] two = substrCountObj(1, String.valueOf(s.charAt(1)), memory, index + 1);
-				Object[] three = substrCountObj(1, String.valueOf(s.charAt(2)), memory, index + 2);
+			String left = s.substring(0, n - 1);
+			String right = s.substring(1, n);
+			if (n <= 3) {
+				count = buildSubstringMemory(n - 1, left, memory, index, count);
+				count = buildSubstringMemory(n - 1, right, memory, index + 1, count);
 
-				long sum = (long) one[0] + (long) two[0] + (long) three[0];
-
-				special = s.charAt(0) == s.charAt(n - 1);
-				count += special ? 1 + sum : sum;
-
+				boolean special = s.charAt(0) == s.charAt(n - 1);
 				memory.put(key, special);
 
-				return new Object[] { count, special };
-			} else {
-				if (s.charAt(0) == s.charAt(n - 1)) {
-					Object[] response = substrCountObj(n - 2, s.substring(1, n - 1), memory, index + 1);
-
-					boolean substringSpecial = ((Boolean) response[1]).equals(Boolean.TRUE);
-					long wholeStringSpecial = 0L;
-					if (substringSpecial) {
-						wholeStringSpecial++;
-					}
-
-					Object[] responseB = substrCountObj(n - 1, s.substring(0, n - 1), memory, index);
-					Object[] responseA = substrCountObj(n - 1, s.substring(1, n), memory, index + 1);
-
-					memory.put(key, substringSpecial);
-					
-					return new Object[] { ((Long) responseA[0]) + (Long) responseB[0] + wholeStringSpecial, substringSpecial };
-				} else {
-					Object[] responseB = substrCountObj(n - 1, s.substring(0, n - 1), memory, index);
-					Object[] responseA = substrCountObj(n - 1, s.substring(1, n), memory, index + 1);
-
-					memory.put(key, Boolean.FALSE);
-					return new Object[] { ((Long) responseA[0]) + (Long) responseB[0], Boolean.FALSE };
+				if (special) {
+					++count;
 				}
+			} else {
+				count = buildSubstringMemory(n - 1, left, memory, index, count);
+				count = buildSubstringMemory(n - 1, right, memory, index + 1, count);
 
+				String substringKey = buildKey(s.substring(1, n - 1), index + 1);
+
+				boolean special = s.charAt(0) == s.charAt(1) && s.charAt(n - 2) == s.charAt(n - 1)
+						&& memory.get(substringKey);
+				memory.put(key, special);
+
+				if (special) {
+					++count;
+				}
 			}
 		}
+		
+		return count;
+	}
 
+	private static String buildKey(String s, int index) {
+		return s + "_" + index;
 	}
 
 }
