@@ -14,8 +14,8 @@ public class SpecialStringAgain {
 
 		if (memory.containsKey(key) || n == 0) {
 			return count;
-		} 
-		
+		}
+
 		if (n == 1) {
 			memory.put(key, Boolean.TRUE);
 			++count;
@@ -38,8 +38,8 @@ public class SpecialStringAgain {
 
 				String substringKey = buildKey(s.substring(1, n - 1), index + 1);
 
-				boolean special = s.charAt(0) == s.charAt(1) && s.charAt(n - 2) == s.charAt(n - 1)
-						&& memory.get(substringKey);
+				boolean special = memory.get(substringKey) && s.charAt(0) == s.charAt(1) && s.charAt(n - 2) == s.charAt(n - 1);
+				
 				memory.put(key, special);
 
 				if (special) {
@@ -47,7 +47,7 @@ public class SpecialStringAgain {
 				}
 			}
 		}
-		
+
 		return count;
 	}
 
