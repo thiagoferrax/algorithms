@@ -25,5 +25,31 @@ class SpecialStringAgainTest {
 	void testaaaa() {
 		Assert.assertEquals(10, SpecialStringAgain.substrCount(4, "aaaa"));
 	}
+	
+	/*
+	 * @Test void testaaaa2ndSolution() { Assert.assertEquals(10,
+	 * SpecialStringAgain.substrCount2ndSolution(4, "aaaa")); }
+	 */
+	
+	@Test
+	void testisEspecial_aaaa() {
+		Assert.assertEquals(true, SpecialStringAgain.isSpecial("aaaa"));
+	}
+	
+	@Test
+	void testisEspecial_aabaa() {
+		Assert.assertEquals(true, SpecialStringAgain.isSpecial("aabaa"));
+	}
+	
+	@Test
+	void testisEspecial_bbabb() {
+		Assert.assertEquals(true, SpecialStringAgain.isSpecial("bbabb"));
+	}
+	
+	@Test
+	void testisEspecial_cbbabbc() {
+		Assert.assertEquals(false, SpecialStringAgain.isSpecial("cbbabbc"));
+	}
+	
 
 }
