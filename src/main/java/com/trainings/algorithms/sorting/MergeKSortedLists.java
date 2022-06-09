@@ -61,6 +61,32 @@ public class MergeKSortedLists {
 	}
 
 	public ListNode mergeKLists(ListNode[] lists) {
+		final List<Integer> values = new ArrayList<>();
+		for (ListNode node : lists) {
+			while (node != null) {
+				values.add(node.val);
+				node = node.next;
+			}
+		}
+
+		values.sort((a, b) -> b - a);
+
+		ListNode next = null;
+		ListNode node = null;
+		
+		Iterator<Integer> iterator = values.iterator();
+		while(iterator.hasNext()) {
+			Integer value = iterator.next();
+			node = new ListNode(value);
+			
+			node.next = next;
+			next = node;
+		}
+		
+		return node;
+	}
+
+	public ListNode mergeKLists2ndSolution(ListNode[] lists) {
 
 		TreeMap<Integer, ListNode> sortedMap = Arrays.stream(lists).reduce(
 				new TreeMap<Integer, ListNode>((a, b) -> b - a), (map, b) -> buildMap(map, b),
@@ -102,7 +128,7 @@ public class MergeKSortedLists {
 
 		return map;
 	}
-	
+
 	public ListNode mergeKLists1stSolution(ListNode[] lists) {
 
 		List<ListNode> asList = new ArrayList<ListNode>(Arrays.asList(lists));
