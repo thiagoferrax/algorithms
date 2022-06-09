@@ -2,9 +2,12 @@ package com.trainings.algorithms.sorting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.TreeMap;
 
+// https://leetcode.com/problems/merge-k-sorted-lists/	
 public class MergeKSortedLists {
 
 	public class ListNode {
@@ -59,6 +62,49 @@ public class MergeKSortedLists {
 
 	public ListNode mergeKLists(ListNode[] lists) {
 
+		TreeMap<Integer, ListNode> sortedMap = Arrays.stream(lists).reduce(
+				new TreeMap<Integer, ListNode>((a, b) -> b - a), (map, b) -> buildMap(map, b),
+				(map, updatedMap) -> updatedMap);
+
+		ListNode next = null;
+		ListNode node = null;
+
+		Iterator<ListNode> iterator = sortedMap.values().iterator();
+		while (iterator.hasNext()) {
+			node = iterator.next();
+
+			ListNode current = node;
+			while (current.next != null) {
+				current = current.next;
+			}
+			current.next = next;
+			next = node;
+		}
+
+		return node;
+	}
+
+	public TreeMap<Integer, ListNode> buildMap(TreeMap<Integer, ListNode> map, ListNode node) {
+		if (node != null) {
+			ListNode listNode = map.get(node.val);
+
+			if (listNode == null) {
+				map.put(node.val, new ListNode(node.val, null));
+			} else {
+				ListNode current = listNode;
+				while (current.next != null) {
+					current = current.next;
+				}
+				current.next = new ListNode(node.val, null);
+			}
+			buildMap(map, node.next);
+		}
+
+		return map;
+	}
+	
+	public ListNode mergeKLists1stSolution(ListNode[] lists) {
+
 		List<ListNode> asList = new ArrayList<ListNode>(Arrays.asList(lists));
 
 		ListNode head = null;
@@ -66,6 +112,7 @@ public class MergeKSortedLists {
 		ListNode minLN = null;
 
 		while (!asList.isEmpty()) {
+
 			ListNode min = asList.stream().filter(l -> l != null).min((a, b) -> a.val - b.val).get();
 
 			if (min != null) {
@@ -88,4 +135,5 @@ public class MergeKSortedLists {
 
 		return head;
 	}
+
 }

@@ -22,12 +22,12 @@ class MergeKSortedListsTest {
 
 		// Then
 		// Output: [1,1,2,3,4,4,5,6]
-		ListNode[] expected = { l.new ListNode(1, l.new ListNode(1, l.new ListNode(2, l.new ListNode(3,
-				l.new ListNode(4, l.new ListNode(4, l.new ListNode(5, l.new ListNode(6, null)))))))) };
+		ListNode expected = l.new ListNode(1, l.new ListNode(1, l.new ListNode(2,
+				l.new ListNode(3, l.new ListNode(4, l.new ListNode(4, l.new ListNode(5, l.new ListNode(6, null))))))));
 
 		assertEquals(expected, mergeKLists);
 	}
-	
+
 	@Test
 	void testEmptyInput() {
 		// Given
@@ -43,7 +43,5 @@ class MergeKSortedListsTest {
 
 		assertEquals(null, mergeKLists);
 	}
-	
-	
 
 }
