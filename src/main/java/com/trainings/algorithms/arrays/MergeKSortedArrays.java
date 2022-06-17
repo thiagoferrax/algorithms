@@ -11,9 +11,7 @@ public class MergeKSortedArrays {
 	
 	public static int[] mergeKArrays(int[][] arr) {
 		List<Integer> merged = new ArrayList<>();
-		for(int[] array: arr) {
-			merged.addAll(Arrays.stream(array).boxed().collect(Collectors.toList()));
-		}
+		Arrays.stream(arr).forEach(a -> merged.addAll(Arrays.stream(a).boxed().collect(Collectors.toList())));
 		Collections.sort(merged);
 		return merged.stream().mapToInt(i->i).toArray();
 	}
