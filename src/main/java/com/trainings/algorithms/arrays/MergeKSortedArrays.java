@@ -1,11 +1,24 @@
 package com.trainings.algorithms.arrays;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MergeKSortedArrays {
+	
 	public static int[] mergeKArrays(int[][] arr) {
+		List<Integer> merged = new ArrayList<>();
+		for(int[] array: arr) {
+			merged.addAll(Arrays.stream(array).boxed().collect(Collectors.toList()));
+		}
+		Collections.sort(merged);
+		return merged.stream().mapToInt(i->i).toArray();
+	}
+	
+	public static int[] mergeKArrays1stSolution(int[][] arr) {
 
 		int nArrays = arr.length;
 		int arrayLength = arr[0].length;
