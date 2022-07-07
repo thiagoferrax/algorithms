@@ -5,13 +5,11 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class Product {
-	private String name;
 	private Double price;
 	private Double discount;
 
-	public Product(String name, Double price, Double discount) {
+	public Product(Double price, Double discount) {
 		super();
-		this.name = name;
 		this.price = price;
 		this.discount = discount;
 	}

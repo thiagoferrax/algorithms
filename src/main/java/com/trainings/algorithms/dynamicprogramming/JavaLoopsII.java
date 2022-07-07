@@ -1,8 +1,33 @@
 package com.trainings.algorithms.dynamicprogramming;
 
+import java.util.Scanner;
+import java.util.stream.Stream;
+
 // https://www.hackerrank.com/challenges/java-loops/problem
 public class JavaLoopsII {
-	
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+
+		int q = scanner.nextInt();
+
+		int[][] queries = new int[q][3];
+
+		for (int i = 0; i < q; i++) {
+			String input = scanner.nextLine();
+			queries[i] = extract(input);
+			System.out.println(queries[i]);
+		}
+
+		scanner.close();
+
+		System.out.println(calculate(q, queries));
+	}
+
+	public static int[] extract(String input) {
+		return Stream.of(input.split(" ")).mapToInt(Integer::parseInt).toArray();
+	}
+
 	public static String calculate(int q, int[][] queries) {
 		StringBuilder builder = new StringBuilder();
 

@@ -97,8 +97,6 @@ public class CountTriplets {
 
 		String[] nr = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
-		int n = Integer.parseInt(nr[0]);
-
 		long r = Long.parseLong(nr[1]);
 
 		List<Long> arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" ")).map(Long::parseLong)

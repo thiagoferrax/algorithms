@@ -15,7 +15,7 @@ class FirstRecurringTest {
 	@Test
 	void whenPassingANotEmptyArrayWithARecurringValueReturnsIt() {
 		FirstRecurring firstRecurring = new FirstRecurring();
-		Assert.assertEquals(new Integer(2), firstRecurring.getFirstRecurring(new int[] {2, 5, 1, 2, 3}));
+		Assert.assertEquals(Integer.valueOf(2), firstRecurring.getFirstRecurring(new int[] {2, 5, 1, 2, 3}));
 	}
 
 }
