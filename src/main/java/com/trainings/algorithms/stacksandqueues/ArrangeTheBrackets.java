@@ -1,8 +1,6 @@
 package com.trainings.algorithms.stacksandqueues;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,10 +26,10 @@ import java.util.Map;
  * 
  * stack {
  * 
- * @author thiag
+ * @author thiago
  *
  */
-public class VanhackChallenge {
+public class ArrangeTheBrackets {
 
 	public static boolean isValid(final String unordered) {
 
@@ -42,18 +40,25 @@ public class VanhackChallenge {
 
 		char[] charArray = unordered.toCharArray();
 
-		List<Character> list = new ArrayList<>();
+		final Map<Character, Integer> charQuantityMap = new HashMap<>();
 
 		for (char c : charArray) {
 			Character match = pairs.get(c);
-			if (list.contains(match)) {
-				list.remove(match);
+			Integer matchQuantity = charQuantityMap.get(match);
+			boolean foundAMatch = matchQuantity != null;
+			if(foundAMatch) {
+				if(--matchQuantity == 0) {
+					charQuantityMap.remove(match);
+				} else {
+					charQuantityMap.replace(match, matchQuantity);
+				}
 			} else {
-				list.add(c);
-			}
+				Integer quantity = charQuantityMap.get(c);
+				charQuantityMap.put(c, quantity == null ? 1 : ++quantity);
+ 			}
 		}
 
-		return list.isEmpty();
+		return charQuantityMap.isEmpty();
 	}
 
 	private static Map<Character, Character> buildPairs() {
@@ -83,8 +88,6 @@ public class VanhackChallenge {
 	}
 
 
-	//"{[><(])((}))"
-	// {[>
 	public static String order(String unordered) {
 
 		if (!isValid(unordered)) {
@@ -97,18 +100,25 @@ public class VanhackChallenge {
 		
 		char[] charArray = unordered.toCharArray();
 
-		List<Character> list = new ArrayList<>();
-
+		final Map<Character, Integer> charQuantityMap = new HashMap<>();
 		for (char c : charArray) {
 			Character match = pairs.get(c);
-			if (list.contains(match)) {
-				list.remove(match);
+			Integer matchQuantity = charQuantityMap.get(match);
+			boolean foundAMatch = matchQuantity != null;
+			if(foundAMatch) {
 				String matchPair = matchPairs.get(match);
 				ordered.insert(0, matchPair.charAt(0));
 				ordered.append(matchPair.charAt(1));
+				
+				if(--matchQuantity == 0) {
+					charQuantityMap.remove(match);
+				} else {
+					charQuantityMap.replace(match, matchQuantity);
+				}
 			} else {
-				list.add(c);
-			}
+				Integer quantity = charQuantityMap.get(c);
+				charQuantityMap.put(c, quantity == null ? 1 : ++quantity);
+ 			}
 		}
 
 		return ordered.toString();
