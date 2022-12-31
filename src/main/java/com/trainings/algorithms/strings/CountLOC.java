@@ -31,7 +31,7 @@ public class CountLOC {
 	        	} else if(multiRowComment && !line.contains(MULTI_COMMENT_END)) {
 	        		System.out.println(MULTI_ROW_COMMENT + line);	
 	        		loc--;
-	        	} if(multiRowComment && line.contains(MULTI_COMMENT_END)) {
+	        	} else if(multiRowComment && line.contains(MULTI_COMMENT_END)) {
 	        		System.out.println(FINISHING_MULTI_ROW_COMMENT + line);	
 	        		loc--;
 	        		multiRowComment = false;
