@@ -9,18 +9,18 @@ import java.util.Map;
  */
 public class FirstRecurring {
 
-	public Integer getFirstRecurring(int[] array) {
-		if (array != null && array.length != 0) {
-			Map<Integer, Integer> map = new HashMap<>();
-			for (int key : array) {
-				if (map.containsKey(key)) {
-					return key;
-				}
-				map.put(key, 1);
-			}
-		}
+    public Integer getFirstRecurring(int[] array) {
+        if (array != null && array.length != 0) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int key : array) {
+                if (map.containsKey(key)) {
+                    return key;
+                }
+                map.put(key, 1);
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

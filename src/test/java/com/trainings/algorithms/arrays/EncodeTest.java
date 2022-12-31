@@ -1,34 +1,33 @@
 package com.trainings.algorithms.arrays;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+public class EncodeTest {
+
+    @Test
+    public void testHappyDay() {
+        Assert.assertEquals("3A4B4C8D", new Encode().execute("AAABBBBCCCCDDDDDDDD"));
+    }
+
+    @Test
+    public void testEmptyString() {
+        Assert.assertEquals("", new Encode().execute(""));
+    }
 
 
-class EncodeTest {
+    @Test
+    public void testWithJustOneCharacter() {
+        Assert.assertEquals("1A", new Encode().execute("A"));
+    }
 
-	@Test
-	void testHappyDay() {
-		Assert.assertEquals("3A4B4C8D", new Encode().execute("AAABBBBCCCCDDDDDDDD"));
-	}
-	
-	@Test
-	void testEmptyString() {
-		Assert.assertEquals("", new Encode().execute(""));
-	}
+    @Test
+    public void testWithOneTypeCharacterManyTimes() {
+        Assert.assertEquals("8A", new Encode().execute("AAAAAAAA"));
+    }
 
-	
-	@Test
-	void testWithJustOneCharacter() {
-		Assert.assertEquals("1A", new Encode().execute("A"));
-	}
-	
-	@Test
-	void testWithOneTypeCharacterManyTimes() {
-		Assert.assertEquals("8A", new Encode().execute("AAAAAAAA"));
-	}
-	
-	@Test
-	void testWithNullString() {
-		Assert.assertEquals("", new Encode().execute(null));
-	}
+    @Test
+    public void testWithNullString() {
+        Assert.assertEquals("", new Encode().execute(null));
+    }
 }

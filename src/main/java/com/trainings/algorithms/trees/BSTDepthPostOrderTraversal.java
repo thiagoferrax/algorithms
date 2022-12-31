@@ -11,67 +11,67 @@ import java.util.List;
  */
 public class BSTDepthPostOrderTraversal {
 
-	class NodeDecorator {
-		private Node node;
+    public Integer[] traversal(Node root) {
+        List<Integer> data = new ArrayList<>();
+        Deque<NodeDecorator> stack = new ArrayDeque<>();
 
-		private boolean visited;
+        stack.push(new NodeDecorator(root));
+        while (!stack.isEmpty()) {
+            NodeDecorator node = stack.peek();
 
-		public NodeDecorator(Node node) {
-			this.node = node;
-		}
+            if (node.isVisited() || (node.getLeft() == null && node.getRight() == null)) {
+                NodeDecorator element = stack.pop();
+                data.add(element.getData());
+            } else {
+                if (node.getRight() != null) {
+                    stack.push(node.getRight());
+                }
 
-		public boolean isVisited() {
-			return this.visited;
-		}
+                if (node.getLeft() != null) {
+                    stack.push(node.getLeft());
+                }
 
-		public void setVisited(boolean visited) {
-			this.visited = visited;
-		}
+                node.setVisited(true);
+            }
 
-		public NodeDecorator getLeft() {
-			return node.left != null ? new NodeDecorator(node.left) : null;
-		}
+        }
 
-		public NodeDecorator getRight() {
-			return node.right != null ? new NodeDecorator(node.right) : null;
-		}
+        return data.stream().toArray(Integer[]::new);
+    }
 
-		public Integer getData() {
-			return node.data;
-		}
+    class NodeDecorator {
+        private final Node node;
 
-		@Override
-		public String toString() {
-			return "NodeDecorator [node=" + node.data + ", visited=" + visited + "]";
-		}
-	}
+        private boolean visited;
 
-	public Integer[] traversal(Node root) {
-		List<Integer> data = new ArrayList<>();
-		Deque<NodeDecorator> stack = new ArrayDeque<>();
+        public NodeDecorator(Node node) {
+            this.node = node;
+        }
 
-		stack.push(new NodeDecorator(root));
-		while (!stack.isEmpty()) {
-			NodeDecorator node = stack.peek();
+        public boolean isVisited() {
+            return this.visited;
+        }
 
-			if (node.isVisited() || (node.getLeft() == null && node.getRight() == null)) {
-				NodeDecorator element = stack.pop();
-				data.add(element.getData());
-			} else {
-				if (node.getRight() != null) {
-					stack.push(node.getRight());
-				}
+        public void setVisited(boolean visited) {
+            this.visited = visited;
+        }
 
-				if (node.getLeft() != null) {
-					stack.push(node.getLeft());
-				}
+        public NodeDecorator getLeft() {
+            return node.left != null ? new NodeDecorator(node.left) : null;
+        }
 
-				node.setVisited(true);
-			}
+        public NodeDecorator getRight() {
+            return node.right != null ? new NodeDecorator(node.right) : null;
+        }
 
-		}
+        public Integer getData() {
+            return node.data;
+        }
 
-		return data.stream().toArray(Integer[]::new);
-	}
+        @Override
+        public String toString() {
+            return "NodeDecorator [node=" + node.data + ", visited=" + visited + "]";
+        }
+    }
 
 }

@@ -8,48 +8,48 @@ import java.util.Arrays;
  */
 public class EquiLeader {
 
-	// Detected time complexity: O(N ** 2)
-	public int solution(int[] A) {
+    // Detected time complexity: O(N ** 2)
+    public int solution(int[] A) {
 
-		int N = A.length;
+        int N = A.length;
 
-		int leaders = 0;
-		for (int n = 0; n < N - 1; n++) {
-			Integer leftLeader = getLeader(A, 0, n);
-			Integer rightLeader = getLeader(A, n + 1, N - 1);
+        int leaders = 0;
+        for (int n = 0; n < N - 1; n++) {
+            Integer leftLeader = getLeader(A, 0, n);
+            Integer rightLeader = getLeader(A, n + 1, N - 1);
 
-			if (leftLeader != null && leftLeader.equals(rightLeader)) {
-				leaders++;
-			}
-		}
+            if (leftLeader != null && leftLeader.equals(rightLeader)) {
+                leaders++;
+            }
+        }
 
-		return leaders;
-	}
+        return leaders;
+    }
 
-	private Integer getLeader(int[] A, int start, int end) {
-		int N = end - start + 1;
+    private Integer getLeader(int[] A, int start, int end) {
+        int N = end - start + 1;
 
-		if (N == 1) {
-			return A[start];
-		} else if (N == 2) {
-			return A[start] == A[end] ? A[start] : null;
-		}
+        if (N == 1) {
+            return A[start];
+        } else if (N == 2) {
+            return A[start] == A[end] ? A[start] : null;
+        }
 
-		int[] newA = new int[N];
-		for (int n = start, m = 0; n <= end; n++, m++) {
-			newA[m] = A[n];
-		}
+        int[] newA = new int[N];
+        for (int n = start, m = 0; n <= end; n++, m++) {
+            newA[m] = A[n];
+        }
 
-		Arrays.sort(newA);
+        Arrays.sort(newA);
 
-		int toAdd = N % 2 == 0 ? 0 : 1;
-		int half = N / 2;
-		for (int n = 0; n < half + toAdd; n++) {
-			if (newA[n] == newA[n + half]) {
-				return newA[n];
-			}
-		}
+        int toAdd = N % 2 == 0 ? 0 : 1;
+        int half = N / 2;
+        for (int n = 0; n < half + toAdd; n++) {
+            if (newA[n] == newA[n + half]) {
+                return newA[n];
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

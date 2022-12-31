@@ -9,33 +9,33 @@ import java.util.NoSuchElementException;
  */
 public class MyStackWithLinkedList<T> {
 
-	LinkedList<T> linkedList;
+    LinkedList<T> linkedList;
 
-	public MyStackWithLinkedList() {
-		this.linkedList = new LinkedList<>();
-	}
+    public MyStackWithLinkedList() {
+        this.linkedList = new LinkedList<>();
+    }
 
-	public void push(T value) {
-		this.linkedList.add(value);
-	}
+    public void push(T value) {
+        this.linkedList.add(value);
+    }
 
-	public int length() {
-		return linkedList.size();
-	}
+    public int length() {
+        return linkedList.size();
+    }
 
-	public T pop() {
-		T removed;
-		try {
-			removed = linkedList.removeLast();
-		} catch (NoSuchElementException e) {
-			removed = null;
-		}
+    public T pop() {
+        T removed;
+        try {
+            removed = linkedList.removeLast();
+        } catch (NoSuchElementException e) {
+            removed = null;
+        }
 
-		return removed;
-	}
+        return removed;
+    }
 
-	public T peek() {
-		return linkedList.getLast();
-	}
+    public T peek() {
+        return linkedList.getLast();
+    }
 
 }

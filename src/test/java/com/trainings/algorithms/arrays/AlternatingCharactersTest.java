@@ -1,14 +1,13 @@
 package com.trainings.algorithms.arrays;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
+public class AlternatingCharactersTest {
 
-class AlternatingCharactersTest {
-
-	@Test
-	void testHappyDay() {
-		Assert.assertEquals(4, AlternatingCharacters.alternatingCharacters("AAABABBABBAB"));
-	}
+    @Test
+    public void testHappyDay() {
+        Assert.assertEquals(4, AlternatingCharacters.alternatingCharacters("AAABABBABBAB"));
+    }
 
 }

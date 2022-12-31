@@ -1,34 +1,34 @@
 package com.trainings.algorithms.stacksandqueues;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
 
-class ArrangeTheBracketsTest {
+public class ArrangeTheBracketsTest {
 
-	@Test
-	void testHappyDay() {
-		assertEquals(true, ArrangeTheBrackets.isValid("{[><(])((}))"));
-	}
+    @Test
+    public void testHappyDay() {
+        assertTrue(ArrangeTheBrackets.isValid("{[><(])((}))"));
+    }
 
-	@Test
-	void testEdgeCaseTest() {
-		assertEquals(false, ArrangeTheBrackets.isValid("{[><(])((}))]"));
-	}
+    @Test
+    public void testEdgeCaseTest() {
+        assertFalse(ArrangeTheBrackets.isValid("{[><(])((}))]"));
+    }
 
-	@Test
-	void testEvenListShouldBeInvalid() {
-		assertEquals(false, ArrangeTheBrackets.isValid("{[><(])((}))])"));
-	}
+    @Test
+    public void testEvenListShouldBeInvalid() {
+        assertFalse(ArrangeTheBrackets.isValid("{[><(])((}))])"));
+    }
 
-	@Test
-	void testAnotherHappyDay() {
-		assertEquals(true, ArrangeTheBrackets.isValid("{[><(])((})))("));
-	}
+    @Test
+    public void testAnotherHappyDay() {
+        assertTrue(ArrangeTheBrackets.isValid("{[><(])((})))("));
+    }
 
-	@Test
-	void testOrderHappyDay() {
-		assertEquals("(({([<>])}))", ArrangeTheBrackets.order("{[><(])((}))"));
-	}
+    @Test
+    public void testOrderHappyDay() {
+        assertEquals("(({([<>])}))", ArrangeTheBrackets.order("{[><(])((}))"));
+    }
 
 }

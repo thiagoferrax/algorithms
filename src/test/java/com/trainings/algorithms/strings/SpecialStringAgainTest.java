@@ -1,55 +1,55 @@
 package com.trainings.algorithms.strings;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 
-class SpecialStringAgainTest {
+public class SpecialStringAgainTest {
 
-	@Test
-	void testAA() {
-		Assert.assertEquals(3, SpecialStringAgain.substrCount(2, "AA"));
-	}
+    @Test
+    public void testAA() {
+        Assert.assertEquals(3, SpecialStringAgain.substrCount(2, "AA"));
+    }
 
-	@Test
-	void testABA() {
-		Assert.assertEquals(4, SpecialStringAgain.substrCount(3, "ABA"));
-	}
-	
-	@Test
-	void testasasd() {
-		Assert.assertEquals(7, SpecialStringAgain.substrCount(5, "asasd"));
-	}
-	
-	@Test
-	void testaaaa() {
-		Assert.assertEquals(10, SpecialStringAgain.substrCount(4, "aaaa"));
-	}
-	
-	/*
-	 * @Test void testaaaa2ndSolution() { Assert.assertEquals(10,
-	 * SpecialStringAgain.substrCount2ndSolution(4, "aaaa")); }
-	 */
-	
-	@Test
-	void testisEspecial_aaaa() {
-		Assert.assertEquals(true, SpecialStringAgain.isSpecial("aaaa"));
-	}
-	
-	@Test
-	void testisEspecial_aabaa() {
-		Assert.assertEquals(true, SpecialStringAgain.isSpecial("aabaa"));
-	}
-	
-	@Test
-	void testisEspecial_bbabb() {
-		Assert.assertEquals(true, SpecialStringAgain.isSpecial("bbabb"));
-	}
-	
-	@Test
-	void testisEspecial_cbbabbc() {
-		Assert.assertEquals(false, SpecialStringAgain.isSpecial("cbbabbc"));
-	}
-	
+    @Test
+    public void testABA() {
+        Assert.assertEquals(4, SpecialStringAgain.substrCount(3, "ABA"));
+    }
+
+    @Test
+    public void testasasd() {
+        Assert.assertEquals(7, SpecialStringAgain.substrCount(5, "asasd"));
+    }
+
+    @Test
+    public void testaaaa() {
+        Assert.assertEquals(10, SpecialStringAgain.substrCount(4, "aaaa"));
+    }
+
+    /*
+     * @Test public void testaaaa2ndSolution() { Assert.assertEquals(10,
+     * SpecialStringAgain.substrCount2ndSolution(4, "aaaa")); }
+     */
+
+    @Test
+    public void testisEspecial_aaaa() {
+        Assert.assertTrue(SpecialStringAgain.isSpecial("aaaa"));
+    }
+
+    @Test
+    public void testisEspecial_aabaa() {
+        Assert.assertTrue(SpecialStringAgain.isSpecial("aabaa"));
+    }
+
+    @Test
+    public void testisEspecial_bbabb() {
+        Assert.assertTrue(SpecialStringAgain.isSpecial("bbabb"));
+    }
+
+    @Test
+    public void testisEspecial_cbbabbc() {
+        Assert.assertFalse(SpecialStringAgain.isSpecial("cbbabbc"));
+    }
+
 
 }

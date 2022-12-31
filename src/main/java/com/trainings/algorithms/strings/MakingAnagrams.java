@@ -10,73 +10,72 @@ import java.util.Scanner;
 /**
  * MakingAnagrams - return an integer representing the minimum total characters
  * that must be deleted to make the strings anagrams.
- * 
+ * <p>
  * https://www.hackerrank.com/challenges/ctci-making-anagrams/
- * 
- * @author thiago
  *
+ * @author thiago
  */
 public class MakingAnagrams {
 
-	// Complete the makeAnagram function below.
-	static int makeAnagram(String a, String b) {
+    private static final Scanner scanner = new Scanner(System.in);
 
-		char[] charsA = a.toCharArray();
-		char[] charsB = b.toCharArray();
+    // Complete the makeAnagram function below.
+    static int makeAnagram(String a, String b) {
 
-		Map<Character, Integer> mapA = getCharQuantityMap(charsA);
-		Map<Character, Integer> mapB = getCharQuantityMap(charsB);
+        char[] charsA = a.toCharArray();
+        char[] charsB = b.toCharArray();
 
-		int minRemovals = 0;
-		
-		for (char charA : mapA.keySet()) {
-			Integer quantityA = mapA.get(charA);
-			if (mapB.containsKey(charA)) {
-				minRemovals += Math.abs(quantityA - mapB.get(charA));
-			} else {
-				minRemovals += quantityA;
-			}
-		}
+        Map<Character, Integer> mapA = getCharQuantityMap(charsA);
+        Map<Character, Integer> mapB = getCharQuantityMap(charsB);
 
-		for (char charB : mapB.keySet()) {
-			if (!mapA.containsKey(charB)) {
-				minRemovals += mapB.get(charB);
-			}
-		}
-		
-		return minRemovals;
-	}
+        int minRemovals = 0;
 
-	private static Map<Character, Integer> getCharQuantityMap(char[] charsA) {
-		Map<Character, Integer> mapA = new Hashtable<>();
-		for (int i = 0; i < charsA.length; i++) {
-			Integer quantity = mapA.get(charsA[i]);
-			if (quantity == null) {
-				quantity = 0;
-				mapA.put(charsA[i], quantity);
-			}
+        for (char charA : mapA.keySet()) {
+            Integer quantityA = mapA.get(charA);
+            if (mapB.containsKey(charA)) {
+                minRemovals += Math.abs(quantityA - mapB.get(charA));
+            } else {
+                minRemovals += quantityA;
+            }
+        }
 
-			mapA.put(charsA[i], ++quantity);
-		}
-		return mapA;
-	}
+        for (char charB : mapB.keySet()) {
+            if (!mapA.containsKey(charB)) {
+                minRemovals += mapB.get(charB);
+            }
+        }
 
-	private static final Scanner scanner = new Scanner(System.in);
+        return minRemovals;
+    }
 
-	public static void main(String[] args) throws IOException {
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+    private static Map<Character, Integer> getCharQuantityMap(char[] charsA) {
+        Map<Character, Integer> mapA = new Hashtable<>();
+        for (int i = 0; i < charsA.length; i++) {
+            Integer quantity = mapA.get(charsA[i]);
+            if (quantity == null) {
+                quantity = 0;
+                mapA.put(charsA[i], quantity);
+            }
 
-		String a = scanner.nextLine();
+            mapA.put(charsA[i], ++quantity);
+        }
+        return mapA;
+    }
 
-		String b = scanner.nextLine();
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-		int res = makeAnagram(a, b);
+        String a = scanner.nextLine();
 
-		bufferedWriter.write(String.valueOf(res));
-		bufferedWriter.newLine();
+        String b = scanner.nextLine();
 
-		bufferedWriter.close();
+        int res = makeAnagram(a, b);
 
-		scanner.close();
-	}
+        bufferedWriter.write(String.valueOf(res));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
 }

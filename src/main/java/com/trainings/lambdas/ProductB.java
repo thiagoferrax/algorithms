@@ -1,26 +1,26 @@
 package com.trainings.lambdas;
 
 public class ProductB {
-	private String name;
-	private Double price;
-	private Double discount;
+    private final String name;
+    private final Double price;
+    private final Double discount;
 
-	public ProductB(String name, Double price, Double discount) {
-		super();
-		this.name = name;
-		this.price = price;
-		this.discount = discount;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public Double getPrice() {
-		return price;
-	}
-	
-	public Double getDiscount() {
-		return discount;
-	}
+    public ProductB(String name, Double price, Double discount) {
+        super();
+        this.name = name;
+        this.price = price;
+        this.discount = discount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
 }

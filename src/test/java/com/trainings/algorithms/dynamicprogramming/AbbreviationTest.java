@@ -1,21 +1,21 @@
 package com.trainings.algorithms.dynamicprogramming;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
 
-class AbbreviationTest {
+public class AbbreviationTest {
 
-	@Test
-	void testHappyDay() {
-		assertEquals("YES", Abbreviation.abbreviation("AbcDE", "ABDE"));
-	}
-	
+    @Test
+    public void testHappyDay() {
+        assertEquals("YES", Abbreviation.abbreviation("AbcDE", "ABDE"));
+    }
 
-	@Test
-	void test_beFgH_EFG() {
-		assertEquals("NO", Abbreviation.abbreviation("beFgH", "EFG"));
-	}
+
+    @Test
+    public void test_beFgH_EFG() {
+        assertEquals("NO", Abbreviation.abbreviation("beFgH", "EFG"));
+    }
 
 
 }

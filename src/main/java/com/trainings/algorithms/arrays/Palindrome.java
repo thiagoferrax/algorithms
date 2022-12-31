@@ -7,18 +7,18 @@ package com.trainings.algorithms.arrays;
  */
 public class Palindrome {
 
-	public boolean isPalindrome(String word) {
+    public boolean isPalindrome(String word) {
 
-		String lowerCaseWord = word.toLowerCase();
+        String lowerCaseWord = word.toLowerCase();
 
-		int half = (word.length() / 2) + (word.length() % 2 == 0 ? 0 : 1);
-		for (int i = 0; i <= half; i++) {
-			if (lowerCaseWord.charAt(i) != lowerCaseWord.charAt(word.length() - 1 - i)) {
-				return false;
-			}
-		}
+        int half = (word.length() / 2) + (word.length() % 2 == 0 ? 0 : 1);
+        for (int i = 0; i <= half; i++) {
+            if (lowerCaseWord.charAt(i) != lowerCaseWord.charAt(word.length() - 1 - i)) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

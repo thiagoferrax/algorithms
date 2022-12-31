@@ -1,165 +1,160 @@
 package com.trainings.algorithms.sorting;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 
 // https://leetcode.com/problems/merge-k-sorted-lists/	
 public class MergeKSortedLists {
 
-	public class ListNode {
-		int val;
-		ListNode next;
+    public ListNode mergeKLists(ListNode[] lists) {
+        final List<Integer> values = new ArrayList<>();
+        for (ListNode node : lists) {
+            while (node != null) {
+                values.add(node.val);
+                node = node.next;
+            }
+        }
 
-		ListNode() {
-		}
+        values.sort((a, b) -> b - a);
 
-		ListNode(int val) {
-			this.val = val;
-		}
+        ListNode next = null;
+        ListNode node = null;
 
-		ListNode(int val, ListNode next) {
-			this.val = val;
-			this.next = next;
-		}
+        Iterator<Integer> iterator = values.iterator();
+        while (iterator.hasNext()) {
+            Integer value = iterator.next();
+            node = new ListNode(value);
 
-		@Override
-		public String toString() {
-			return "ListNode [val=" + val + ", next=" + next + "]";
-		}
+            node.next = next;
+            next = node;
+        }
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getEnclosingInstance().hashCode();
-			result = prime * result + Objects.hash(next, val);
-			return result;
-		}
+        return node;
+    }
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ListNode other = (ListNode) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
-			return Objects.equals(next, other.next) && val == other.val;
-		}
+    public ListNode mergeKLists2ndSolution(ListNode[] lists) {
 
-		private MergeKSortedLists getEnclosingInstance() {
-			return MergeKSortedLists.this;
-		}
+        TreeMap<Integer, ListNode> sortedMap = Arrays.stream(lists).reduce(
+                new TreeMap<Integer, ListNode>((a, b) -> b - a), (map, b) -> buildMap(map, b),
+                (map, updatedMap) -> updatedMap);
 
-	}
+        ListNode next = null;
+        ListNode node = null;
 
-	public ListNode mergeKLists(ListNode[] lists) {
-		final List<Integer> values = new ArrayList<>();
-		for (ListNode node : lists) {
-			while (node != null) {
-				values.add(node.val);
-				node = node.next;
-			}
-		}
+        Iterator<ListNode> iterator = sortedMap.values().iterator();
+        while (iterator.hasNext()) {
+            node = iterator.next();
 
-		values.sort((a, b) -> b - a);
+            ListNode current = node;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = next;
+            next = node;
+        }
 
-		ListNode next = null;
-		ListNode node = null;
-		
-		Iterator<Integer> iterator = values.iterator();
-		while(iterator.hasNext()) {
-			Integer value = iterator.next();
-			node = new ListNode(value);
-			
-			node.next = next;
-			next = node;
-		}
-		
-		return node;
-	}
+        return node;
+    }
 
-	public ListNode mergeKLists2ndSolution(ListNode[] lists) {
+    public TreeMap<Integer, ListNode> buildMap(TreeMap<Integer, ListNode> map, ListNode node) {
+        if (node != null) {
+            ListNode listNode = map.get(node.val);
 
-		TreeMap<Integer, ListNode> sortedMap = Arrays.stream(lists).reduce(
-				new TreeMap<Integer, ListNode>((a, b) -> b - a), (map, b) -> buildMap(map, b),
-				(map, updatedMap) -> updatedMap);
+            if (listNode == null) {
+                map.put(node.val, new ListNode(node.val, null));
+            } else {
+                ListNode current = listNode;
+                while (current.next != null) {
+                    current = current.next;
+                }
+                current.next = new ListNode(node.val, null);
+            }
+            buildMap(map, node.next);
+        }
 
-		ListNode next = null;
-		ListNode node = null;
+        return map;
+    }
 
-		Iterator<ListNode> iterator = sortedMap.values().iterator();
-		while (iterator.hasNext()) {
-			node = iterator.next();
+    public ListNode mergeKLists1stSolution(ListNode[] lists) {
 
-			ListNode current = node;
-			while (current.next != null) {
-				current = current.next;
-			}
-			current.next = next;
-			next = node;
-		}
+        List<ListNode> asList = new ArrayList<ListNode>(Arrays.asList(lists));
 
-		return node;
-	}
+        ListNode head = null;
+        ListNode headNext = null;
+        ListNode minLN = null;
 
-	public TreeMap<Integer, ListNode> buildMap(TreeMap<Integer, ListNode> map, ListNode node) {
-		if (node != null) {
-			ListNode listNode = map.get(node.val);
+        while (!asList.isEmpty()) {
 
-			if (listNode == null) {
-				map.put(node.val, new ListNode(node.val, null));
-			} else {
-				ListNode current = listNode;
-				while (current.next != null) {
-					current = current.next;
-				}
-				current.next = new ListNode(node.val, null);
-			}
-			buildMap(map, node.next);
-		}
+            ListNode min = asList.stream().filter(l -> l != null).min((a, b) -> a.val - b.val).get();
 
-		return map;
-	}
+            if (min != null) {
+                minLN = new ListNode(min.val, null);
 
-	public ListNode mergeKLists1stSolution(ListNode[] lists) {
+                if (head == null) {
+                    head = minLN;
+                    headNext = head;
+                } else {
+                    headNext.next = minLN;
+                    headNext = headNext.next;
+                }
+                minLN = null;
+                asList.remove(min);
+                if (min.next != null) {
+                    asList.add(min.next);
+                }
+            }
+        }
 
-		List<ListNode> asList = new ArrayList<ListNode>(Arrays.asList(lists));
+        return head;
+    }
 
-		ListNode head = null;
-		ListNode headNext = null;
-		ListNode minLN = null;
+    public class ListNode {
+        int val;
+        ListNode next;
 
-		while (!asList.isEmpty()) {
+        ListNode() {
+        }
 
-			ListNode min = asList.stream().filter(l -> l != null).min((a, b) -> a.val - b.val).get();
+        ListNode(int val) {
+            this.val = val;
+        }
 
-			if (min != null) {
-				minLN = new ListNode(min.val, null);
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
 
-				if (head == null) {
-					head = minLN;
-					headNext = head;
-				} else {
-					headNext.next = minLN;
-					headNext = headNext.next;
-				}
-				minLN = null;
-				asList.remove(min);
-				if (min.next != null) {
-					asList.add(min.next);
-				}
-			}
-		}
+        @Override
+        public String toString() {
+            return "ListNode [val=" + val + ", next=" + next + "]";
+        }
 
-		return head;
-	}
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + getEnclosingInstance().hashCode();
+            result = prime * result + Objects.hash(next, val);
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            ListNode other = (ListNode) obj;
+            if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+                return false;
+            return Objects.equals(next, other.next) && val == other.val;
+        }
+
+        private MergeKSortedLists getEnclosingInstance() {
+            return MergeKSortedLists.this;
+        }
+
+    }
 
 }

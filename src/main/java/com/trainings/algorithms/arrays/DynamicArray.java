@@ -10,38 +10,38 @@ import java.util.List;
  */
 class DynamicArray {
 
-	public static List<Integer> dynamicArray(int n, List<List<Integer>> queries) {
-		// Write your code here
-		List<List<Integer>> seqList = new ArrayList<List<Integer>>();
-		for (int i = 0; i < n; i++) {
-			seqList.add(new ArrayList<Integer>());
-		}
+    public static List<Integer> dynamicArray(int n, List<List<Integer>> queries) {
+        // Write your code here
+        List<List<Integer>> seqList = new ArrayList<List<Integer>>();
+        for (int i = 0; i < n; i++) {
+            seqList.add(new ArrayList<Integer>());
+        }
 
-		int lastAnswer = 0;
+        int lastAnswer = 0;
 
-		List<Integer> aSolution = new ArrayList<Integer>();
-		for (List<Integer> query : queries) {
-			int type = query.get(0);
-			int x = query.get(1);
-			int y = query.get(2);
+        List<Integer> aSolution = new ArrayList<Integer>();
+        for (List<Integer> query : queries) {
+            int type = query.get(0);
+            int x = query.get(1);
+            int y = query.get(2);
 
-			int seq = (x ^ lastAnswer) % n;
-			List<Integer> sequence = seqList.get(seq);
+            int seq = (x ^ lastAnswer) % n;
+            List<Integer> sequence = seqList.get(seq);
 
-			if (type == 1) {
-				sequence.add(y);
-			} else {
-				int size = sequence.size();
-				if (y % size < size) {
-					lastAnswer = sequence.get(y % size);
-				}
-				aSolution.add(lastAnswer);
-			}
+            if (type == 1) {
+                sequence.add(y);
+            } else {
+                int size = sequence.size();
+                if (y % size < size) {
+                    lastAnswer = sequence.get(y % size);
+                }
+                aSolution.add(lastAnswer);
+            }
 
-		}
+        }
 
-		return aSolution;
+        return aSolution;
 
-	}
+    }
 
 }

@@ -10,60 +10,60 @@ import java.util.Scanner;
  * https://www.hackerrank.com/challenges/ctci-array-left-rotation/problem
  */
 public class LeftRotation {
-	static int[] rotLeft(int[] a, int d) {
-		int N = a.length;
-		
-		if(N == 1) {
-			return a;
-		}
+    private static final Scanner scanner = new Scanner(System.in);
 
-		d = d > N ? d % N : d;
+    static int[] rotLeft(int[] a, int d) {
+        int N = a.length;
 
-		int[] aSolution = new int[N];
-		for (int n = N - 1; n >= 0; n--) {
-			int p = (n + d) % N;
-			aSolution[n] = a[p];
-		}
+        if (N == 1) {
+            return a;
+        }
 
-		return aSolution;
+        d = d > N ? d % N : d;
 
-	}
+        int[] aSolution = new int[N];
+        for (int n = N - 1; n >= 0; n--) {
+            int p = (n + d) % N;
+            aSolution[n] = a[p];
+        }
 
-	private static final Scanner scanner = new Scanner(System.in);
+        return aSolution;
 
-	public static void main(String[] args) throws IOException {
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+    }
 
-		String[] nd = scanner.nextLine().split(" ");
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-		int n = Integer.parseInt(nd[0]);
+        String[] nd = scanner.nextLine().split(" ");
 
-		int d = Integer.parseInt(nd[1]);
+        int n = Integer.parseInt(nd[0]);
 
-		int[] a = new int[n];
+        int d = Integer.parseInt(nd[1]);
 
-		String[] aItems = scanner.nextLine().split(" ");
-		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        int[] a = new int[n];
 
-		for (int i = 0; i < n; i++) {
-			int aItem = Integer.parseInt(aItems[i]);
-			a[i] = aItem;
-		}
+        String[] aItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-		int[] result = rotLeft(a, d);
+        for (int i = 0; i < n; i++) {
+            int aItem = Integer.parseInt(aItems[i]);
+            a[i] = aItem;
+        }
 
-		for (int i = 0; i < result.length; i++) {
-			bufferedWriter.write(String.valueOf(result[i]));
+        int[] result = rotLeft(a, d);
 
-			if (i != result.length - 1) {
-				bufferedWriter.write(" ");
-			}
-		}
+        for (int i = 0; i < result.length; i++) {
+            bufferedWriter.write(String.valueOf(result[i]));
 
-		bufferedWriter.newLine();
+            if (i != result.length - 1) {
+                bufferedWriter.write(" ");
+            }
+        }
 
-		bufferedWriter.close();
+        bufferedWriter.newLine();
 
-		scanner.close();
-	}
+        bufferedWriter.close();
+
+        scanner.close();
+    }
 }

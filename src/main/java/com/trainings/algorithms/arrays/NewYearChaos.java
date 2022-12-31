@@ -9,76 +9,75 @@ import java.util.Scanner;
  * https://www.hackerrank.com/challenges/new-year-chaos/problem
  */
 public class NewYearChaos {
-	private static final int MAX_BRIDES_PER_PERSON = 2;
+    private static final int MAX_BRIDES_PER_PERSON = 2;
+    private static final Scanner scanner = new Scanner(System.in);
 
-	static void minimumBribes(int[] q) {
-		int N = q.length;
+    static void minimumBribes(int[] q) {
+        int N = q.length;
 
-		int[] bribesCounts = new int[N];
+        int[] bribesCounts = new int[N];
 
-		boolean tooChaotice = false, initialState = false;
-		int b = 0, bribes = 0, noBribes = 0;
-		while (!tooChaotice && !initialState) {
-			if (b >= N - 1) {
-				b = 0;
-				noBribes = 0;
-			}
+        boolean tooChaotice = false, initialState = false;
+        int b = 0, bribes = 0, noBribes = 0;
+        while (!tooChaotice && !initialState) {
+            if (b >= N - 1) {
+                b = 0;
+                noBribes = 0;
+            }
 
-			if (q[b] > q[b + 1]) {
-				reverseBribe(q, b);
-				bribes++;
+            if (q[b] > q[b + 1]) {
+                reverseBribe(q, b);
+                bribes++;
 
-				reverseBribe(bribesCounts, b);
+                reverseBribe(bribesCounts, b);
 
-				bribesCounts[b + 1]++;
-				if (bribesCounts[b + 1] > MAX_BRIDES_PER_PERSON) {
-					tooChaotice = true;
-					break;
-				}
+                bribesCounts[b + 1]++;
+                if (bribesCounts[b + 1] > MAX_BRIDES_PER_PERSON) {
+                    tooChaotice = true;
+                    break;
+                }
 
-				b++;
-			} else {
-				noBribes++;
-				b++;
+                b++;
+            } else {
+                noBribes++;
+                b++;
 
-				if (noBribes == N - 1) {
-					initialState = true;
-				}
-			}
-		}
+                if (noBribes == N - 1) {
+                    initialState = true;
+                }
+            }
+        }
 
-		System.out.println(tooChaotice ? "Too chaotic" : bribes);
-	}
+        System.out.println(tooChaotice ? "Too chaotic" : bribes);
+    }
 
-	private static void reverseBribe(int[] q, int b) {
-		int temp = q[b + 1];
-		q[b + 1] = q[b];
-		q[b] = temp;
-	}
+    private static void reverseBribe(int[] q, int b) {
+        int temp = q[b + 1];
+        q[b + 1] = q[b];
+        q[b] = temp;
+    }
 
-	private static final Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) {
+        int t = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-	public static void main(String[] args) {
-		int t = scanner.nextInt();
-		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        for (int tItr = 0; tItr < t; tItr++) {
+            int n = scanner.nextInt();
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-		for (int tItr = 0; tItr < t; tItr++) {
-			int n = scanner.nextInt();
-			scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+            int[] q = new int[n];
 
-			int[] q = new int[n];
+            String[] qItems = scanner.nextLine().split(" ");
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-			String[] qItems = scanner.nextLine().split(" ");
-			scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+            for (int i = 0; i < n; i++) {
+                int qItem = Integer.parseInt(qItems[i]);
+                q[i] = qItem;
+            }
 
-			for (int i = 0; i < n; i++) {
-				int qItem = Integer.parseInt(qItems[i]);
-				q[i] = qItem;
-			}
+            minimumBribes(q);
+        }
 
-			minimumBribes(q);
-		}
-
-		scanner.close();
-	}
+        scanner.close();
+    }
 }

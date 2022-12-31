@@ -10,68 +10,68 @@ import java.util.Scanner;
  */
 public class RunningTimeAndComplexity {
 
-	enum Type {
-		PRIME("Prime"), NOT_PRIME("Not prime");
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-		private String description;
+        int quantity = scanner.nextInt();
 
-		Type(String description) {
-			this.description = description;
-		}
-	}
+        int[] numbers = new int[quantity];
+        for (int n = 0; n < quantity; n++) {
+            numbers[n] = scanner.nextInt();
+        }
 
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
+        String[] types = isPrime(numbers);
 
-		int quantity = scanner.nextInt();
+        System.out.println(String.join(System.lineSeparator(), types));
 
-		int numbers[] = new int[quantity];
-		for (int n = 0; n < quantity; n++) {
-			numbers[n] = scanner.nextInt();
-		}
+        scanner.close();
 
-		String[] types = isPrime(numbers);
+    }
 
-		System.out.println(String.join(System.lineSeparator(), types));
+    public static String[] isPrime(int[] numbers) {
 
-		scanner.close();
+        Map<Integer, Type> chache = new HashMap<>();
+        chache.put(2, Type.PRIME);
 
-	}
+        String[] types = new String[numbers.length];
 
-	public static String[] isPrime(int[] numbers) {
+        for (int n = 0; n < numbers.length; n++) {
+            types[n] = getType(numbers[n], chache).description;
+        }
 
-		Map<Integer, Type> chache = new HashMap<>();
-		chache.put(2, Type.PRIME);
+        return types;
+    }
 
-		String[] types = new String[numbers.length];
+    private static Type getType(int number, Map<Integer, Type> cache) {
+        if (number <= 1) {
+            return Type.NOT_PRIME;
+        }
 
-		for (int n = 0; n < numbers.length; n++) {
-			types[n] = getType(numbers[n], chache).description;
-		}
+        if (cache.containsKey(number)) {
+            return cache.get(number);
+        }
 
-		return types;
-	}
+        for (int n = 2; n < number; n++) {
+            if (number % n == 0) {
+                cache.put(number, Type.NOT_PRIME);
+                return Type.NOT_PRIME;
+            } else if ((number / n) < n) {
+                cache.put(number, Type.PRIME);
+                return Type.PRIME;
+            }
+        }
 
-	private static Type getType(int number, Map<Integer, Type> cache) {
-		if (number <= 1) {
-			return Type.NOT_PRIME;
-		}
+        cache.put(number, Type.PRIME);
+        return Type.PRIME;
+    }
 
-		if (cache.containsKey(number)) {
-			return cache.get(number);
-		}
+    enum Type {
+        PRIME("Prime"), NOT_PRIME("Not prime");
 
-		for (int n = 2; n < number; n++) {
-			if (number % n == 0) {
-				cache.put(number, Type.NOT_PRIME);
-				return Type.NOT_PRIME;
-			} else if ((number / n) < n) {
-				cache.put(number, Type.PRIME);
-				return Type.PRIME;
-			}
-		}
+        private final String description;
 
-		cache.put(number, Type.PRIME);
-		return Type.PRIME;
-	}
+        Type(String description) {
+            this.description = description;
+        }
+    }
 }

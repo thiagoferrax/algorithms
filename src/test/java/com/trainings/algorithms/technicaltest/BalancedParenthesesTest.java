@@ -1,19 +1,20 @@
 package com.trainings.algorithms.technicaltest;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class BalancedParenthesesTest {
 
-	@Test
-	void test() {
-		Assert.assertEquals(true, BalancedParentheses.isBalanced("(())()()"));
-		Assert.assertEquals(true, BalancedParentheses.isBalanced(""));
-		Assert.assertEquals(true, BalancedParentheses.isBalanced("(()(())())"));
-		Assert.assertEquals(false, BalancedParentheses.isBalanced("())"));
-		Assert.assertEquals(false, BalancedParentheses.isBalanced("(((("));
-		Assert.assertEquals(false, BalancedParentheses.isBalanced(")()("));
-		Assert.assertEquals(true, BalancedParentheses.isBalanced("()(()((())))"));
-	}
+public class BalancedParenthesesTest {
+
+    @Test
+    public void test() {
+        Assert.assertTrue(BalancedParentheses.isBalanced("(())()()"));
+        Assert.assertTrue(BalancedParentheses.isBalanced(""));
+        Assert.assertTrue(BalancedParentheses.isBalanced("(()(())())"));
+        Assert.assertFalse(BalancedParentheses.isBalanced("())"));
+        Assert.assertFalse(BalancedParentheses.isBalanced("(((("));
+        Assert.assertFalse(BalancedParentheses.isBalanced(")()("));
+        Assert.assertTrue(BalancedParentheses.isBalanced("()(()((())))"));
+    }
 
 }

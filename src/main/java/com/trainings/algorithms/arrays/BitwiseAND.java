@@ -8,39 +8,39 @@ import java.util.Scanner;
  */
 public class BitwiseAND {
 
-	 private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
-	    public static void main(String[] args) {
-	        int t = scanner.nextInt();
-	        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+    public static void main(String[] args) {
+        int t = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-	        for (int tItr = 0; tItr < t; tItr++) {
-	            String[] nk = scanner.nextLine().split(" ");
+        for (int tItr = 0; tItr < t; tItr++) {
+            String[] nk = scanner.nextLine().split(" ");
 
-	            int n = Integer.parseInt(nk[0]);
+            int n = Integer.parseInt(nk[0]);
 
-	            int k = Integer.parseInt(nk[1]);
-	            
-	            System.out.println(getMaximumBitwiseAnd(n, k));
-	            
-	        }
+            int k = Integer.parseInt(nk[1]);
 
-	        scanner.close();
-	    }
+            System.out.println(getMaximumBitwiseAnd(n, k));
 
-		public static int getMaximumBitwiseAnd(int n, int k) {
-			
-			int maximumBitwise = 0;
-			for (int i = 1; i <= n - 1; i++) {
-				for (int j = i + 1; j <= n; j++) {
-					int bitwise = i & j;
-					
-					if(bitwise < k) {
-						maximumBitwise = Math.max(maximumBitwise, bitwise);
-					}
-				}							
-			}			
-			
-			return maximumBitwise;
-		}
-	}
+        }
+
+        scanner.close();
+    }
+
+    public static int getMaximumBitwiseAnd(int n, int k) {
+
+        int maximumBitwise = 0;
+        for (int i = 1; i <= n - 1; i++) {
+            for (int j = i + 1; j <= n; j++) {
+                int bitwise = i & j;
+
+                if (bitwise < k) {
+                    maximumBitwise = Math.max(maximumBitwise, bitwise);
+                }
+            }
+        }
+
+        return maximumBitwise;
+    }
+}

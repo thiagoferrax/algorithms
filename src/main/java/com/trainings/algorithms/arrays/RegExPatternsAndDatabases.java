@@ -10,9 +10,9 @@ import java.util.Scanner;
  * https://www.hackerrank.com/challenges/30-regex-patterns/problem?h_r=next-challenge&h_v=zen
  */
 public class RegExPatternsAndDatabases {
-	private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         int N = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
@@ -24,14 +24,14 @@ public class RegExPatternsAndDatabases {
 
             String emailID = firstNameEmailID[1];
 
-            if(emailID.contains("@gmail.com")) {
-            	firstNames.add(firstName);
+            if (emailID.contains("@gmail.com")) {
+                firstNames.add(firstName);
             }
 
         }
-        
+
         Collections.sort(firstNames);
-        
+
         System.out.println(String.join(System.lineSeparator(), firstNames));
 
         scanner.close();

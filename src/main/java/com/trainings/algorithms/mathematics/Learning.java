@@ -1,134 +1,129 @@
 package com.trainings.algorithms.mathematics;
 
-import java.awt.Color;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.awt.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 
 public class Learning {
-	
-	public static void main(String[] args) {
-		Game game = new Game();
-		game.start();
-		
-	}
+
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.start();
+
+    }
 
 }
 
 class Game {
-	
-	private List<Ball> ballsList = new Vector<>();
 
-	private Set<Ball> balls = new HashSet<>();
-	{
-		Ball ball = new Ball();
-		ball.setPositionX(2);
-		balls.add(ball);
-	}
-	
-	private Map<Color, Ball> colorBallMap = new HashMap<>();
-	
-	public void start() {
-		
-		
-		System.out.println("Starting the game.");
-		
-		System.out.printf("List with size %d.", ballsList.size());
-		
-		
-		Ball ball = new Ball();
-		balls.add(ball);
-		balls.add(ball);
-		balls.add(ball);
-		balls.add(ball);
-		balls.add(ball);
-		balls.add(ball);
-		
-		for (Ball ballX : balls) {
-			colorBallMap.put(ballX.getColor(), ballX);
-		}
-		
-		Set<Color> keySet = colorBallMap.keySet();
-		
-		for (Color color : keySet) {
-			Ball ballY = colorBallMap.get(color);
-			ballY.getColor();
-		}
-		
-		
-		System.out.printf("Different balls with size %d.",balls.size());
-		
-		ball.printBallPosition();
-		
-		ball.bounce();
-		
-		ball.printBallPosition();
-		
-		ball.draw();
-	}
-	
+    private final List<Ball> ballsList = new Vector<>();
+
+    private final Set<Ball> balls = new HashSet<>();
+    private final Map<Color, Ball> colorBallMap = new HashMap<>();
+
+    {
+        Ball ball = new Ball();
+        ball.setPositionX(2);
+        balls.add(ball);
+    }
+
+    public void start() {
+
+
+        System.out.println("Starting the game.");
+
+        System.out.printf("List with size %d.", ballsList.size());
+
+
+        Ball ball = new Ball();
+        balls.add(ball);
+        balls.add(ball);
+        balls.add(ball);
+        balls.add(ball);
+        balls.add(ball);
+        balls.add(ball);
+
+        for (Ball ballX : balls) {
+            colorBallMap.put(ballX.getColor(), ballX);
+        }
+
+        Set<Color> keySet = colorBallMap.keySet();
+
+        for (Color color : keySet) {
+            Ball ballY = colorBallMap.get(color);
+            ballY.getColor();
+        }
+
+
+        System.out.printf("Different balls with size %d.", balls.size());
+
+        ball.printBallPosition();
+
+        ball.bounce();
+
+        ball.printBallPosition();
+
+        ball.draw();
+    }
+
 }
 
 class Ball {
-	private int positionX = 0;
-	private int positionY = 0;
-	private Color color = Color.GREEN;
-	
-	public void bounce() {
-		positionX += 10;
-	}
-	
-	public void printBallPosition() {
-		System.out.printf("Ball position is x %d, y %d \n", positionX, positionY);
-	}
-	
-	public void draw() {
-		System.out.println("o");
-	}
+    private int positionX = 0;
+    private int positionY = 0;
+    private Color color = Color.GREEN;
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(color, positionX, positionY);
-	}
+    public void bounce() {
+        positionX += 10;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Ball other = (Ball) obj;
-		return Objects.equals(color, other.color) && positionX == other.positionX && positionY == other.positionY;
-	}
-	
-	public int getPositionX() {
-		return positionX;
-	}
+    public void printBallPosition() {
+        System.out.printf("Ball position is x %d, y %d \n", positionX, positionY);
+    }
 
-	public void setPositionX(int positionX) {
-		this.positionX = positionX;
-	}
+    public void draw() {
+        System.out.println("o");
+    }
 
-	public int getPositionY() {
-		return positionY;
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, positionX, positionY);
+    }
 
-	public void setPositionY(int positionY) {
-		this.positionY = positionY;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Ball other = (Ball) obj;
+        return Objects.equals(color, other.color) && positionX == other.positionX && positionY == other.positionY;
+    }
 
-	public Color getColor() {
-		return color;
-	}
+    public int getPositionX() {
+        return positionX;
+    }
 
-	public void setColor(Color color) {
-		this.color = color;
-	}
+    public void setPositionX(int positionX) {
+        this.positionX = positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
+    }
+
+    public void setPositionY(int positionY) {
+        this.positionY = positionY;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }
 

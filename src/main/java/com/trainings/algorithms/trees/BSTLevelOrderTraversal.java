@@ -12,67 +12,67 @@ import java.util.Scanner;
  */
 class BSTLevelOrderTraversal {
 
-	static void levelOrder(Node root) {
-		System.out.println(getLevelOrder(root));
-	}
+    static void levelOrder(Node root) {
+        System.out.println(getLevelOrder(root));
+    }
 
-	public static String getLevelOrder(Node root) {
-		if (root == null) {
-			return null;
-		}
+    public static String getLevelOrder(Node root) {
+        if (root == null) {
+            return null;
+        }
 
-		Deque<Node> queue = new ArrayDeque<>();
+        Deque<Node> queue = new ArrayDeque<>();
 
-		queue.push(root);
+        queue.push(root);
 
-		StringBuilder builder = new StringBuilder();
-		
-		while (queue.peek() != null) {
-			Node first = queue.poll();
+        StringBuilder builder = new StringBuilder();
 
-			if (first.left != null) {
-				queue.add(first.left);
-			}
+        while (queue.peek() != null) {
+            Node first = queue.poll();
 
-			if (first.right != null) {
-				queue.add(first.right);
-			}
-			
-			if(builder.length() > 0) {
-				builder.append(" ");
-			}	
-			builder.append(first.data);
-		}
+            if (first.left != null) {
+                queue.add(first.left);
+            }
 
-		return builder.toString();
-	}
+            if (first.right != null) {
+                queue.add(first.right);
+            }
 
-	public static Node insert(Node root, int data) {
-		if (root == null) {
-			return new Node(data);
-		} else {
-			Node cur;
-			if (data <= root.data) {
-				cur = insert(root.left, data);
-				root.left = cur;
-			} else {
-				cur = insert(root.right, data);
-				root.right = cur;
-			}
-			return root;
-		}
-	}
+            if (builder.length() > 0) {
+                builder.append(" ");
+            }
+            builder.append(first.data);
+        }
 
-	public static void main(String args[]) {
-		Scanner sc = new Scanner(System.in);
-		int T = sc.nextInt();
-		Node root = null;
-		while (T-- > 0) {
-			int data = sc.nextInt();
-			root = insert(root, data);
-		}
-		levelOrder(root);
+        return builder.toString();
+    }
 
-		sc.close();
-	}
+    public static Node insert(Node root, int data) {
+        if (root == null) {
+            return new Node(data);
+        } else {
+            Node cur;
+            if (data <= root.data) {
+                cur = insert(root.left, data);
+                root.left = cur;
+            } else {
+                cur = insert(root.right, data);
+                root.right = cur;
+            }
+            return root;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        Node root = null;
+        while (T-- > 0) {
+            int data = sc.nextInt();
+            root = insert(root, data);
+        }
+        levelOrder(root);
+
+        sc.close();
+    }
 }

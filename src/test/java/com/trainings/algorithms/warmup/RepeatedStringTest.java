@@ -1,13 +1,14 @@
 package com.trainings.algorithms.warmup;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class RepeatedStringTest {
 
-	@Test
-	void test() {
-		Assert.assertEquals(7, RepeatedString.repeatedString("aba", 10));
-	}
+public class RepeatedStringTest {
+
+    @Test
+    public void test() {
+        Assert.assertEquals(7, RepeatedString.repeatedString("aba", 10));
+    }
 
 }

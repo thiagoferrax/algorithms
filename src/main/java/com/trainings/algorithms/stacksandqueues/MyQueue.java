@@ -8,33 +8,33 @@ import java.util.NoSuchElementException;
  */
 public class MyQueue<T> {
 
-	private LinkedList<T> data;
+    private final LinkedList<T> data;
 
-	public MyQueue() {
-		data = new LinkedList<T>();
-	}
+    public MyQueue() {
+        data = new LinkedList<T>();
+    }
 
-	public void push(T value) {
-		data.push(value);
-	}
+    public void push(T value) {
+        data.push(value);
+    }
 
-	public int length() {
-		return data.size();
-	}
+    public int length() {
+        return data.size();
+    }
 
-	public T pop() {
-		return data.pollLast();
-	}
+    public T pop() {
+        return data.pollLast();
+    }
 
-	public T peek() {
-		T last;
-		try {
-			last = data.getLast();
-		} catch (NoSuchElementException e) {
-			last = null;
-		}
+    public T peek() {
+        T last;
+        try {
+            last = data.getLast();
+        } catch (NoSuchElementException e) {
+            last = null;
+        }
 
-		return last;
-	}
+        return last;
+    }
 
 }

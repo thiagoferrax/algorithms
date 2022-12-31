@@ -7,104 +7,104 @@ import java.util.Objects;
 
 //https://leetcode.com/problems/reverse-nodes-in-k-group/
 public class ReverseNodeInKGroup {
-	public class ListNode {
-		int val;
-		ListNode next;
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || k <= 1) {
+            return head;
+        }
 
-		ListNode() {
-		}
+        ListNode currentNode = head;
 
-		ListNode(int val) {
-			this.val = val;
-		}
+        ListNode[] ascending = new ListNode[k];
+        ListNode[] descending = new ListNode[k];
 
-		ListNode(int val, ListNode next) {
-			this.val = val;
-			this.next = next;
-		}
+        List<ListNode> nodes = new ArrayList<>();
 
-		@Override
-		public String toString() {
-			return "ListNode [val=" + val + ", next=" + next + "]";
-		}
+        int count = 0;
+        while (currentNode != null) {
+            if (count < k) {
+                ListNode newNode = new ListNode(currentNode.val, null);
+                ascending[count] = newNode;
+                descending[k - count - 1] = newNode;
+            }
+            count++;
+            if (count == k) {
+                nodes.addAll(new ArrayList<ListNode>(Arrays.asList(descending)));
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getEnclosingInstance().hashCode();
-			result = prime * result + Objects.hash(next, val);
-			return result;
-		}
+                ascending = new ListNode[k];
+                descending = new ListNode[k];
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ListNode other = (ListNode) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
-			return Objects.equals(next, other.next) && val == other.val;
-		}
+                count = 0;
+            }
+            currentNode = currentNode.next;
 
-		private ReverseNodeInKGroup getEnclosingInstance() {
-			return ReverseNodeInKGroup.this;
-		}
+            if (currentNode == null && count < k) {
+                nodes.addAll(new ArrayList<ListNode>(Arrays.asList(ascending)));
+            }
+        }
 
-	}
+        ListNode next = null;
+        ListNode node = null;
+        for (int i = nodes.size() - 1; i >= 0; i--) {
+            node = nodes.get(i);
+            if (node != null) {
+                node.next = next;
+                next = node;
+            }
 
-	public ListNode reverseKGroup(ListNode head, int k) {
-		if (head == null || k <= 1) {
-			return head;
-		}
+        }
 
-		ListNode currentNode = head;
+        return node;
 
-		ListNode[] ascending = new ListNode[k];
-		ListNode[] descending = new ListNode[k];
+    }
 
-		List<ListNode> nodes = new ArrayList<>();
+    public class ListNode {
+        int val;
+        ListNode next;
 
-		int count = 0;
-		while (currentNode != null) {
-			if (count < k) {
-				ListNode newNode = new ListNode(currentNode.val, null);
-				ascending[count] = newNode;
-				descending[k - count - 1] = newNode;
-			}
-			count++;
-			if (count == k) {
-				nodes.addAll(new ArrayList<ListNode>(Arrays.asList(descending)));
+        ListNode() {
+        }
 
-				ascending = new ListNode[k];
-				descending = new ListNode[k];
+        ListNode(int val) {
+            this.val = val;
+        }
 
-				count = 0;
-			}
-			currentNode = currentNode.next;
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
 
-			if (currentNode == null && count < k) {
-				nodes.addAll(new ArrayList<ListNode>(Arrays.asList(ascending)));
-			}
-		}
+        @Override
+        public String toString() {
+            return "ListNode [val=" + val + ", next=" + next + "]";
+        }
 
-		ListNode next = null;
-		ListNode node = null;
-		for (int i = nodes.size() - 1; i >= 0; i--) {
-			node = nodes.get(i);
-			if (node != null) {
-				node.next = next;
-				next = node;
-			}
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + getEnclosingInstance().hashCode();
+            result = prime * result + Objects.hash(next, val);
+            return result;
+        }
 
-		}
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            ListNode other = (ListNode) obj;
+            if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+                return false;
+            return Objects.equals(next, other.next) && val == other.val;
+        }
 
-		return node;
+        private ReverseNodeInKGroup getEnclosingInstance() {
+            return ReverseNodeInKGroup.this;
+        }
 
-	}
+    }
 
 }

@@ -1,51 +1,52 @@
 package com.trainings.algorithms.stacksandqueues;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class MyQueueTest {
 
-	@Test
-	void whenPushingElementInAnEmptyQueueResultingLengthIsOne() {
-		MyQueue<Integer> queue = new MyQueue<Integer>();
-		queue.push(1);
+public class MyQueueTest {
 
-		Assert.assertEquals(1, queue.length());
-	}
+    @Test
+    public void whenPushingElementInAnEmptyQueueResultingLengthIsOne() {
+        MyQueue<Integer> queue = new MyQueue<Integer>();
+        queue.push(1);
 
-	@Test
-	void whenPopingElementInAnEmptyQueueShouldReturnNull() {
-		MyQueue<Integer> queue = new MyQueue<Integer>();
-		Assert.assertNull(queue.pop());
-	}
+        Assert.assertEquals(1, queue.length());
+    }
 
-	@Test
-	void whenPopingElementInANotEmptyQueueShouldReturnFirstValueAdded() {
-		MyQueue<Integer> queue = new MyQueue<Integer>();
-		queue.push(1);
-		queue.push(2);
-		queue.push(3);
+    @Test
+    public void whenPopingElementInAnEmptyQueueShouldReturnNull() {
+        MyQueue<Integer> queue = new MyQueue<Integer>();
+        Assert.assertNull(queue.pop());
+    }
 
-		Assert.assertEquals(Integer.valueOf(1), queue.pop());
-		Assert.assertEquals(Integer.valueOf(2), queue.pop());
-		Assert.assertEquals(Integer.valueOf(3), queue.pop());
-	}
+    @Test
+    public void whenPopingElementInANotEmptyQueueShouldReturnFirstValueAdded() {
+        MyQueue<Integer> queue = new MyQueue<Integer>();
+        queue.push(1);
+        queue.push(2);
+        queue.push(3);
 
-	@Test
-	void whenPeekingElementInAnEmptyQueueShouldReturnNull() {
-		MyQueue<Integer> queue = new MyQueue<Integer>();
-		Assert.assertNull(queue.peek());
-	}
+        Assert.assertEquals(Integer.valueOf(1), queue.pop());
+        Assert.assertEquals(Integer.valueOf(2), queue.pop());
+        Assert.assertEquals(Integer.valueOf(3), queue.pop());
+    }
 
-	@Test
-	void whenPeekingElementInANotEmptyQueueShouldReturnFirstValueAdded() {
-		MyQueue<Integer> queue = new MyQueue<Integer>();
-		queue.push(1);
-		queue.push(2);
-		queue.push(3);
+    @Test
+    public void whenPeekingElementInAnEmptyQueueShouldReturnNull() {
+        MyQueue<Integer> queue = new MyQueue<Integer>();
+        Assert.assertNull(queue.peek());
+    }
 
-		Assert.assertEquals(Integer.valueOf(1), queue.peek());
-		Assert.assertEquals(3, queue.length());
-	}
+    @Test
+    public void whenPeekingElementInANotEmptyQueueShouldReturnFirstValueAdded() {
+        MyQueue<Integer> queue = new MyQueue<Integer>();
+        queue.push(1);
+        queue.push(2);
+        queue.push(3);
+
+        Assert.assertEquals(Integer.valueOf(1), queue.peek());
+        Assert.assertEquals(3, queue.length());
+    }
 
 }

@@ -13,55 +13,55 @@ import java.util.Scanner;
  * https://www.hackerrank.com/challenges/minimum-swaps-2/problem
  */
 public class MinimumSwaps2 {
-	static int minimumSwaps(int[] arr) {
+    private static final Scanner scanner = new Scanner(System.in);
 
-		int N = arr.length;
+    static int minimumSwaps(int[] arr) {
 
-		int n = 0, swaps = 0;
-		while (n < N) {
-			if (arr[n] == n + 1) {
-				n++;
-				continue;
-			} else {
-				swap(arr, n);
-				swaps++;
-			}
-		}
+        int N = arr.length;
 
-		return swaps;
-	}
+        int n = 0, swaps = 0;
+        while (n < N) {
+            if (arr[n] == n + 1) {
+                n++;
+                continue;
+            } else {
+                swap(arr, n);
+                swaps++;
+            }
+        }
 
-	private static void swap(int[] arr, int n) {
-		int value = arr[n];
-		arr[n] = arr[value - 1];
-		arr[value - 1] = value;
-	}
+        return swaps;
+    }
 
-	private static final Scanner scanner = new Scanner(System.in);
+    private static void swap(int[] arr, int n) {
+        int value = arr[n];
+        arr[n] = arr[value - 1];
+        arr[value - 1] = value;
+    }
 
-	public static void main(String[] args) throws IOException {
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-		int n = scanner.nextInt();
-		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-		int[] arr = new int[n];
+        int[] arr = new int[n];
 
-		String[] arrItems = scanner.nextLine().split(" ");
-		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        String[] arrItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-		for (int i = 0; i < n; i++) {
-			int arrItem = Integer.parseInt(arrItems[i]);
-			arr[i] = arrItem;
-		}
+        for (int i = 0; i < n; i++) {
+            int arrItem = Integer.parseInt(arrItems[i]);
+            arr[i] = arrItem;
+        }
 
-		int res = minimumSwaps(arr);
+        int res = minimumSwaps(arr);
 
-		bufferedWriter.write(String.valueOf(res));
-		bufferedWriter.newLine();
+        bufferedWriter.write(String.valueOf(res));
+        bufferedWriter.newLine();
 
-		bufferedWriter.close();
+        bufferedWriter.close();
 
-		scanner.close();
-	}
+        scanner.close();
+    }
 }

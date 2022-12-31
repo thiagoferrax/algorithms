@@ -9,48 +9,48 @@ import java.util.Scanner;
  */
 class BinarySearchTrees {
 
-	public static int getHeight(Node root) {
-		return getMaxPath(root, 0) - 1;
-	}
+    public static int getHeight(Node root) {
+        return getMaxPath(root, 0) - 1;
+    }
 
-	private static int getMaxPath(Node node, int maxHeight) {
-		if (node != null) {
-			int leftMaxHeight = getMaxPath(node.left, maxHeight + 1);
-			int rightMaxHeight = getMaxPath(node.right, maxHeight + 1);
+    private static int getMaxPath(Node node, int maxHeight) {
+        if (node != null) {
+            int leftMaxHeight = getMaxPath(node.left, maxHeight + 1);
+            int rightMaxHeight = getMaxPath(node.right, maxHeight + 1);
 
-			return Math.max(leftMaxHeight, rightMaxHeight);
-		}
+            return Math.max(leftMaxHeight, rightMaxHeight);
+        }
 
-		return maxHeight;
-	}
+        return maxHeight;
+    }
 
-	public static Node insert(Node root, int data) {
-		if (root == null) {
-			return new Node(data);
-		} else {
-			Node cur;
-			if (data <= root.data) {
-				cur = insert(root.left, data);
-				root.left = cur;
-			} else {
-				cur = insert(root.right, data);
-				root.right = cur;
-			}
-			return root;
-		}
-	}
+    public static Node insert(Node root, int data) {
+        if (root == null) {
+            return new Node(data);
+        } else {
+            Node cur;
+            if (data <= root.data) {
+                cur = insert(root.left, data);
+                root.left = cur;
+            } else {
+                cur = insert(root.right, data);
+                root.right = cur;
+            }
+            return root;
+        }
+    }
 
-	public static void main(String args[]) {
-		Scanner sc = new Scanner(System.in);
-		int T = sc.nextInt();
-		Node root = null;
-		while (T-- > 0) {
-			int data = sc.nextInt();
-			root = insert(root, data);
-		}
-		int height = getHeight(root);
-		System.out.println(height);
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        Node root = null;
+        while (T-- > 0) {
+            int data = sc.nextInt();
+            root = insert(root, data);
+        }
+        int height = getHeight(root);
+        System.out.println(height);
 
-		sc.close();
-	}
+        sc.close();
+    }
 }

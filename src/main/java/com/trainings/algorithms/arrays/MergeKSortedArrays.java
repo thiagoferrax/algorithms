@@ -8,53 +8,53 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MergeKSortedArrays {
-	
-	public static int[] mergeKArrays(int[][] arr) {
-		List<Integer> merged = new ArrayList<>();
-		Arrays.stream(arr).forEach(a -> merged.addAll(Arrays.stream(a).boxed().collect(Collectors.toList())));
-		Collections.sort(merged);
-		return merged.stream().mapToInt(i->i).toArray();
-	}
-	
-	public static int[] mergeKArrays1stSolution(int[][] arr) {
 
-		int nArrays = arr.length;
-		int arrayLength = arr[0].length;
+    public static int[] mergeKArrays(int[][] arr) {
+        List<Integer> merged = new ArrayList<>();
+        Arrays.stream(arr).forEach(a -> merged.addAll(Arrays.stream(a).boxed().collect(Collectors.toList())));
+        Collections.sort(merged);
+        return merged.stream().mapToInt(i -> i).toArray();
+    }
 
-		int[] indexes = new int[nArrays];
-		int[] merged = new int[nArrays * arrayLength];
+    public static int[] mergeKArrays1stSolution(int[][] arr) {
 
-		int m = 0;
-		int row = 0;
-		Integer min = 0;
+        int nArrays = arr.length;
+        int arrayLength = arr[0].length;
 
-		List<Integer> availableArrays = IntStream.rangeClosed(0, nArrays - 1).boxed().collect(Collectors.toList());
+        int[] indexes = new int[nArrays];
+        int[] merged = new int[nArrays * arrayLength];
 
-		int minimum = arr[row][indexes[row]];
-		while (availableArrays.size() > 0) {
-			if (arr[row][indexes[row]] <= minimum) {
-				minimum = arr[row][indexes[row]];
-				min = row;
-			}
+        int m = 0;
+        int row = 0;
+        Integer min = 0;
 
-			int nextRow = availableArrays.indexOf(row) + 1;
-			if (nextRow < availableArrays.size()) {
-				row = availableArrays.get(nextRow);
-			} else {
-				merged[m++] = minimum;
-				indexes[min]++;
+        List<Integer> availableArrays = IntStream.rangeClosed(0, nArrays - 1).boxed().collect(Collectors.toList());
 
-				if (indexes[min] == arrayLength) {
-					availableArrays.remove(min);
-				}
+        int minimum = arr[row][indexes[row]];
+        while (availableArrays.size() > 0) {
+            if (arr[row][indexes[row]] <= minimum) {
+                minimum = arr[row][indexes[row]];
+                min = row;
+            }
 
-				if (availableArrays.size() > 0) {
-					row = availableArrays.get(0);
-					minimum = arr[row][indexes[row]];
-				}
-			}
-		}
+            int nextRow = availableArrays.indexOf(row) + 1;
+            if (nextRow < availableArrays.size()) {
+                row = availableArrays.get(nextRow);
+            } else {
+                merged[m++] = minimum;
+                indexes[min]++;
 
-		return merged;
-	}
+                if (indexes[min] == arrayLength) {
+                    availableArrays.remove(min);
+                }
+
+                if (availableArrays.size() > 0) {
+                    row = availableArrays.get(0);
+                    minimum = arr[row][indexes[row]];
+                }
+            }
+        }
+
+        return merged;
+    }
 }

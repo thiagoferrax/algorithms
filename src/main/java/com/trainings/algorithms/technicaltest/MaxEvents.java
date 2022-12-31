@@ -1,89 +1,79 @@
 package com.trainings.algorithms.technicaltest;
 
-import static java.util.stream.Collectors.toList;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.io.*;
+import java.util.*;
 import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toList;
 
 class ResultMaxEvents {
 
-	/*
-	 * Complete the 'maxEvents' function below.
-	 *
-	 * The function is expected to return an INTEGER. The function accepts following
-	 * parameters: 1. INTEGER_ARRAY arrival 2. INTEGER_ARRAY duration
-	 */
+    /*
+     * Complete the 'maxEvents' function below.
+     *
+     * The function is expected to return an INTEGER. The function accepts following
+     * parameters: 1. INTEGER_ARRAY arrival 2. INTEGER_ARRAY duration
+     */
 
-	public static int maxEvents(List<Integer> arrival, List<Integer> duration) {
-		int companies = arrival.size();
+    public static int maxEvents(List<Integer> arrival, List<Integer> duration) {
+        int companies = arrival.size();
 
-		if (companies < 2) {
-			return companies;
-		}
+        if (companies < 2) {
+            return companies;
+        }
 
-		int max = 0;
-		int nextAvailableTime = arrival.get(0);
+        int max = 0;
+        int nextAvailableTime = arrival.get(0);
 
-		Map<Integer, PriorityQueue<Integer>> arrivalDurationMap = getArrivalDurationMap(arrival, duration);
+        Map<Integer, PriorityQueue<Integer>> arrivalDurationMap = getArrivalDurationMap(arrival, duration);
 
-		for (int c = 0; c < companies; c++) {
-			Integer arrivalTime = arrival.get(c);
-			Integer eventDuration = arrivalDurationMap.get(arrivalTime).poll();
+        for (int c = 0; c < companies; c++) {
+            Integer arrivalTime = arrival.get(c);
+            Integer eventDuration = arrivalDurationMap.get(arrivalTime).poll();
 
-			if (arrivalTime >= nextAvailableTime) {
-				max++;
-				nextAvailableTime = arrivalTime + eventDuration;
-			} else if (thereIsTimeToAddThisEvent(arrival, nextAvailableTime, c, eventDuration)) {
-				max++;
-				nextAvailableTime += eventDuration;
-			}
-		}
+            if (arrivalTime >= nextAvailableTime) {
+                max++;
+                nextAvailableTime = arrivalTime + eventDuration;
+            } else if (thereIsTimeToAddThisEvent(arrival, nextAvailableTime, c, eventDuration)) {
+                max++;
+                nextAvailableTime += eventDuration;
+            }
+        }
 
-		return max;
-	}
+        return max;
+    }
 
-	private static boolean thereIsTimeToAddThisEvent(List<Integer> arrival, int nextAvailableTime, int c,
-			Integer eventDuration) {
+    private static boolean thereIsTimeToAddThisEvent(List<Integer> arrival, int nextAvailableTime, int c,
+                                                     Integer eventDuration) {
 
-		List<Integer> distinctArrivals = new ArrayList<Integer>(new HashSet<Integer>(arrival));
-		int index = distinctArrivals.indexOf(arrival.get(c));
+        List<Integer> distinctArrivals = new ArrayList<Integer>(new HashSet<Integer>(arrival));
+        int index = distinctArrivals.indexOf(arrival.get(c));
 
-		if (index + 1 < distinctArrivals.size()) {
-			return nextAvailableTime + eventDuration <= distinctArrivals.get(index + 1);
-		}
+        if (index + 1 < distinctArrivals.size()) {
+            return nextAvailableTime + eventDuration <= distinctArrivals.get(index + 1);
+        }
 
-		return index == distinctArrivals.size() - 1;
-	}
+        return index == distinctArrivals.size() - 1;
+    }
 
-	private static Map<Integer, PriorityQueue<Integer>> getArrivalDurationMap(List<Integer> arrival,
-			List<Integer> duration) {
+    private static Map<Integer, PriorityQueue<Integer>> getArrivalDurationMap(List<Integer> arrival,
+                                                                              List<Integer> duration) {
 
-		Map<Integer, PriorityQueue<Integer>> durationByArrival = new HashMap<>();
+        Map<Integer, PriorityQueue<Integer>> durationByArrival = new HashMap<>();
 
-		for (int i = 0; i < arrival.size(); i++) {
-			Integer arrivalTime = arrival.get(i);
-			Integer durationValue = duration.get(i);
+        for (int i = 0; i < arrival.size(); i++) {
+            Integer arrivalTime = arrival.get(i);
+            Integer durationValue = duration.get(i);
 
-			if (!durationByArrival.containsKey(arrivalTime)) {
-				durationByArrival.put(arrivalTime, new PriorityQueue<Integer>(Arrays.asList(durationValue)));
-			} else {
-				durationByArrival.get(arrivalTime).add(durationValue);
-			}
-		}
+            if (!durationByArrival.containsKey(arrivalTime)) {
+                durationByArrival.put(arrivalTime, new PriorityQueue<Integer>(Collections.singletonList(durationValue)));
+            } else {
+                durationByArrival.get(arrivalTime).add(durationValue);
+            }
+        }
 
-		return durationByArrival;
-	}
+        return durationByArrival;
+    }
 
 }
 
@@ -93,36 +83,36 @@ class ResultMaxEvents {
  * https://www.hackerrank.com/
  */
 public class MaxEvents {
-	public static void main(String[] args) throws IOException {
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-		int arrivalCount = Integer.parseInt(bufferedReader.readLine().trim());
+        int arrivalCount = Integer.parseInt(bufferedReader.readLine().trim());
 
-		List<Integer> arrival = IntStream.range(0, arrivalCount).mapToObj(i -> {
-			try {
-				return bufferedReader.readLine().replaceAll("\\s+$", "");
-			} catch (IOException ex) {
-				throw new RuntimeException(ex);
-			}
-		}).map(String::trim).map(Integer::parseInt).collect(toList());
+        List<Integer> arrival = IntStream.range(0, arrivalCount).mapToObj(i -> {
+            try {
+                return bufferedReader.readLine().replaceAll("\\s+$", "");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }).map(String::trim).map(Integer::parseInt).collect(toList());
 
-		int durationCount = Integer.parseInt(bufferedReader.readLine().trim());
+        int durationCount = Integer.parseInt(bufferedReader.readLine().trim());
 
-		List<Integer> duration = IntStream.range(0, durationCount).mapToObj(i -> {
-			try {
-				return bufferedReader.readLine().replaceAll("\\s+$", "");
-			} catch (IOException ex) {
-				throw new RuntimeException(ex);
-			}
-		}).map(String::trim).map(Integer::parseInt).collect(toList());
+        List<Integer> duration = IntStream.range(0, durationCount).mapToObj(i -> {
+            try {
+                return bufferedReader.readLine().replaceAll("\\s+$", "");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }).map(String::trim).map(Integer::parseInt).collect(toList());
 
-		int result = ResultMaxEvents.maxEvents(arrival, duration);
+        int result = ResultMaxEvents.maxEvents(arrival, duration);
 
-		bufferedWriter.write(String.valueOf(result));
-		bufferedWriter.newLine();
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
 
-		bufferedReader.close();
-		bufferedWriter.close();
-	}
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
 }
