@@ -1,8 +1,13 @@
 package com.trainings.algorithms.mathematics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.Vector;
 
 public class Learning {
 

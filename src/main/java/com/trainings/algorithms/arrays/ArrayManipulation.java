@@ -3,8 +3,18 @@ package com.trainings.algorithms.arrays;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Starting with a 1-indexed array of zeros and a list of operations, for each

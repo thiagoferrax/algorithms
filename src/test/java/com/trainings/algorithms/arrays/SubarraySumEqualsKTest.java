@@ -1,10 +1,8 @@
 package com.trainings.algorithms.arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import junit.framework.Assert;
 
 public class SubarraySumEqualsKTest {
 

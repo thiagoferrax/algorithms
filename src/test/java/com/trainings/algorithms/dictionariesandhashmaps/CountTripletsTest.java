@@ -1,9 +1,9 @@
 package com.trainings.algorithms.dictionariesandhashmaps;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 public class CountTripletsTest {
 

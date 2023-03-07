@@ -1,11 +1,11 @@
 package com.trainings.algorithms.arrays;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ArrayManipulationTest {
 

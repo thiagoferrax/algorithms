@@ -1,12 +1,13 @@
 package com.trainings.lambdas;
 
-import com.trainings.lambdas.FPTraining.Gender;
-import com.trainings.lambdas.FPTraining.Person;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.List;
-import java.util.Map;
+import com.trainings.lambdas.FPTraining.Gender;
+import com.trainings.lambdas.FPTraining.Person;
 
 public class FPTrainingTest {
 

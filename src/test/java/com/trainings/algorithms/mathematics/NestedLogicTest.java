@@ -1,9 +1,9 @@
 package com.trainings.algorithms.mathematics;
 
+import java.util.Calendar;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Calendar;
 
 public class NestedLogicTest {
 
