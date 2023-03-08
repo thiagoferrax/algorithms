@@ -3,9 +3,33 @@ package com.trainings.algorithms.strings;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * https://leetcode.com/problems/longest-palindromic-substring/
+ * @author Thiago
+ *
+ */
 public class LongestPalindromicSubstring {
 
     public String longestPalindrome(String s) {
+    	char[] charArray = s.toCharArray();
+    	
+    	String maxPalindrom = "" ;
+    	for (int i = 0; i < charArray.length; i++) {
+    		for (int j = i; j <= charArray.length; j++) {
+    			String substring = s.substring(i, j);
+    			String reverse = new StringBuilder(substring).reverse().toString();
+    			if(substring.equals(reverse)) {
+    				if(substring.length() > maxPalindrom.length()) {
+    					maxPalindrom = substring;
+    				}
+    			}
+    		}	
+		}
+    	
+    	return maxPalindrom;
+    }
+	
+    public String longestPalindrome1stSolution(String s) {
         char[] chars = s.toCharArray();
 
         Map<Character, Integer> charMap = new HashMap<>();
