@@ -16,4 +16,8 @@ public class AddBinaryTest {
 		assertEquals("10101", new AddBinary().addBinary("1010", "1011"));
 	}
 	
+	@Test
+	public void testThree() {
+		assertEquals("1000", new AddBinary().addBinary("1", "111"));
+	}
 }

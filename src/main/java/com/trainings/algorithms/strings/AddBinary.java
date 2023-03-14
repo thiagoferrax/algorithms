@@ -1,7 +1,5 @@
 package com.trainings.algorithms.strings;
 
-import java.util.Arrays;
-
 /**
  * https://leetcode.com/problems/add-binary/description/
  * @author Thiago
@@ -13,17 +11,14 @@ public class AddBinary {
 		
 		int maxLength = Math.max(a.length(), b.length());
 		
-		char[] aArray = Arrays.copyOf(new StringBuilder(a).reverse().toString().toCharArray(), maxLength);
-		char[] bArray = Arrays.copyOf(new StringBuilder(b).reverse().toString().toCharArray(), maxLength);
-		
-		//System.out.println(Arrays.toString(aArray));
-		//System.out.println(Arrays.toString(bArray));
+		char[] aArray = new StringBuilder(a).reverse().toString().toCharArray();
+		char[] bArray = new StringBuilder(b).reverse().toString().toCharArray();
 		
 		char up = '0';
 		
 		char[] sum = new char[maxLength];
 		
-		for (int i = 0; i < aArray.length; i++) {
+		for (int i = 0; i < maxLength; i++) {
 			char aChar = getChar(aArray, i);
 			char bChar = getChar(bArray, i);
 		
@@ -46,16 +41,17 @@ public class AddBinary {
 			}
 		}
 		
+		String binarySum = new StringBuilder(new String(sum)).reverse().toString();
+		
 		if(up == '1') {
-			sum = Arrays.copyOf(sum, maxLength + 1);
-			sum[maxLength] = up;
+			binarySum = "1" + binarySum;
 		}
 		
-		return new StringBuilder(new String(sum)).reverse().toString();
+		return binarySum;
 	}
 
 	private char getChar(char[] aArray, int i) {
-		return aArray[i] != '1' && aArray[i] != '0' ? '0' : aArray[i];
+		return i < aArray.length ? aArray[i] : '0';
 	}
 	
 	public String addBinary1stSolution(String a, String b) {
