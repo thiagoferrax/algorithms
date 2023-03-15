@@ -2,6 +2,7 @@ package com.trainings.algorithms.arrays;
 
 /**
  * https://leetcode.com/problems/number-of-islands/
+ * 
  * @author Thiago
  *
  */
@@ -16,13 +17,26 @@ public class NumberOfIslands {
 				if (grid[i][j] == '1') {
 					int nearIsland = getNearIsland(islands, i, j);
 					boolean noNearIslandFound = nearIsland == -1;
+
 					islands[i][j] = noNearIslandFound ? ++island : nearIsland;
+
+					updateNearIslands(grid, islands, i, j);
 				}
 			}
-			
+
 		}
 
 		return island;
+	}
+
+	private void updateNearIslands(char[][] grid, int[][] islands, int i, int j) {
+		if (i + 1 < grid.length && grid[i + 1][j] == '1') {
+			islands[i + 1][j] = islands[i][j];
+		}
+		if (j + 1 < grid[i].length && grid[i][j + 1] == '1') {
+			islands[i][j + 1] = islands[i][j];
+			;
+		}
 	}
 
 	private int getNearIsland(int[][] islands, int i, int j) {
