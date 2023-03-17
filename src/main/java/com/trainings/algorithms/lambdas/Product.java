@@ -1,4 +1,4 @@
-package com.trainings.lambdas;
+package com.trainings.algorithms.lambdas;
 
 import java.util.function.BinaryOperator;
 import java.util.function.Function;

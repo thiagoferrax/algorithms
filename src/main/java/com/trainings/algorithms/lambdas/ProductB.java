@@ -1,4 +1,4 @@
-package com.trainings.lambdas;
+package com.trainings.algorithms.lambdas;
 
 public class ProductB {
     private final String name;

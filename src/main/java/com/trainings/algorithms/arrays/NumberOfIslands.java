@@ -8,22 +8,30 @@ package com.trainings.algorithms.arrays;
  */
 public class NumberOfIslands {
 	public int numIslands(char[][] grid) {
-		int[][] islands = new int[grid.length][grid[0].length];
-
 		int island = 0;
+		
+		int[][] islandsTopDown = new int[grid.length][grid[0].length];
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-
 				if (grid[i][j] == '1') {
-					int nearIsland = getNearIsland(islands, i, j);
+					int nearIsland = getNearIsland(islandsTopDown, i, j);
 					boolean noNearIslandFound = nearIsland == -1;
-
-					islands[i][j] = noNearIslandFound ? ++island : nearIsland;
-
-					updateNearIslands(grid, islands, i, j);
+					islandsTopDown[i][j] = noNearIslandFound ? ++island : nearIsland;
+					updateNearIslands(grid, islandsTopDown, i, j);
 				}
 			}
-
+		}
+		
+		int[][] islandsBottomUp = new int[grid.length][grid[0].length];
+		for (int i = grid.length - 1; i >= 0 ; i--) {
+			for (int j = grid[i].length - 1; j >=0 ; j--) {
+				if (grid[i][j] == '1') {
+					int nearIsland = getNearIsland(islandsBottomUp, i, j);
+					boolean noNearIslandFound = nearIsland == -1;
+					islandsBottomUp[i][j] = noNearIslandFound ? ++island : nearIsland;
+					updateNearIslands(grid, islandsBottomUp, i, j);
+				}
+			}
 		}
 
 		return island;
