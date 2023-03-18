@@ -11,55 +11,50 @@ public class SelfCrossing {
         final String[] directions = {"North", "West", "South", "East"};
 
         Set<String> positions = new HashSet<>();
+        positions.add("0,0");
 
         boolean selfCrossing = false;
 
         int x = 0, y = 0;
         out: for (int i = 0; i < distance.length; i++) {
-            int index = i%4;
-            System.out.println(directions[index]);
+            int index = i % directions.length;
 
             switch (directions[index]) {
                 case "North":
-                    for (int j = y; j <= y + distance[i]; j++) {
-                        if (checkSelfCrossing(positions, x, j)) break out;
+                    for (int n = y + 1; n <= y + distance[i]; n++) {
+                        selfCrossing =  positions.contains(x +","+ n);
+                        if(selfCrossing) break out;
+                        positions.add(x +","+ n);
                     }
-                    y = y + distance[i];
+                    y += distance[i];
                     break;
                 case "West":
-                    for (int l = x; l <= x - distance[i]; l--) {
-                        if (checkSelfCrossing(positions, l, y)) break out;
+                    for (int w = x - 1; w >= x - distance[i]; w--) {
+                        selfCrossing =  positions.contains(w +","+ y);
+                        if(selfCrossing) break out;
+                        positions.add(w +","+ y);
                     }
-                    x = x - distance[i];
+                    x -= distance[i];
                     break;
                 case "South":
-                    for (int m = y; m <= y - distance[i]; m--) {
-                        if (checkSelfCrossing(positions, x, m)) break out;
+                    for (int s = y - 1; s >= y - distance[i]; s--) {
+                        selfCrossing =  positions.contains(x +","+ s);
+                        if(selfCrossing) break out;
+                        positions.add(x +","+ s);
                     }
-                    y = y - distance[i];
+                    y -= distance[i];
                     break;
                 case "East":
-                    for (int n = x; n <= x + distance[i]; n++) {
-                        if (checkSelfCrossing(positions, n, y)) break out;
+                    for (int e = x + 1; e <= x + distance[i]; e++) {
+                        selfCrossing =  positions.contains(e +","+ y);
+                        if(selfCrossing) break out;
+                        positions.add(e +","+ y);
                     }
-                    x = x + distance[i];
+                    x += distance[i];
                     break;
                 default:
                     throw new IllegalArgumentException("Not expecting a different direction here!");
             }
-        }
-        return false;
-    }
-
-    private static boolean checkSelfCrossing(Set<String> positions, int x, int y) {
-        boolean selfCrossing = false;
-        String location = x +","+ y;
-        if(positions.contains(location)) {
-            System.out.println("Self crossing true");
-            selfCrossing = true;
-        } else {
-            System.out.println("Adding location: " + location);
-            positions.add(location);
         }
         return selfCrossing;
     }

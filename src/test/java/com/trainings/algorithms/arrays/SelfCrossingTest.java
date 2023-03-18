@@ -11,4 +11,15 @@ public class SelfCrossingTest {
         assertEquals(true, new SelfCrossing().isSelfCrossing(new int[]{2,1,1,2}));
     }
 
+    @Test
+    public void testTwo(){
+        assertEquals(false, new SelfCrossing().isSelfCrossing(new int[]{1,2,3,4}));
+    }
+
+    @Test
+    public void testThree(){
+        assertEquals(true, new SelfCrossing().isSelfCrossing(new int[]{1,1,1,2,1}));
+    }
+
+
 }
