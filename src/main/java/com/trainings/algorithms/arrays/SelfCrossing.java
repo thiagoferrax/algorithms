@@ -62,38 +62,30 @@ public class SelfCrossing {
 
             switch (directions[index]) {
                 case "North":
-                    for(Integer n : yList) {
-                        if(n > y && n < y + distance[i]) {
-                            selfCrossing = !positions.add(x + "," + n);
-                            if (selfCrossing) break out;
-                        }
+                    for(Integer n : filter(yList, y, y + distance[i])) {
+                        selfCrossing = !positions.add(x + "," + n);
+                        if (selfCrossing) break out;
                     }
                     y += distance[i];
                     break;
                 case "West":
-                    for(Integer w : xList) {
-                        if(w > x - distance[i] && w < x) {
-                            selfCrossing = !positions.add(w + "," + y);
-                            if (selfCrossing) break out;
-                        }
+                    for(Integer w : filter(xList, x - distance[i], x)) {
+                        selfCrossing = !positions.add(w + "," + y);
+                        if (selfCrossing) break out;
                     }
                     x -= distance[i];
                     break;
                 case "South":
-                    for(Integer s : yList) {
-                        if(s > y - distance[i] && s < y) {
-                            selfCrossing = !positions.add(x + "," + s);
-                            if (selfCrossing) break out;
-                        }
+                    for(Integer s : filter(yList, y - distance[i], y)) {
+                        selfCrossing = !positions.add(x + "," + s);
+                        if (selfCrossing) break out;
                     }
                     y -= distance[i];
                     break;
                 case "East":
-                    for(Integer e : xList) {
-                        if(e > x && e < x  + distance[i]) {
-                            selfCrossing = !positions.add(e + "," + y);
-                            if (selfCrossing) break out;
-                        }
+                    for(Integer e : filter(xList, x, x  + distance[i])) {
+                        selfCrossing = !positions.add(e + "," + y);
+                        if (selfCrossing) break out;
                     }
                     x += distance[i];
                     break;
@@ -103,5 +95,9 @@ public class SelfCrossing {
         }
 
         return selfCrossing;
+    }
+
+    private static List<Integer> filter(Set<Integer> list, int start, int end) {
+        return list.stream().filter(n -> n > start && n < end).toList();
     }
 }
