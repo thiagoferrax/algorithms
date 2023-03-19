@@ -26,5 +26,8 @@ public class SelfCrossingTest {
         assertEquals(true, new SelfCrossing().isSelfCrossing(new int[]{1,1,1,1}));
     }
 
-
+    @Test
+    public void testFive(){
+        assertEquals(false, new SelfCrossing().isSelfCrossing(new int[]{3,3,3,2,1,1}));
+    }
 }
