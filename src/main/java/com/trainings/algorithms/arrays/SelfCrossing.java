@@ -3,10 +3,90 @@ package com.trainings.algorithms.arrays;
 import java.util.*;
 
 /**
- * https://leetcode.com/problems/self-crossing/
+ * <a href="https://leetcode.com/problems/self-crossing/">Self Crossing</a> from LeetCode.
  */
 public class SelfCrossing {
+
+    private class Position {
+        int x;
+        int y;
+
+        public Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "{" + x +
+                    ", " + y +
+                    '}';
+        }
+    }
+
     public boolean isSelfCrossing(int[] distance) {
+
+        final String[] directions = {"North", "West", "South", "East"};
+
+        int x = 0, y = 0;
+
+        List<Position> positions = new ArrayList<>();
+        positions.add(new Position(x,y));
+
+        out: for (int d = 0; d < distance.length; d++) {
+            switch (directions[d % directions.length]) {
+                case "North":
+                    y += distance[d];
+                    positions.add(new Position(x,y));
+                    break;
+                case "West":
+                    x -= distance[d];
+                    positions.add(new Position(x,y));
+                    break;
+                case "South":
+                    y -= distance[d];
+                    positions.add(new Position(x,y));
+                    break;
+                case "East":
+                    x += distance[d];
+                    positions.add(new Position(x,y));
+                    break;
+                default: throw new IllegalArgumentException("Wrong direction!");
+            }
+        }
+
+        System.out.println(positions);
+
+        boolean selfCrossing = false;
+        Position pi, piMinus1, piMinus3, piMinus4, piMinus5, piMinus6;
+
+        for (int i = 4; i < positions.size(); i++) {
+            pi = positions.get(i);
+            piMinus1 = positions.get(i-1);
+            piMinus3 = positions.get(i-3);
+            piMinus4 = positions.get(i-4);
+
+            selfCrossing = piMinus1.x <= piMinus3.x &&  pi.x >= piMinus4.x && pi.y <= piMinus3.y && pi.y >= piMinus4.y;
+            if(selfCrossing) break;
+
+            if(i>=5) {
+                piMinus5 = positions.get(i-5);
+                selfCrossing = pi.x == piMinus4.x && piMinus1.y <= piMinus4.y && pi.y >= piMinus5.y;
+                if(selfCrossing) break;
+
+                if(i>=6) {
+                    piMinus6 = positions.get(i-6);
+                    selfCrossing = pi.x <= piMinus6.x && piMinus1.x >=piMinus6.x && pi.y >= piMinus6.y && pi.y <= piMinus5.y;
+                    if(selfCrossing) break;
+                }
+            }
+
+        }
+
+        return selfCrossing;
+    }
+
+    public boolean isSelfCrossing1stSolution(int[] distance) {
         final String[] directions = {"North", "West", "South", "East"};
 
         int x = 0, y = 0;
