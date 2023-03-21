@@ -6,22 +6,20 @@ public class MergingArrays {
 
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         // 1st solution
-
         // Create a new array
         int[] merge = new int[m+n];
 
         //Input: nums1 = [X,X,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
-
-        // Two variable for controlling the minimum element on both array (idex1, index2)
+        // Two variable for controlling the minimum element on both arrays (idex1, index2)
         int index1 =0, index2=0;
         for (int i = 0; i < m+n; i++) {
-            if(index1 < m && nums1[index1] <= nums2[index2]) {
+            if(index1 < m && index2 < n && nums1[index1] <= nums2[index2]) {
                 merge[i] = nums1[index1];
                 index1++;
             } else if(index2 < n) {
                 merge[i] = nums2[index2];
                 index2++;
-            } else {
+            } else if (index1 < m) {
                 merge[i] = nums1[index1];
                 index1++;
             }
@@ -58,8 +56,5 @@ public class MergingArrays {
         for (int i = 0; i < merge.length; i++) {
             nums1[i] = merge[i];
         }
-
-
-
     }
 }
