@@ -1,6 +1,8 @@
 package com.trainings.algorithms.strings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,6 +13,35 @@ import java.util.Map;
 public class LongestPalindromicSubstring {
 
     public String longestPalindrome(String s) {
+        char[] charArray = s.toCharArray();
+
+        List<String> allSubstrings = getAllSubstrings(s);
+
+        //Filter all of them that are a palindrome
+
+        List<String> allPalindromes = allSubstrings.stream().filter(e -> isPalindromeWord(e)).toList();
+
+        //Pick the biggest palindrome on them
+        String longestPalindromic = allPalindromes.stream().max((o1, o2) -> o1.length() - o2.length()).get();
+
+        return longestPalindromic;
+    }
+
+    private boolean isPalindromeWord(String e) {
+        return new StringBuilder(e).reverse().toString().equals(e);
+    }
+
+    private static List<String> getAllSubstrings(String s) {
+        List<String> allSubstringsOfS = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = i; j < s.length(); j++) {
+                allSubstringsOfS.add(s.substring(i, j+1));
+            }
+        }
+        return allSubstringsOfS;
+    }
+
+    public String longestPalindrome2ndSolution(String s) {
     	char[] charArray = s.toCharArray();
     	
     	String maxPalindrom = "" ;
