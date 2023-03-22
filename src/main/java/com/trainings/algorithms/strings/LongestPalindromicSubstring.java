@@ -13,6 +13,31 @@ import java.util.Map;
 public class LongestPalindromicSubstring {
 
     public String longestPalindrome(String s) {
+        int maxLength = 0;
+        String longestPalindromic = "";
+
+        List<String> allSubstringsOfS = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = i; j < s.length(); j++) {
+                if(j+1-i > maxLength) {
+                    String substring = s.substring(i, j+1);
+                    if(isPalindromeWord(substring)) {
+                        maxLength = substring.length();
+                        longestPalindromic = substring;
+                    }
+                }
+            }
+        }
+
+        return longestPalindromic;
+    }
+
+    private boolean isPalindromeWord(String e) {
+        return new StringBuilder(e).reverse().toString().equals(e);
+    }
+
+
+    public String longestPalindrome3rdSolution(String s) {
         char[] charArray = s.toCharArray();
 
         List<String> allSubstrings = getAllSubstrings(s);
@@ -25,10 +50,6 @@ public class LongestPalindromicSubstring {
         String longestPalindromic = allPalindromes.stream().max((o1, o2) -> o1.length() - o2.length()).get();
 
         return longestPalindromic;
-    }
-
-    private boolean isPalindromeWord(String e) {
-        return new StringBuilder(e).reverse().toString().equals(e);
     }
 
     private static List<String> getAllSubstrings(String s) {
