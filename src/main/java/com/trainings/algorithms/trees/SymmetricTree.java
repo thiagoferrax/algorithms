@@ -16,9 +16,6 @@ public class SymmetricTree {
         List<Integer> rightList = new ArrayList<>(leftList.size());
         readTree(root.right, SIDE.RIGHT, rightList);
 
-        System.out.println(leftList);
-        System.out.println(rightList);
-
         return Arrays.equals(leftList.toArray(), rightList.toArray());
     }
 
@@ -26,14 +23,22 @@ public class SymmetricTree {
         if(node != null) {
             list.add(node.val);
             if(side == SIDE.LEFT) {
-                readTree(node.right, side, list);
-                readTree(node.left, side, list);
+                read(node.right, side, list);
+                read(node.left, side, list);
             } else {
-                readTree(node.left, side, list);
-                readTree(node.right, side, list);
+                read(node.left, side, list);
+                read(node.right, side, list);
             }
         } else {
             list.add(null);
+        }
+    }
+
+    private void read(TreeNode node, SIDE side, List<Integer> list) {
+        if(node == null) {
+            list.add(null);
+        } else {
+            readTree(node, side, list);
         }
     }
 }
