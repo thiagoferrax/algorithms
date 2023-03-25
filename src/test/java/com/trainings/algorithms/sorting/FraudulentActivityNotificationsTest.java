@@ -1,11 +1,9 @@
 package com.trainings.algorithms.sorting;
 
-import static com.trainings.algorithms.sorting.FraudulentActivityNotifications.activityNotifications;
-import static com.trainings.algorithms.sorting.FraudulentActivityNotifications.activityNotificationsFirstSolution;
-import static com.trainings.algorithms.sorting.FraudulentActivityNotifications.activityNotificationsSecondSolution;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import static com.trainings.algorithms.sorting.FraudulentActivityNotifications.*;
 
 public class FraudulentActivityNotificationsTest {
 

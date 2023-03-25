@@ -5,47 +5,47 @@ import java.util.List;
 
 /**
  * https://leetcode.com/problems/subarray-sum-equals-k/description/
- * @author Thiago
  *
+ * @author Thiago
  */
 public class SubarraySumEqualsK {
 
-	public int subarraySum(int[] nums, int k) {
-		double maxSubarrays = Math.pow(2, nums.length);
+    public int subarraySum(int[] nums, int k) {
+        double maxSubarrays = Math.pow(2, nums.length);
 
-		int count = 0;
-		for (int i = 1; i < maxSubarrays; i++) {
-			String binaryString = Integer.toBinaryString(i);
-			char[] binaryArray = new StringBuilder(binaryString).reverse().toString().toCharArray();
+        int count = 0;
+        for (int i = 1; i < maxSubarrays; i++) {
+            String binaryString = Integer.toBinaryString(i);
+            char[] binaryArray = new StringBuilder(binaryString).reverse().toString().toCharArray();
 
-			List<Integer> subarray = new ArrayList<>();
-			boolean contiguous = true, up = false, down = false;
-			
-			int sum = 0;
-			for (int j = 0; j < binaryArray.length; j++) {
-				if (binaryArray[j] == '1') {
-					int number = nums[j];
-					subarray.add(number);
+            List<Integer> subarray = new ArrayList<>();
+            boolean contiguous = true, up = false, down = false;
 
-					sum += number;
-					if (up && down) {
-						// There are zeros between ones.
-						contiguous = false;
-						break;
-					}
+            int sum = 0;
+            for (int j = 0; j < binaryArray.length; j++) {
+                if (binaryArray[j] == '1') {
+                    int number = nums[j];
+                    subarray.add(number);
 
-					up = true;
-				} else if (up) {
-					down = true;
-				}
-			}
+                    sum += number;
+                    if (up && down) {
+                        // There are zeros between ones.
+                        contiguous = false;
+                        break;
+                    }
 
-			if (contiguous && sum == k) {
-				count++;
-			} 
-		}
-		
-		return count;
-	}
+                    up = true;
+                } else if (up) {
+                    down = true;
+                }
+            }
+
+            if (contiguous && sum == k) {
+                count++;
+            }
+        }
+
+        return count;
+    }
 
 }

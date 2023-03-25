@@ -1,11 +1,10 @@
 package com.trainings.algorithms.sorting;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
+import com.trainings.algorithms.sorting.MergeKSortedLists.ListNode;
 import org.junit.Test;
 
-import com.trainings.algorithms.sorting.MergeKSortedLists.ListNode;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 class MergeKSortedListsTest {
 

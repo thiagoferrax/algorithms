@@ -5,9 +5,9 @@ import org.junit.Test;
 
 public class ParenthesisChallengeTest {
 
-	@Test
-	public void test() {
-		Assert.assertEquals("[((())), (()()), (())(), ()(()), ()()()]", new ParenthesisChallenge().generateParenthesis(3).toString());
-	}
+    @Test
+    public void test() {
+        Assert.assertEquals("[((())), (()()), (())(), ()(()), ()()()]", new ParenthesisChallenge().generateParenthesis(3).toString());
+    }
 
 }

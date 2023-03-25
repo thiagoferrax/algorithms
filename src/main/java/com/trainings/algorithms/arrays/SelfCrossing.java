@@ -7,23 +7,6 @@ import java.util.*;
  */
 public class SelfCrossing {
 
-    private class Position {
-        int x;
-        int y;
-
-        public Position(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public String toString() {
-            return "{" + x +
-                    ", " + y +
-                    '}';
-        }
-    }
-
     public boolean isSelfCrossing(int[] distance) {
 
         final String[] directions = {"North", "West", "South", "East"};
@@ -31,27 +14,29 @@ public class SelfCrossing {
         int x = 0, y = 0;
 
         List<Position> positions = new ArrayList<>();
-        positions.add(new Position(x,y));
+        positions.add(new Position(x, y));
 
-        out: for (int d = 0; d < distance.length; d++) {
+        out:
+        for (int d = 0; d < distance.length; d++) {
             switch (directions[d % directions.length]) {
                 case "North":
                     y += distance[d];
-                    positions.add(new Position(x,y));
+                    positions.add(new Position(x, y));
                     break;
                 case "West":
                     x -= distance[d];
-                    positions.add(new Position(x,y));
+                    positions.add(new Position(x, y));
                     break;
                 case "South":
                     y -= distance[d];
-                    positions.add(new Position(x,y));
+                    positions.add(new Position(x, y));
                     break;
                 case "East":
                     x += distance[d];
-                    positions.add(new Position(x,y));
+                    positions.add(new Position(x, y));
                     break;
-                default: throw new IllegalArgumentException("Wrong direction!");
+                default:
+                    throw new IllegalArgumentException("Wrong direction!");
             }
         }
 
@@ -62,22 +47,22 @@ public class SelfCrossing {
 
         for (int i = 4; i < positions.size(); i++) {
             pi = positions.get(i);
-            piMinus1 = positions.get(i-1);
-            piMinus3 = positions.get(i-3);
-            piMinus4 = positions.get(i-4);
+            piMinus1 = positions.get(i - 1);
+            piMinus3 = positions.get(i - 3);
+            piMinus4 = positions.get(i - 4);
 
-            selfCrossing = piMinus1.x <= piMinus3.x &&  pi.x >= piMinus4.x && pi.y <= piMinus3.y && pi.y >= piMinus4.y;
-            if(selfCrossing) break;
+            selfCrossing = piMinus1.x <= piMinus3.x && pi.x >= piMinus4.x && pi.y <= piMinus3.y && pi.y >= piMinus4.y;
+            if (selfCrossing) break;
 
-            if(i>=5) {
-                piMinus5 = positions.get(i-5);
+            if (i >= 5) {
+                piMinus5 = positions.get(i - 5);
                 selfCrossing = pi.x == piMinus4.x && piMinus1.y <= piMinus4.y && pi.y >= piMinus5.y;
-                if(selfCrossing) break;
+                if (selfCrossing) break;
 
-                if(i>=6) {
-                    piMinus6 = positions.get(i-6);
-                    selfCrossing = pi.x <= piMinus6.x && piMinus1.x >=piMinus6.x && pi.y >= piMinus6.y && pi.y <= piMinus5.y;
-                    if(selfCrossing) break;
+                if (i >= 6) {
+                    piMinus6 = positions.get(i - 6);
+                    selfCrossing = pi.x <= piMinus6.x && piMinus1.x >= piMinus6.x && pi.y >= piMinus6.y && pi.y <= piMinus5.y;
+                    if (selfCrossing) break;
                 }
             }
 
@@ -92,51 +77,55 @@ public class SelfCrossing {
         int x = 0, y = 0;
 
         List<Integer> xList = new ArrayList<>(), yList = new ArrayList<>();
-        xList.add(x); yList.add(y);
+        xList.add(x);
+        yList.add(y);
 
         Set<String> positions = new HashSet<>();
-        positions.add(x+","+y);
+        positions.add(x + "," + y);
 
         boolean selfCrossing = false;
 
-        out: for (int d = 0; d < distance.length; d++) {
+        out:
+        for (int d = 0; d < distance.length; d++) {
             switch (directions[d % directions.length]) {
                 case "North":
                     y = y + distance[d];
-                    if(!yList.contains(y)) yList.add(y);
-                    selfCrossing = !positions.add(x+","+y);
+                    if (!yList.contains(y)) yList.add(y);
+                    selfCrossing = !positions.add(x + "," + y);
                     if (selfCrossing) break out;
                     break;
                 case "West":
                     x = x - distance[d];
-                    if(!xList.contains(x)) xList.add(x);
-                    selfCrossing = !positions.add(x+","+y);
+                    if (!xList.contains(x)) xList.add(x);
+                    selfCrossing = !positions.add(x + "," + y);
                     if (selfCrossing) break out;
                     break;
                 case "South":
                     y = y - distance[d];
-                    if(!yList.contains(y)) yList.add(y);
-                    selfCrossing = !positions.add(x+","+y);
+                    if (!yList.contains(y)) yList.add(y);
+                    selfCrossing = !positions.add(x + "," + y);
                     if (selfCrossing) break out;
                     break;
                 case "East":
                     x = x + distance[d];
-                    if(!xList.contains(x)) xList.add(x);
-                    selfCrossing = !positions.add(x+","+y);
+                    if (!xList.contains(x)) xList.add(x);
+                    selfCrossing = !positions.add(x + "," + y);
                     if (selfCrossing) break out;
                     break;
-                default: throw new IllegalArgumentException("Wrong direction!");
+                default:
+                    throw new IllegalArgumentException("Wrong direction!");
             }
         }
 
         Collections.sort(xList);
         Collections.sort(yList);
 
-        if(selfCrossing) {
+        if (selfCrossing) {
             return true;
         }
 
-        x = 0; y = 0;
+        x = 0;
+        y = 0;
         int start, end;
 
         out:
@@ -144,7 +133,7 @@ public class SelfCrossing {
             switch (directions[i % directions.length]) {
                 case "North":
                     start = yList.indexOf(y);
-                    end = yList.indexOf(y+distance[i]);
+                    end = yList.indexOf(y + distance[i]);
 
                     for (int north = start + 1; north < end; north++) {
                         selfCrossing = !positions.add(x + "," + yList.get(north));
@@ -186,10 +175,28 @@ public class SelfCrossing {
 
                     x += distance[i];
                     break;
-                default: throw new IllegalArgumentException("Wrong direction!");
+                default:
+                    throw new IllegalArgumentException("Wrong direction!");
             }
         }
 
         return selfCrossing;
+    }
+
+    private class Position {
+        int x;
+        int y;
+
+        public Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "{" + x +
+                    ", " + y +
+                    '}';
+        }
     }
 }

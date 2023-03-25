@@ -1,8 +1,8 @@
 package com.trainings.algorithms.sorting;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 class MedianOfTwoSortedArraysTest {
 

@@ -11,6 +11,7 @@ public class Product {
     public static Function<Double, String> format = price -> String.format("R$%.2f", price);
     private final Double price;
     private final Double discount;
+
     public Product(Double price, Double discount) {
         super();
         this.price = price;

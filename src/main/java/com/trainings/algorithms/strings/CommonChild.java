@@ -1,12 +1,6 @@
 package com.trainings.algorithms.strings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CommonChild {
     public static int commonChild(String s1, String s2) {
@@ -116,6 +110,7 @@ public class CommonChild {
     static class Mask implements Comparable<Mask> {
         public char[] mask;
         public int size;
+
         public Mask(int mask) {
             String binaryString = Integer.toBinaryString(mask);
             this.mask = binaryString.toCharArray();

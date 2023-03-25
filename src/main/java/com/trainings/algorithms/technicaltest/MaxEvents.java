@@ -1,20 +1,10 @@
 package com.trainings.algorithms.technicaltest;
 
-import static java.util.stream.Collectors.toList;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.io.*;
+import java.util.*;
 import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toList;
 
 class ResultMaxEvents {
 

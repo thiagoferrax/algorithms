@@ -1,10 +1,9 @@
 package com.trainings.algorithms.sorting;
 
-import static org.junit.Assert.assertEquals;
-
+import com.trainings.algorithms.sorting.MergeTwoSortedLists.ListNode;
 import org.junit.Test;
 
-import com.trainings.algorithms.sorting.MergeTwoSortedLists.ListNode;
+import static org.junit.Assert.assertEquals;
 
 class MergeTwoSortedListsTest {
 

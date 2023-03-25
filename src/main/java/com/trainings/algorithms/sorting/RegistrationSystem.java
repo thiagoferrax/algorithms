@@ -79,6 +79,7 @@ public class RegistrationSystem {
         private final boolean familyBag;
         private final boolean brotherEnrolled;
         private final boolean motherWorkingOutside;
+
         public Student(String information) {
             String[] studentData = information.split(";");
 

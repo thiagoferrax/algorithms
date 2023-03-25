@@ -1,9 +1,9 @@
 package com.trainings.algorithms.technicaltest;
 
-import java.util.ArrayList;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 class MyConnection implements Connection {
 

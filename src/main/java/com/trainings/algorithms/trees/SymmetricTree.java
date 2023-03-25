@@ -6,9 +6,8 @@ import java.util.List;
 
 public class SymmetricTree {
 
-    enum SIDE {LEFT, RIGHT};
     public boolean isSymmetric(TreeNode root) {
-        if(root == null) return false;
+        if (root == null) return false;
 
         List<Integer> leftList = new ArrayList<>();
         readTree(root.left, SIDE.LEFT, leftList);
@@ -20,9 +19,9 @@ public class SymmetricTree {
     }
 
     private void readTree(TreeNode node, SIDE side, List<Integer> list) {
-        if(node != null) {
+        if (node != null) {
             list.add(node.val);
-            if(side == SIDE.LEFT) {
+            if (side == SIDE.LEFT) {
                 read(node.right, side, list);
                 read(node.left, side, list);
             } else {
@@ -35,10 +34,12 @@ public class SymmetricTree {
     }
 
     private void read(TreeNode node, SIDE side, List<Integer> list) {
-        if(node == null) {
+        if (node == null) {
             list.add(null);
         } else {
             readTree(node, side, list);
         }
     }
+
+    enum SIDE {LEFT, RIGHT}
 }

@@ -1,10 +1,10 @@
 package com.trainings.algorithms.technicaltest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class MaxOccurrenceWordsTest {

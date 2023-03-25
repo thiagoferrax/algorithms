@@ -18,9 +18,9 @@ public class ValidParenthesis {
         parenthesisMap.put(']', '[');
 
         Stack<Character> stack = new Stack<>();
-        for (char c:
-             chars) {
-            if(!stack.isEmpty() && stack.peek() == parenthesisMap.get(c)) {
+        for (char c :
+                chars) {
+            if (!stack.isEmpty() && stack.peek() == parenthesisMap.get(c)) {
                 stack.pop();
             } else {
                 stack.push(c);

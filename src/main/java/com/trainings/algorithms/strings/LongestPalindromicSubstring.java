@@ -7,10 +7,20 @@ import java.util.Map;
 
 /**
  * https://leetcode.com/problems/longest-palindromic-substring/
- * @author Thiago
  *
+ * @author Thiago
  */
 public class LongestPalindromicSubstring {
+
+    private static List<String> getAllSubstrings(String s) {
+        List<String> allSubstringsOfS = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = i; j < s.length(); j++) {
+                allSubstringsOfS.add(s.substring(i, j + 1));
+            }
+        }
+        return allSubstringsOfS;
+    }
 
     public String longestPalindrome(String s) {
         int maxLength = 0;
@@ -19,9 +29,9 @@ public class LongestPalindromicSubstring {
         List<String> allSubstringsOfS = new ArrayList<>();
         for (int i = 0; i < s.length(); i++) {
             for (int j = i; j < s.length(); j++) {
-                if(j+1-i > maxLength) {
-                    String substring = s.substring(i, j+1);
-                    if(isPalindromeWord(substring)) {
+                if (j + 1 - i > maxLength) {
+                    String substring = s.substring(i, j + 1);
+                    if (isPalindromeWord(substring)) {
                         maxLength = substring.length();
                         longestPalindromic = substring;
                     }
@@ -35,7 +45,6 @@ public class LongestPalindromicSubstring {
     private boolean isPalindromeWord(String e) {
         return new StringBuilder(e).reverse().toString().equals(e);
     }
-
 
     public String longestPalindrome3rdSolution(String s) {
         char[] charArray = s.toCharArray();
@@ -52,35 +61,25 @@ public class LongestPalindromicSubstring {
         return longestPalindromic;
     }
 
-    private static List<String> getAllSubstrings(String s) {
-        List<String> allSubstringsOfS = new ArrayList<>();
-        for (int i = 0; i < s.length(); i++) {
-            for (int j = i; j < s.length(); j++) {
-                allSubstringsOfS.add(s.substring(i, j+1));
+    public String longestPalindrome2ndSolution(String s) {
+        char[] charArray = s.toCharArray();
+
+        String maxPalindrom = "";
+        for (int i = 0; i < charArray.length; i++) {
+            for (int j = i; j <= charArray.length; j++) {
+                String substring = s.substring(i, j);
+                String reverse = new StringBuilder(substring).reverse().toString();
+                if (substring.equals(reverse)) {
+                    if (substring.length() > maxPalindrom.length()) {
+                        maxPalindrom = substring;
+                    }
+                }
             }
         }
-        return allSubstringsOfS;
+
+        return maxPalindrom;
     }
 
-    public String longestPalindrome2ndSolution(String s) {
-    	char[] charArray = s.toCharArray();
-    	
-    	String maxPalindrom = "" ;
-    	for (int i = 0; i < charArray.length; i++) {
-    		for (int j = i; j <= charArray.length; j++) {
-    			String substring = s.substring(i, j);
-    			String reverse = new StringBuilder(substring).reverse().toString();
-    			if(substring.equals(reverse)) {
-    				if(substring.length() > maxPalindrom.length()) {
-    					maxPalindrom = substring;
-    				}
-    			}
-    		}	
-		}
-    	
-    	return maxPalindrom;
-    }
-	
     public String longestPalindrome1stSolution(String s) {
         char[] chars = s.toCharArray();
 

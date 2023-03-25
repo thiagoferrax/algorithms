@@ -3,11 +3,7 @@ package com.trainings.algorithms.sorting;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * If the amount spent by a client on a particular day is greater than or equal

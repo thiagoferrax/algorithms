@@ -1,6 +1,5 @@
 package com.trainings.algorithms.lambdas;
 
-import com.trainings.algorithms.lambdas.Product;
 import org.junit.Assert;
 import org.junit.Test;
 

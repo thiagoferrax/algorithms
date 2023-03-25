@@ -1,11 +1,6 @@
 package com.trainings.algorithms.sorting;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 
 // https://leetcode.com/problems/merge-k-sorted-lists/	
 public class MergeKSortedLists {

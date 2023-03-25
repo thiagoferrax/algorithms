@@ -10,13 +10,13 @@ public class GroupAnagrams {
         Map<String, List<String>> map = new HashMap<>();
 
         // Iterate the words and then compare the words to
-        for(String word: words) {
+        for (String word : words) {
             char[] chars = word.toCharArray();
             Arrays.sort(chars);
             String sorted = String.valueOf(chars);
 
             List<String> anagrams = map.get(sorted);
-            if(anagrams == null) {
+            if (anagrams == null) {
                 anagrams = new ArrayList<>();
                 map.put(sorted, anagrams);
             }
@@ -24,7 +24,7 @@ public class GroupAnagrams {
         }
 
         List<List<String>> group = new ArrayList<>();
-        for(List<String> anagrams: map.values()) {
+        for (List<String> anagrams : map.values()) {
             group.add(anagrams);
         }
 

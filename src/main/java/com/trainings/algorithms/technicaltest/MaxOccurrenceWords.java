@@ -1,10 +1,6 @@
 package com.trainings.algorithms.technicaltest;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 class Occurrence {
     private final String word;
@@ -45,8 +41,8 @@ class Occurrence {
     @Override
     public boolean equals(Object obj) {
         Occurrence other = (Occurrence) obj;
-		return word.equals(other.word);
-	}
+        return word.equals(other.word);
+    }
 
     @Override
     public String toString() {
