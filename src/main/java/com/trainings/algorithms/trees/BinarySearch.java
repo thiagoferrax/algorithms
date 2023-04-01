@@ -7,33 +7,30 @@ import java.util.Arrays;
  */
 public class BinarySearch {
     public int search(int[] nums, int target) {
-        int index = search(nums, target, 0, nums.length-1);
-        return index >= 0 ? index : -1;
+        return search(nums, target, 0, nums.length - 1);
     }
 
     private int search(int[] nums, int target, int start, int end) {
-        if(nums[start] == target) {
-            return start;
-        } else if(nums[end] == target) {
-            return end;
-        } else if(end-start == 0) {
-            return nums[start] == target ? start : -1;
-        } else if(end - start == 1) {
-            return nums[start+1] == target ? start + 1 : -1;
-        }
-
-        int middleIndex = getMiddleElementIndex(start, end);
-        if(nums[middleIndex]== target) {
-            return middleIndex;
-        } else if(nums[middleIndex] < target) {
-            return search(nums, target, middleIndex, end);
+        int index = -1;
+        if (nums[start] == target) {
+            index = start;
+        } else if (nums[end] == target) {
+            index = end;
+        } else if (end - start == 0) {
+            index = nums[start] == target ? start : -1;
+        } else if (end - start == 1) {
+            index = nums[start + 1] == target ? start + 1 : -1;
         } else {
-            return search(nums, target, start, middleIndex);
+            int middleIndex = (start + end) / 2;
+            if (nums[middleIndex] == target) {
+                index = middleIndex;
+            } else if (nums[middleIndex] < target) {
+                index = search(nums, target, middleIndex, end);
+            } else {
+                index = search(nums, target, start, middleIndex);
+            }
         }
-    }
-
-    private int getMiddleElementIndex(int start, int end) {
-        return (start + end)/2;
+        return index;
     }
 
     public int search1stSolution(int[] nums, int target) {
