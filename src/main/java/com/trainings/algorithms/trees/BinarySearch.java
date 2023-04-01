@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class BinarySearch {
     public int search(int[] nums, int target) {
-        Integer index = search(nums, target, 0, nums.length-1);
+        int index = search(nums, target, 0, nums.length-1);
         return index >= 0 ? index : -1;
     }
 
@@ -22,7 +22,7 @@ public class BinarySearch {
             return nums[start+1] == target ? start + 1 : -1;
         }
 
-        int middleIndex = getMiddleElementIndex(nums, start, end);
+        int middleIndex = getMiddleElementIndex(start, end);
         if(nums[middleIndex]== target) {
             return middleIndex;
         } else if(nums[middleIndex] < target) {
@@ -32,7 +32,7 @@ public class BinarySearch {
         }
     }
 
-    private int getMiddleElementIndex(int[] nums, int start, int end) {
+    private int getMiddleElementIndex(int start, int end) {
         return (start + end)/2;
     }
 
