@@ -1,36 +1,31 @@
 package com.trainings.algorithms.arrays;
 
-import java.util.Arrays;
-
+/**
+ * <a href="https://leetcode.com/problems/successful-pairs-of-spells-and-potions/">successful-pairs-of-spells-and-potions</a>
+ */
 public class SuccessfulPairsOfSpellsAndPotions {
     public int[] successfulPairs(int[] spells, int[] potions, long success) {
-        int[] successfulPairs = new int[spells.length];
+        int[] pairs = new int[spells.length];
 
-        int[] pairs = new int[spells.length * potions.length];
-        int s = 0, count = 0;
-        for (int i = 0; i < pairs.length; i++) {
-            pairs[i] = potions[i%potions.length];
-        }
+        int sIndex = 0, pIndex = 0, count = 0;
+        for (int i = 0; i < spells.length * potions.length; i++) {
+            long multiplication = (long) spells[sIndex] * potions[pIndex];
 
-        System.out.println(Arrays.toString(pairs));
-
-        for (int i = 0; i < pairs.length; i++) {
-            pairs[i] *= spells[s];
-
-            if(pairs[i] >= success) {
+            System.out.println(spells[sIndex] + " * " + potions[pIndex] + " = " + multiplication);
+            if(multiplication >= success) {
                 count++;
-            }
+           }
 
-            if((i + 1) % potions.length == 0) {
-                successfulPairs[s] = count;
-                s++;
+            if(pIndex == potions.length - 1) {
+                pairs[sIndex++] = count;
                 count = 0;
+                pIndex = 0;
+            } else {
+                pIndex++;
             }
         }
 
-        System.out.println(Arrays.toString(pairs));
-
-        return successfulPairs;
+        return pairs;
     }
 
     public int[] successfulPairs1stSolution(int[] spells, int[] potions, long success) {
