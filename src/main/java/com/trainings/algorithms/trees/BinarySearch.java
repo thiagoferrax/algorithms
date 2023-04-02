@@ -6,28 +6,28 @@ import java.util.Arrays;
  * <a href="https://leetcode.com/problems/binary-search/">binary-search</a>
  */
 public class BinarySearch {
-    public int search(int[] nums, int target) {
-        return search(nums, target, 0, nums.length - 1);
+    public int search(int[] numbers, int target) {
+        return search(numbers, target, 0, numbers.length - 1);
     }
 
-    private int search(int[] nums, int target, int start, int end) {
-        int index = -1;
-        if (nums[start] == target) {
+    private int search(int[] numbers, int target, int start, int end) {
+        int index;
+        if (numbers[start] == target) {
             index = start;
-        } else if (nums[end] == target) {
+        } else if (numbers[end] == target) {
             index = end;
         } else if (end - start == 0) {
-            index = nums[start] == target ? start : -1;
+            index = numbers[start] == target ? start : -1;
         } else if (end - start == 1) {
-            index = nums[start + 1] == target ? start + 1 : -1;
+            index = numbers[start + 1] == target ? start + 1 : -1;
         } else {
             int middleIndex = (start + end) / 2;
-            if (nums[middleIndex] == target) {
+            if (numbers[middleIndex] == target) {
                 index = middleIndex;
-            } else if (nums[middleIndex] < target) {
-                index = search(nums, target, middleIndex, end);
+            } else if (numbers[middleIndex] < target) {
+                index = search(numbers, target, middleIndex, end);
             } else {
-                index = search(nums, target, start, middleIndex);
+                index = search(numbers, target, start, middleIndex);
             }
         }
         return index;
