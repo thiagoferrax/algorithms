@@ -22,8 +22,8 @@ public class AllPathsFromSourceToTarget {
             allPaths.add(Arrays.stream(csvList.split(",")).map(Integer::parseInt).toList());
         } else {
             int[] nodesToGo = graph[i];
-            for (int toGo : nodesToGo) {
-                findAllPaths(graph, allPaths, csvList + "," + toGo, toGo);
+            for (int node : nodesToGo) {
+                findAllPaths(graph, allPaths, csvList + "," + node, node);
             }
         }
 
