@@ -13,7 +13,7 @@ public class SerializeAndDeserializeBinaryTreeTest {
         root.right.left = new TreeNode(4);
         root.right.right = new TreeNode(5);
 
-        assertEquals("1,2,null,null,3,4,null,null,5,null,null", new SerializeAndDeserializeBinaryTree().serialize(root));
+        assertEquals("[1, 2, 3, null, null, 4, 5]", new SerializeAndDeserializeBinaryTree().serialize(root));
     }
 
     @Test
@@ -24,7 +24,7 @@ public class SerializeAndDeserializeBinaryTreeTest {
         root.right.left = new TreeNode(4);
         root.right.right = new TreeNode(5);
 
-        assertEquals(root, new SerializeAndDeserializeBinaryTree().deserialize("1,2,null,null,3,4,null,null,5,null,null"));
+        assertEquals(root, new SerializeAndDeserializeBinaryTree().deserialize("[1, 2, 3, null, null, 4, 5]"));
     }
 
 }

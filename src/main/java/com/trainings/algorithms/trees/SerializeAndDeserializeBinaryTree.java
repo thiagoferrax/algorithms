@@ -1,80 +1,106 @@
 package com.trainings.algorithms.trees;
 
-public class SerializeAndDeserializeBinaryTree {
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Queue;
 
+/**
+ * <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/">serialize-and-deserialize-binary-tree</a>
+ */
+public class SerializeAndDeserializeBinaryTree {
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-
-        // Read the tree and then create an array and turn the array into a string
-
-        // Edge cases...
-        String tree;
+        String tree = "";
         if(root == null) {
-            return "[]";
-        } else if (root.left == null && root.right == null){
-            tree = "["+root.val+"]";
-        } else {
-            tree = serializeTree(root, "");
-
+            return tree;
         }
-        return tree;
+
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        tree = serializeTree("", queue);
+
+        String[] nodes = tree.split(",");
+        int i = nodes.length-1;
+        for (; i >= 0 ; i--) {
+            if(!"null".equals(nodes[i])) break;
+        }
+
+        return Arrays.toString(Arrays.copyOf(nodes, i + 1));
     }
 
-    private String serializeTree(TreeNode node, String tree) {
-        if(node == null) {
-            tree += "," + node;
+    private static String serializeTree(String tree, Queue<TreeNode> queue) {
+        if(queue.isEmpty()) {
             return tree;
-        } else if(tree.isEmpty()) {
-            tree += node.val;
-        } else {
-            tree += "," + node.val;
         }
 
-        tree = serializeTree(node.left, tree);
+        TreeNode node = queue.poll();
 
-        tree = serializeTree(node.right, tree);
+        boolean isNotNull = node != null && node.val != Integer.MIN_VALUE;
 
-        return tree;
+        if(!tree.isEmpty()) {
+            tree += ",";
+        }
+        tree += isNotNull ? node.val : "null";
+
+        if(isNotNull) {
+            queue.add(node.left != null ? node.left : new TreeNode(Integer.MIN_VALUE));
+            queue.add(node.right != null ? node.right : new TreeNode(Integer.MIN_VALUE));
+        }
+
+        return serializeTree(tree, queue);
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
         TreeNode root = null;
-        if(data == null || data.isEmpty()) {
-            return root;
-        } else {
+
+        if (data != null && !data.isEmpty() && !"[]".equals(data)) {
+            data = data.replace("[", "").replace("]", "");
             boolean onlyOneElement = !data.contains(",");
             if(onlyOneElement) {
-                return new TreeNode(Integer.parseInt(data));
+                return new TreeNode(Integer.parseInt(data.trim()));
             } else {
                 String[] nodes = data.split(",");
-                
-                int i = 0;
-                root = new TreeNode(Integer.parseInt(nodes[i]));
-                createMagicTree(nodes, 0, root);
+
+                Queue<TreeNode> queue = new ArrayDeque<>();
+                root = new TreeNode(Integer.parseInt(nodes[0].trim()));
+                queue.add(root);
+
+                createMagicTree(queue, nodes, 0);
             }
         }
 
         return root;
     }
 
-    private static int createMagicTree(String[] nodes, int i, TreeNode root) {
-        int myIndex = i;
-        if("null".equals(nodes[myIndex +1])) {
-            root.left = null;
-        } else {
-            root.left = new TreeNode(Integer.parseInt(nodes[myIndex +1]));
-            myIndex = createMagicTree(nodes, myIndex+1, root.left);
-        }
+    private void createMagicTree(Queue<TreeNode> queue, String[] nodes, int i) {
+        TreeNode node = queue.poll();
 
-        if("null".equals(nodes[myIndex + 2])) {
-            root.right = null;
-        } else {
-            root.right = new TreeNode(Integer.parseInt(nodes[myIndex +2]));
-            myIndex = createMagicTree(nodes, myIndex+2, root.right);
+        String value;
+        TreeNode left = null, right = null;
+
+        if(node!=null) {
+            if(i+1 < nodes.length) {
+                value = nodes[i+1].trim();
+                if(!"null".equals(value))  {
+                    left = new TreeNode(Integer.parseInt(value));
+                    queue.add(left);
+                }
+            }
+            node.left = left;
+
+            if(i+2 < nodes.length) {
+                 value = nodes[i+2].trim();
+                if(!"null".equals(value))  {
+                    right = new TreeNode(Integer.parseInt(value));
+                    queue.add(right);
+                }
+            }
+            node.right = right;
+
+            createMagicTree(queue, nodes, i + 2);
         }
-        return  myIndex + 1;
     }
-
 }
