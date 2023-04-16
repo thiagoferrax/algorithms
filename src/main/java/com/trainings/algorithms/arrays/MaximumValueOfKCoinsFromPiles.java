@@ -1,6 +1,11 @@
 package com.trainings.algorithms.arrays;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.com/problems/maximum-value-of-k-coins-from-piles/">maximum-value-of-k-coins-from-piles</a>
@@ -54,21 +59,23 @@ public class MaximumValueOfKCoinsFromPiles {
 
         for (int p = 0; p < piles.size(); p++) {
             List<Integer> pile = piles.get(p);
-            for (int i = 0; i < pile.size(); i++) {
+            for (int i = 0; i < pile.size() && i < k; i++) {
                 firstKCoinsAllPiles.add(new Coin(pile.get(i), p, i));
             }
         }
 
         //3. Then order the elements of that initial list in descending order.
+        firstKCoinsAllPiles.sort(Comparator.comparingInt(o -> o.index));
         firstKCoinsAllPiles.sort((o1, o2) -> o2.value - o1.value);
-        //System.out.println(firstKCoinsAllPiles);
 
-        //List<List<Coin>> possibleCoins = new ArrayList<>();
+        System.out.println(firstKCoinsAllPiles);
+
+        List<List<Coin>> possibleCoins = new ArrayList<>();
         List<Coin> coins = new ArrayList<>();
 
         int count = 0;
         Coin coin;
-        List<Coin> needToHave  = null;
+        Set<Coin> needToHave  = null;
 
         for (int i = 0; i < firstKCoinsAllPiles.size() - 1; i++) {
             for (int j = i + 1; j < firstKCoinsAllPiles.size() && count < k; j++) {
@@ -78,7 +85,7 @@ public class MaximumValueOfKCoinsFromPiles {
                     coins.add(coin);
                     count++;
 
-                    needToHave = new ArrayList<>();
+                    needToHave = new HashSet<>();
                     Coin coinOnTop = getCoinOnTop(coin);
                     if (coinOnTop != null) {
                         needToHave.add(coinOnTop);
@@ -96,7 +103,7 @@ public class MaximumValueOfKCoinsFromPiles {
                 }
 
                 if (count == k) {
-                    //possibleCoins.add(coins);
+                    possibleCoins.add(coins);
 
                     if (needToHave.isEmpty()) {
                         int sum = 0;
@@ -110,7 +117,7 @@ public class MaximumValueOfKCoinsFromPiles {
             }
         }
 
-        //System.out.println(possibleCoins);
+        System.out.println(possibleCoins);
         /*
          2. Create a hashmap that will keep the value of the element and will point to the pile index and the position it has in that specific pile.
          3. Then order the elements of that initial list in descending order.
