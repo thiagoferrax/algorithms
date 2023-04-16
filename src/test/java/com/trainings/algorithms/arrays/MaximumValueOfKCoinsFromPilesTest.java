@@ -10,7 +10,7 @@ public class MaximumValueOfKCoinsFromPilesTest extends TestCase {
         assertEquals(101, new MaximumValueOfKCoinsFromPiles().maxValueOfCoins(List.of(List.of(1,100,3),List.of(7,8,9)), 2));
     }
 
-    //@Test
+    @Test
     public void testTwo(){
         assertEquals(706, new MaximumValueOfKCoinsFromPiles().maxValueOfCoins(List.of(List.of(100),List.of(100),List.of(100),List.of(100),List.of(100),List.of(100),List.of(1,1,1,1,1,1,700)), 7));
     }

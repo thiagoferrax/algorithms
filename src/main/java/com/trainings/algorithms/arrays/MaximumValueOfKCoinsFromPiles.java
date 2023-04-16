@@ -32,7 +32,7 @@ public class MaximumValueOfKCoinsFromPiles {
 
         @Override
         public int hashCode() {
-            return Objects.hash(value, pile, index);
+            return Objects.hash(pile, index);
         }
 
         @Override
@@ -61,8 +61,9 @@ public class MaximumValueOfKCoinsFromPiles {
 
         //3. Then order the elements of that initial list in descending order.
         firstKCoinsAllPiles.sort((o1, o2) -> o2.value - o1.value);
-        System.out.println(firstKCoinsAllPiles);
+        //System.out.println(firstKCoinsAllPiles);
 
+        //List<List<Coin>> possibleCoins = new ArrayList<>();
         List<Coin> coins = new ArrayList<>();
 
         int count = 0;
@@ -90,11 +91,13 @@ public class MaximumValueOfKCoinsFromPiles {
                 count++;
 
                 Coin coinOnTop = getCoinOnTop(coin);
-                if (coinOnTop != null) {
+                if (coinOnTop != null && !coins.contains(coinOnTop)) {
                     needToHave.add(coinOnTop);
                 }
 
                 if (count == k) {
+                    //possibleCoins.add(coins);
+
                     if (needToHave.isEmpty()) {
                         int sum = 0;
                         for (Coin sCoin : coins) {
@@ -107,6 +110,7 @@ public class MaximumValueOfKCoinsFromPiles {
             }
         }
 
+        //System.out.println(possibleCoins);
         /*
          2. Create a hashmap that will keep the value of the element and will point to the pile index and the position it has in that specific pile.
          3. Then order the elements of that initial list in descending order.
