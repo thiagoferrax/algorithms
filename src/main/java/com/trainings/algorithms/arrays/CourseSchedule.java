@@ -1,6 +1,7 @@
 package com.trainings.algorithms.arrays;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class CourseSchedule {
 
@@ -47,10 +48,8 @@ public class CourseSchedule {
         }
 
         Map<Integer, Course> courses = new HashMap<>();
-        int firstCourse = prerequisites[0][0];
-        for (int[] prerequisite: prerequisites) {
 
-            firstCourse = Math.min(firstCourse, prerequisite[0]);
+        for (int[] prerequisite: prerequisites) {
             Course course = courses.get(prerequisite[0]);
             if(course == null) {
                 course = new Course(prerequisite[0]);
@@ -66,29 +65,24 @@ public class CourseSchedule {
 
         System.out.println(courses);
 
-        System.out.println(firstCourse);
-
-        for (int i = firstCourse; i < numCourses; i++) {
-            Course course = courses.get(i);
-            if (!canFinish(course, "")) return false;
+        List<Integer> sorted = courses.keySet().stream().sorted().toList();
+        for (Integer courseId : sorted) {
+            Course course = courses.get(courseId);
+            if (!canFinish(course, "|")) return false;
         }
 
         return true;
     }
 
     private static boolean canFinish(Course course, String parent) {
-        if(course == null) {
-            return true;
-        }
-
-        if(!parent.isEmpty()) {
-            parent += ",";
+        if(parent.length() > 1) {
+            parent += "|";
         }
         parent += course.getValue();
 
-        List<String> parentCourses = Arrays.stream(parent.split(",")).toList();
         for(Course dependency : course.getDependencies()) {
-           if(parentCourses.contains(String.valueOf(dependency.getValue()))) {
+            String value = "|" + String.valueOf(dependency.getValue()) + "|";
+            if(parent.contains(value)) {
                return false;
            }
         }
