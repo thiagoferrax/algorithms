@@ -1,7 +1,6 @@
 package com.trainings.algorithms.arrays;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class CourseSchedule {
 
@@ -66,15 +65,23 @@ public class CourseSchedule {
         System.out.println(courses);
 
         List<Integer> sorted = courses.keySet().stream().sorted().toList();
+        Map<Integer, Boolean> memoization = new HashMap<>();
         for (Integer courseId : sorted) {
             Course course = courses.get(courseId);
-            if (!canFinish(course, "|")) return false;
+            if (!canFinish(course, "|", memoization)) return false;
         }
 
         return true;
     }
 
-    private static boolean canFinish(Course course, String parent) {
+    private static boolean canFinish(Course course, String parent, Map<Integer, Boolean> memoization) {
+        Boolean canFinish = memoization.get(course.getValue());
+        if(canFinish != null) {
+            return canFinish;
+        }
+
+        System.out.println(course);
+
         if(parent.length() > 1) {
             parent += "|";
         }
@@ -88,8 +95,10 @@ public class CourseSchedule {
         }
 
         for(Course dependency : course.getDependencies()) {
-            if (!canFinish(dependency, parent)) return false;
+            if (!canFinish(dependency, parent, memoization)) return false;
         }
+
+        memoization.put(course.value, Boolean.TRUE);
 
         return true;
     }
