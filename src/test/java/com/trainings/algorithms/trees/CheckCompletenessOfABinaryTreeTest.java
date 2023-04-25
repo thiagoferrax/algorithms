@@ -16,5 +16,17 @@ public class CheckCompletenessOfABinaryTreeTest extends TestCase {
         assertEquals(true, new CheckCompletenessOfABinaryTree().isCompleteTree(root));
     }
 
+    @Test
+    public void testTwo() {
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+        root.right = new TreeNode(3);
+        root.right.right = new TreeNode(7);
+
+        assertEquals(false, new CheckCompletenessOfABinaryTree().isCompleteTree(root));
+    }
+
 
 }
