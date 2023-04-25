@@ -46,18 +46,24 @@ public class CheckCompletenessOfABinaryTree {
 
         buildArray(tree, queue);
 
+        System.out.println(tree);
+
         return tree.toArray(Integer[]::new);
     }
 
     private static void buildArray(List<Integer> tree, LinkedList<TreeNode> queue) {
+        if(queue.isEmpty()) {
+            return;
+        }
+
         TreeNode node = queue.poll();
         tree.add(node!=null?node.val:null);
 
         if(node!=null) {
             queue.add(node.left);
             queue.add(node.right);
-
-            buildArray(tree, queue);
         }
+
+        buildArray(tree, queue);
     }
 }
