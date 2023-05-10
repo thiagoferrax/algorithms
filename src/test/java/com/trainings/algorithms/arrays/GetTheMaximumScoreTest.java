@@ -12,8 +12,7 @@ public class GetTheMaximumScoreTest {
 
     @Test
     public void example2() {
-        assertEquals(0, new GetTheMaximumScore().maxSum(new int[]{6,7,12,13,14,17,20}, new int[]{1,4,5,7}));
+        assertEquals(93, new GetTheMaximumScore().maxSum(new int[]{6,7,12,13,14,17,20}, new int[]{1,4,5,7}));
     }
-
 
 }
