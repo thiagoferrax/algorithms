@@ -38,22 +38,17 @@ public class GetTheMaximumScore {
                 return;
             }
 
-            if(one == nums1.length - 1) {
-                allPaths.add(path.isEmpty() ? String.valueOf(nums1[one]) : path + "," + nums1[one]);
-                return;
-            }
-
             if(map2.containsKey(nums1[one])) {
                 findAllPossiblePaths(ARRAY.Two, one, map2.get(nums1[one]) + 1, nums1, nums2, map1, map2, path.isEmpty() ? String.valueOf(nums1[one]) : path + "," + nums1[one], allPaths);
             }
             findAllPossiblePaths(ARRAY.One, one + 1, two, nums1, nums2, map1, map2, path.isEmpty() ? String.valueOf(nums1[one]) : path + "," + nums1[one], allPaths);
-        } else {
-            if(two >= nums2.length) {
+
+            if(one == nums1.length - 1) {
+                allPaths.add(path.isEmpty() ? String.valueOf(nums1[one]) : path + "," + nums1[one]);
                 return;
             }
-
-            if(two == nums2.length - 1) {
-                allPaths.add(path.isEmpty() ? String.valueOf(nums2[two]) : path + "," + nums2[two]);
+        } else {
+            if(two >= nums2.length) {
                 return;
             }
 
@@ -61,6 +56,11 @@ public class GetTheMaximumScore {
                 findAllPossiblePaths(ARRAY.One, map1.get(nums2[two]) + 1, two, nums1, nums2, map1, map2, path.isEmpty() ? String.valueOf(nums2[two]) : path + "," + nums2[two], allPaths);
             }
             findAllPossiblePaths(ARRAY.Two, one, two + 1, nums1, nums2, map1, map2, path.isEmpty() ? String.valueOf(nums2[two]) : path + "," + nums2[two], allPaths);
+
+            if(two == nums2.length - 1) {
+                allPaths.add(path.isEmpty() ? String.valueOf(nums2[two]) : path + "," + nums2[two]);
+                return;
+            }
         }
     }
 
