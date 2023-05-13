@@ -1,6 +1,7 @@
 package com.trainings.algorithms.arrays;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GetTheMaximumScore {
 

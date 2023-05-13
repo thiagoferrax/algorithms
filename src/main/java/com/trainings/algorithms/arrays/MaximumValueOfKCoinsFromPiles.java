@@ -1,11 +1,6 @@
 package com.trainings.algorithms.arrays;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/maximum-value-of-k-coins-from-piles/">maximum-value-of-k-coins-from-piles</a>

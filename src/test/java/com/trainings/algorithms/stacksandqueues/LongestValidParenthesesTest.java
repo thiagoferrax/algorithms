@@ -2,7 +2,7 @@ package com.trainings.algorithms.stacksandqueues;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * <a href="https://leetcode.com/problems/longest-valid-parentheses/">longest-valid-parentheses</a>
