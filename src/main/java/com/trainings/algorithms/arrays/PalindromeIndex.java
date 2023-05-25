@@ -1,20 +1,55 @@
 package com.trainings.algorithms.arrays;
 
 public class PalindromeIndex {
-    public static int palindromeIndex(String s) {
+
+
+        public static int palindromeIndex(String s) {
+            int left = 0;
+            int right = s.length() - 1;
+
+            int index = -1;
+
+            while(left < right) {
+                if(s.charAt(left) != s.charAt(right)) {
+                    index = isPalindrome(s, left+1, right) ? left : right;
+                    break;
+                }
+                left++;
+                right--;
+            }
+
+            return index;
+        }
+
+        private static boolean isPalindrome(String s, int left, int right) {
+            boolean palindrome = true;
+
+            while (left < right) {
+                if(s.charAt(left)!=s.charAt(right)) {
+                    palindrome = false;
+                    break;
+                }
+                left++;
+                right--;
+            }
+
+            return palindrome;
+        }
+
+    public static int palindromeIndex1stSolution(String s) {
 
         String reverse = new StringBuilder(s).reverse().toString();
 
         //If the word is already a palindrome
         int index = -1;
-        if(!isPalindrom(s, reverse)) {
+        if(!isPalindrome(s, reverse)) {
             for (int i = 0; i < s.length(); i++) {
                 String word = getWordRemovingCharAt(s, i);
                 String reverseWord = getWordRemovingCharAt(reverse, s.length() - 1 - i);
 
                 System.out.printf("The word %s and the reverse word %s.", word, reverseWord);
 
-                if(isPalindrom(word, reverseWord)) {
+                if(isPalindrome(word, reverseWord)) {
                     index =  i;
                     break;
                 }
@@ -36,7 +71,7 @@ public class PalindromeIndex {
         return word;
     }
 
-    private static boolean isPalindrom(String s, String reverse) {
+    private static boolean isPalindrome(String s, String reverse) {
 
         int add = s.length() % 2 == 0 ? 0 : 1;
 
