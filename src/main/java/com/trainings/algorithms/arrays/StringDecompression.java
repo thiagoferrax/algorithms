@@ -14,13 +14,30 @@ public class StringDecompression {
             return new char[]{compressed.charAt(0)};
         }
 
-        boolean[] numbers = new boolean[length];
-        for (int i = 0; i < length; i++) {
-            char character = compressed.charAt(i);
-            numbers[i] = character >= 48 && character <= 57;
-        }
+        boolean[] numbers = getBooleans(compressed, length);
 
         Map<Integer, Character> map = new HashMap<>();
+        int size = buildMap(compressed, numbers, map);
+
+        return getDecompressedChar(map, size);
+    }
+
+    private static char[] getDecompressedChar(Map<Integer, Character> map, int size) {
+        char[] decompressed = new char[size];
+        Character oldChar = null;
+        for (int i = 0; i < size; i++) {
+            Character character = map.get(i);
+            if (character != null) {
+                oldChar = character;
+                decompressed[i] = character;
+            } else {
+                decompressed[i] = oldChar;
+            }
+        }
+        return decompressed;
+    }
+
+    private int buildMap(String compressed, boolean[] numbers, Map<Integer, Character> map) {
         int size = 0;
         for (int i = 0; i < numbers.length; i++) {
             char character = compressed.charAt(i);
@@ -33,20 +50,16 @@ public class StringDecompression {
                 i += numberOfDigits(number);
             }
         }
+        return size;
+    }
 
-        char[] decompressed = new char[size];
-        Character oldChar = null;
-        for (int i = 0; i < size; i++) {
-            Character character = map.get(i);
-            if (character != null) {
-                oldChar = character;
-                decompressed[i] = character;
-            } else {
-                decompressed[i] = oldChar;
-            }
+    private static boolean[] getBooleans(String compressed, int length) {
+        boolean[] numbers = new boolean[length];
+        for (int i = 0; i < length; i++) {
+            char character = compressed.charAt(i);
+            numbers[i] = character >= 48 && character <= 57;
         }
-
-        return decompressed;
+        return numbers;
     }
 
     private int numberOfDigits(int number) {
