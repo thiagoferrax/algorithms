@@ -38,5 +38,10 @@ public class StringDecompressionTest {
         assertEquals("[a, b]", Arrays.toString(new StringDecompression().decompress("ab")));
     }
 
+    @Test
+    public void exampleFive() {
+        assertEquals("[a, a, b, b, b, b, b, b, b, b, b, b, b, b, b, b, c, c, c, c, c]", Arrays.toString(new StringDecompression().decompress("a2b14c5")));
+    }
+
 
 }

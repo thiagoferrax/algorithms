@@ -1,11 +1,51 @@
 package com.trainings.algorithms.arrays;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class StringDecompression {
+
     public char[] decompress(String compressed) {
+        Character current = compressed.charAt(0);
+        StringBuilder builder = new StringBuilder();
+        int counter = 0, quantity = 0;
+        while(current != null) {
+            if(isANumber(counter, compressed) && quantity == 0) {
+                quantity = getWholeNumber(counter, compressed);
+                current = compressed.charAt(counter-1);
+                counter += String.valueOf(quantity).length() - 1;
+                quantity--;
+            } else {
+                if(quantity > 0) quantity--;
+                builder.append(current);
+                if(quantity == 0) counter++;
+                if(counter < compressed.length() && quantity == 0) {
+                    current = compressed.charAt(counter);
+                } else if(quantity == 0) {
+                    current = null;
+                }
+            }
+        }
+
+        return builder.toString().toCharArray();
+    }
+
+    private int getWholeNumber(int counter, String compressed) {
+        String number = String.valueOf(compressed.charAt(counter));
+        if(isANumber(counter+1, compressed)) {
+            number += compressed.charAt(counter+1);
+            if(isANumber(counter+2, compressed)) {
+                number += compressed.charAt(counter+2);
+            }
+        }
+        return Integer.valueOf(number);
+    }
+
+    private boolean isANumber(int counter, String compressed) {
+        return counter < compressed.length() && compressed.charAt(counter) >= 48 && compressed.charAt(counter) <= 57;
+    }
+
+    public char[] decompress1stSolution(String compressed) {
 
         int length = compressed.length();
         if (length == 0) {
