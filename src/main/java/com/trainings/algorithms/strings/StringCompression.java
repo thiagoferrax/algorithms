@@ -6,7 +6,7 @@ package com.trainings.algorithms.strings;
 public class StringCompression {
     public int compress(char[] chars) {
 
-        if(chars.length <= 1 ) {
+        if (chars.length <= 1) {
             return chars.length;
         }
 
@@ -15,10 +15,10 @@ public class StringCompression {
         StringBuilder sb = new StringBuilder();
         sb.append(String.valueOf(chars[0]));
         for (int i = 1; i < chars.length; i++) {
-            if(chars[i-1] == chars[i]) {
+            if (chars[i - 1] == chars[i]) {
                 count++;
             } else {
-                if(count!=1) {
+                if (count != 1) {
                     String countString = String.valueOf(count);
                     sb.append(countString);
                     newArraySize += countString.length();
@@ -29,7 +29,7 @@ public class StringCompression {
             }
         }
 
-        if(count!=1) {
+        if (count != 1) {
             String countString = String.valueOf(count);
             sb.append(countString);
             newArraySize += countString.length();

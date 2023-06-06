@@ -6,6 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public class ConvertBSTToGreaterTree {
+    private static void buildKeySumMap(TreeNode node, Map<Integer, Integer> keySumMap) {
+        if (node != null) {
+            keySumMap.put(node.val, 0);
+            buildKeySumMap(node.left, keySumMap);
+            buildKeySumMap(node.right, keySumMap);
+        }
+    }
+
     public TreeNode convertBST(TreeNode root) {
         // Create a list of values with keys (List<Integer>)
         // [4, 1, 6, 0, 2, 5, 7, null, null , 3, null, null, null, 8]
@@ -21,7 +29,7 @@ public class ConvertBSTToGreaterTree {
 
         List<Integer> sortedKeys = new ArrayList<>(keySumMap.keySet());
         sortedKeys.sort((o1, o2) -> {
-            if(o2!=null && o1!=null) return o2 - o1;
+            if (o2 != null && o1 != null) return o2 - o1;
             else return 0;
         });
 
@@ -51,7 +59,7 @@ public class ConvertBSTToGreaterTree {
         // }
 
         int previousSum = 0;
-        for (Integer key: sortedKeys) {
+        for (Integer key : sortedKeys) {
             previousSum += key;
             keySumMap.put(key, previousSum);
         }
@@ -65,18 +73,10 @@ public class ConvertBSTToGreaterTree {
     }
 
     private void updateTree(TreeNode node, Map<Integer, Integer> keySumMap) {
-        if(node!=null) {
+        if (node != null) {
             node.val = keySumMap.get(node.val);
             updateTree(node.left, keySumMap);
             updateTree(node.right, keySumMap);
-        }
-    }
-
-    private static void buildKeySumMap(TreeNode node, Map<Integer, Integer> keySumMap) {
-        if(node != null) {
-            keySumMap.put(node.val, 0);
-            buildKeySumMap(node.left, keySumMap);
-            buildKeySumMap(node.right, keySumMap);
         }
     }
 

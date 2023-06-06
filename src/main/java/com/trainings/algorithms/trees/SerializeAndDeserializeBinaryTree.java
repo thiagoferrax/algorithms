@@ -9,10 +9,32 @@ import java.util.Queue;
  */
 public class SerializeAndDeserializeBinaryTree {
 
+    private static String serializeTree(String tree, Queue<TreeNode> queue) {
+        if (queue.isEmpty()) {
+            return tree;
+        }
+
+        TreeNode node = queue.poll();
+
+        boolean isNotNull = node != null && node.val != Integer.MIN_VALUE;
+
+        if (!tree.isEmpty()) {
+            tree += ",";
+        }
+        tree += isNotNull ? node.val : "null";
+
+        if (isNotNull) {
+            queue.add(node.left != null ? node.left : new TreeNode(Integer.MIN_VALUE));
+            queue.add(node.right != null ? node.right : new TreeNode(Integer.MIN_VALUE));
+        }
+
+        return serializeTree(tree, queue);
+    }
+
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         String tree = "";
-        if(root == null) {
+        if (root == null) {
             return tree;
         }
 
@@ -22,34 +44,12 @@ public class SerializeAndDeserializeBinaryTree {
         tree = serializeTree("", queue);
 
         String[] nodes = tree.split(",");
-        int i = nodes.length-1;
-        for (; i >= 0 ; i--) {
-            if(!"null".equals(nodes[i])) break;
+        int i = nodes.length - 1;
+        for (; i >= 0; i--) {
+            if (!"null".equals(nodes[i])) break;
         }
 
         return Arrays.toString(Arrays.copyOf(nodes, i + 1));
-    }
-
-    private static String serializeTree(String tree, Queue<TreeNode> queue) {
-        if(queue.isEmpty()) {
-            return tree;
-        }
-
-        TreeNode node = queue.poll();
-
-        boolean isNotNull = node != null && node.val != Integer.MIN_VALUE;
-
-        if(!tree.isEmpty()) {
-            tree += ",";
-        }
-        tree += isNotNull ? node.val : "null";
-
-        if(isNotNull) {
-            queue.add(node.left != null ? node.left : new TreeNode(Integer.MIN_VALUE));
-            queue.add(node.right != null ? node.right : new TreeNode(Integer.MIN_VALUE));
-        }
-
-        return serializeTree(tree, queue);
     }
 
     // Decodes your encoded data to tree.
@@ -59,7 +59,7 @@ public class SerializeAndDeserializeBinaryTree {
         if (data != null && !data.isEmpty() && !"[]".equals(data)) {
             data = data.replace("[", "").replace("]", "");
             boolean onlyOneElement = !data.contains(",");
-            if(onlyOneElement) {
+            if (onlyOneElement) {
                 return new TreeNode(Integer.parseInt(data.trim()));
             } else {
                 String[] nodes = data.split(",");
@@ -81,19 +81,19 @@ public class SerializeAndDeserializeBinaryTree {
         String value;
         TreeNode left = null, right = null;
 
-        if(node!=null) {
-            if(i+1 < nodes.length) {
-                value = nodes[i+1].trim();
-                if(!"null".equals(value))  {
+        if (node != null) {
+            if (i + 1 < nodes.length) {
+                value = nodes[i + 1].trim();
+                if (!"null".equals(value)) {
                     left = new TreeNode(Integer.parseInt(value));
                     queue.add(left);
                 }
             }
             node.left = left;
 
-            if(i+2 < nodes.length) {
-                 value = nodes[i+2].trim();
-                if(!"null".equals(value))  {
+            if (i + 2 < nodes.length) {
+                value = nodes[i + 2].trim();
+                if (!"null".equals(value)) {
                     right = new TreeNode(Integer.parseInt(value));
                     queue.add(right);
                 }

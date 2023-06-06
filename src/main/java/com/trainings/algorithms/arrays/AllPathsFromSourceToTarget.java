@@ -8,17 +8,8 @@ import java.util.List;
  * <a href="https://leetcode.com/problems/all-paths-from-source-to-target/submissions/928095163/">ll-paths-from-source-to-target</a>
  */
 public class AllPathsFromSourceToTarget {
-    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
-
-        List<List<Integer>> allPaths = new ArrayList<>();
-
-        findAllPaths(graph, allPaths, "0", 0);
-
-        return allPaths;
-    }
-
-    private static void findAllPaths(int[][] graph, List<List<Integer>> allPaths, String csvList,  int i) {
-        if(i == graph.length-1) {
+    private static void findAllPaths(int[][] graph, List<List<Integer>> allPaths, String csvList, int i) {
+        if (i == graph.length - 1) {
             allPaths.add(Arrays.stream(csvList.split(",")).map(Integer::parseInt).toList());
         } else {
             int[] nodesToGo = graph[i];
@@ -27,5 +18,14 @@ public class AllPathsFromSourceToTarget {
             }
         }
 
+    }
+
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+
+        List<List<Integer>> allPaths = new ArrayList<>();
+
+        findAllPaths(graph, allPaths, "0", 0);
+
+        return allPaths;
     }
 }

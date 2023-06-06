@@ -7,43 +7,6 @@ import java.util.*;
  */
 public class MaximumValueOfKCoinsFromPiles {
 
-    private static class Coin {
-        Integer value;
-        int pile;
-        int index;
-
-        public Coin(Integer value, Integer pile, Integer index) {
-            this.value = value;
-            this.pile = pile;
-            this.index = index;
-        }
-
-        public Coin(Integer pile, Integer index) {
-            this(null, pile, index);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Coin coin = (Coin) o;
-            return pile == coin.pile && index == coin.index;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(pile, index);
-        }
-
-        @Override
-        public String toString() {
-            return "{" + value +
-                    ", " + pile +
-                    ", " + index +
-                    '}';
-        }
-    }
-
     public int maxValueOfCoins(List<List<Integer>> piles, int k) {
 
         // 1. Create a list to add all elements from position 0 to k-1 on all piles.
@@ -70,7 +33,7 @@ public class MaximumValueOfKCoinsFromPiles {
 
         int count = 0;
         Coin coin;
-        Set<Coin> needToHave  = null;
+        Set<Coin> needToHave = null;
 
         for (int i = 0; i < firstKCoinsAllPiles.size() - 1; i++) {
             for (int j = i + 1; j < firstKCoinsAllPiles.size() && count < k; j++) {
@@ -140,5 +103,42 @@ public class MaximumValueOfKCoinsFromPiles {
 
     private Coin getCoinOnTop(Coin coin) {
         return coin.index > 0 ? new Coin(coin.pile, coin.index - 1) : null;
+    }
+
+    private static class Coin {
+        Integer value;
+        int pile;
+        int index;
+
+        public Coin(Integer value, Integer pile, Integer index) {
+            this.value = value;
+            this.pile = pile;
+            this.index = index;
+        }
+
+        public Coin(Integer pile, Integer index) {
+            this(null, pile, index);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Coin coin = (Coin) o;
+            return pile == coin.pile && index == coin.index;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(pile, index);
+        }
+
+        @Override
+        public String toString() {
+            return "{" + value +
+                    ", " + pile +
+                    ", " + index +
+                    '}';
+        }
     }
 }

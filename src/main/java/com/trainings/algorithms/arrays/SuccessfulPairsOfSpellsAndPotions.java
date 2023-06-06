@@ -12,11 +12,11 @@ public class SuccessfulPairsOfSpellsAndPotions {
             long multiplication = (long) spells[sIndex] * potions[pIndex];
 
             System.out.println(spells[sIndex] + " * " + potions[pIndex] + " = " + multiplication);
-            if(multiplication >= success) {
+            if (multiplication >= success) {
                 count++;
-           }
+            }
 
-            if(pIndex == potions.length - 1) {
+            if (pIndex == potions.length - 1) {
                 pairs[sIndex++] = count;
                 count = 0;
                 pIndex = 0;

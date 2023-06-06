@@ -18,9 +18,9 @@ public class MaximumProfit {
         // Brute force O(n^2)
         long maxProfit = 0;
         for (int i = 0; i < prices.size() - 5; i++) {
-            for (int j = i+5; j < prices.size(); j++) {
+            for (int j = i + 5; j < prices.size(); j++) {
                 long profit = prices.get(j) - prices.get(i);
-                if(profit > maxProfit) {
+                if (profit > maxProfit) {
                     maxProfit = profit;
                 }
             }

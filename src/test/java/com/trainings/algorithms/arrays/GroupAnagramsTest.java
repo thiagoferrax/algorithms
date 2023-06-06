@@ -11,7 +11,7 @@ public class GroupAnagramsTest {
     @Test
     public void test() {
         assertEquals(Arrays.asList(List.of("eat", "tea", "ate"),
-                        List.of("bat"),  List.of("tan", "nat")),
+                        List.of("bat"), List.of("tan", "nat")),
                 new GroupAnagrams().groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"}));
     }
 }
