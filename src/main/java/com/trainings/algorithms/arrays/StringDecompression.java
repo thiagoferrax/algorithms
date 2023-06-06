@@ -18,11 +18,12 @@ public class StringDecompression {
             } else {
                 if(quantity > 0) quantity--;
                 builder.append(current);
-                if(quantity == 0) counter++;
-                if(counter < compressed.length() && quantity == 0) {
-                    current = compressed.charAt(counter);
-                } else if(quantity == 0) {
-                    current = null;
+                if(quantity == 0) {
+                    if(++counter < compressed.length()) {
+                        current = compressed.charAt(counter);
+                    } else {
+                        current = null;
+                    }
                 }
             }
         }
