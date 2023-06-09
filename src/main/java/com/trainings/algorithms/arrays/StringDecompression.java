@@ -6,9 +6,9 @@ import java.util.Map;
 public class StringDecompression {
 
     public char[] decompress(String compressed) {
-        Character current = compressed.charAt(0);
-        StringBuilder builder = new StringBuilder();
+        StringBuilder decompressed = new StringBuilder();
         int counter = 0, quantity = 0;
+        Character current = compressed.charAt(0);
         while(current != null) {
             if(isANumber(counter, compressed) && quantity == 0) {
                 quantity = getWholeNumber(counter, compressed);
@@ -17,7 +17,7 @@ public class StringDecompression {
                 quantity--;
             } else {
                 if(quantity > 0) quantity--;
-                builder.append(current);
+                decompressed.append(current);
                 if(quantity == 0) {
                     if(++counter < compressed.length()) {
                         current = compressed.charAt(counter);
@@ -28,7 +28,7 @@ public class StringDecompression {
             }
         }
 
-        return builder.toString().toCharArray();
+        return decompressed.toString().toCharArray();
     }
 
     private int getWholeNumber(int counter, String compressed) {
@@ -39,7 +39,7 @@ public class StringDecompression {
                 number += compressed.charAt(counter+2);
             }
         }
-        return Integer.valueOf(number);
+        return Integer.parseInt(number);
     }
 
     private boolean isANumber(int counter, String compressed) {
@@ -55,10 +55,8 @@ public class StringDecompression {
             return new char[]{compressed.charAt(0)};
         }
 
-        boolean[] numbers = getBooleans(compressed, length);
-
         Map<Integer, Character> map = new HashMap<>();
-        int size = buildMap(compressed, numbers, map);
+        int size = buildMap(compressed, map);
 
         return getDecompressedChar(map, size);
     }
@@ -78,14 +76,14 @@ public class StringDecompression {
         return decompressed;
     }
 
-    private int buildMap(String compressed, boolean[] numbers, Map<Integer, Character> map) {
+    private int buildMap(String compressed, Map<Integer, Character> map) {
         int size = 0;
-        for (int i = 0; i < numbers.length; i++) {
+        for (int i = 0; i < compressed.length(); i++) {
             char character = compressed.charAt(i);
-            if (!numbers[i]) {
+            if (Character.isDigit(character)) {
                 map.put(size, character);
             }
-            int number = getNumberAfter(i, compressed, numbers);
+            int number = getNumberAfter(i, compressed);
             size += number;
             if (number > 1) {
                 i += numberOfDigits(number);
@@ -94,31 +92,24 @@ public class StringDecompression {
         return size;
     }
 
-    private static boolean[] getBooleans(String compressed, int length) {
-        boolean[] numbers = new boolean[length];
-        for (int i = 0; i < length; i++) {
-            char character = compressed.charAt(i);
-            numbers[i] = character >= 48 && character <= 57;
-        }
-        return numbers;
-    }
-
     private int numberOfDigits(int number) {
         return String.valueOf(number).length();
     }
 
-    private int getNumberAfter(int i, String compressedWord, boolean[] numbers) {
-        String number = "";
-        if (i + 1 < numbers.length && numbers[i + 1]) {
-            number += compressedWord.charAt(i + 1);
-            if (i + 2 < numbers.length && numbers[i + 2]) {
-                number += compressedWord.charAt(i + 2);
-                if (i + 3 < numbers.length && numbers[i + 3]) {
-                    number += compressedWord.charAt(i + 3);
+    private int getNumberAfter(int i, String compressedWord) {
+        int length = compressedWord.length();
+        StringBuilder number = new StringBuilder();
+
+        if (i + 1 < length && Character.isDigit(compressedWord.charAt(i+1))) {
+            number.append(compressedWord.charAt(i + 1));
+            if (i + 2 < length && Character.isDigit(compressedWord.charAt(i+2))) {
+                number.append(compressedWord.charAt(i + 2));
+                if (i + 3 < length && Character.isDigit(compressedWord.charAt(i+3))) {
+                    number.append(compressedWord.charAt(i + 3));
                 }
             }
         }
-        return number.isEmpty() ? 1 : Integer.parseInt(number);
+        return number.isEmpty() ? 1 : Integer.parseInt(number.toString());
     }
 
 }
