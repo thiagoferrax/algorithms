@@ -24,6 +24,7 @@ public class StringDecompressionTest {
     public void exampleOne() {
         assertEquals("[a, a, a, b, b, b, b, a, a, c]", Arrays.toString(new StringDecompression().decompress("a3b4a2c")));
     }
+
     @Test
     public void exampleTwo() {
         assertEquals("[e, e, e, k, k, k, k, k, k, k, k]", Arrays.toString(new StringDecompression().decompress("e3k8")));
@@ -33,6 +34,7 @@ public class StringDecompressionTest {
     public void exampleThree() {
         assertEquals("[a, b, b, b, b, b, b, b, b, b, b, b, b, e, k, k, k, t, t, t, t, t, t]", Arrays.toString(new StringDecompression().decompress("ab12ek3t6")));
     }
+
     @Test
     public void exampleFour() {
         assertEquals("[a, b]", Arrays.toString(new StringDecompression().decompress("ab")));

@@ -1,7 +1,5 @@
 package com.trainings.algorithms;
 
-import java.util.Arrays;
-
 public class LargestRectangleInHistogram {
     public int largestRectangleArea(int[] heights) {
         //edge case
