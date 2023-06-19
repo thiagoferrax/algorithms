@@ -1,10 +1,27 @@
 package com.trainings.algorithms.trees;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BinarySearchTreeLowestCommonAncestor {
     public static Node lca(Node root, int v1, int v2) {
-        if(root == null) {
+        Node lca = root;
+        while (lca != null) {
+            if (v1 < lca.data && v2 < lca.data) {
+                lca = lca.left;
+            } else if (v1 > lca.data && v2 > lca.data) {
+                lca = lca.right;
+            } else {
+                break;
+            }
+        }
+        return lca;
+    }
+
+    public static Node lca1stSolution(Node root, int v1, int v2) {
+        if (root == null) {
             return null;
         }
 
