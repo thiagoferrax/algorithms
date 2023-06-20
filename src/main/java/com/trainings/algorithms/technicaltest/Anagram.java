@@ -19,7 +19,28 @@ public class Anagram {
         scan.close();
     }
 
-    public static boolean isAnagram(String firstWord, String secondWord) {
+    static boolean isAnagram(String a, String b) {
+        if (a.length() != b.length()) {
+            return false;
+        }
+
+        int[] charCount = new int[26]; // Assuming only lowercase alphabets
+
+        for (int i = 0; i < a.length(); i++) {
+            charCount[a.charAt(i) - 'a']++; // Increment count for character in string 'a'
+            charCount[b.charAt(i) - 'a']--; // Decrement count for character in string 'b'
+        }
+
+        for (int count : charCount) {
+            if (count != 0) {
+                return false; // If any count is non-zero, the strings are not anagrams
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean isAnagramThirdSolution(String firstWord, String secondWord) {
         if (firstWord.length() != secondWord.length()) {
             return false;
         }
