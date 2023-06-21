@@ -20,20 +20,24 @@ public class Anagram {
     }
 
     static boolean isAnagram(String a, String b) {
-        if (a.length() != b.length()) {
+        // Complete the function
+        if(a.length() != b.length()) {
             return false;
         }
 
-        int[] charCount = new int[26]; // Assuming only lowercase alphabets
+        String aLowerCase = a.toLowerCase();
+        String bLowerCase = b.toLowerCase();
 
-        for (int i = 0; i < a.length(); i++) {
-            charCount[a.charAt(i) - 'a']++; // Increment count for character in string 'a'
-            charCount[b.charAt(i) - 'a']--; // Decrement count for character in string 'b'
+        int[] quantities = new int[26];
+
+        for(int i = 0; i < a.length(); i++) {
+            quantities[aLowerCase.charAt(i)-'a']++;
+            quantities[bLowerCase.charAt(i)-'a']--;
         }
 
-        for (int count : charCount) {
-            if (count != 0) {
-                return false; // If any count is non-zero, the strings are not anagrams
+        for(int quantity : quantities) {
+            if(quantity != 0) {
+                return false;
             }
         }
 
