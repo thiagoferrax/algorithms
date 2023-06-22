@@ -26,6 +26,26 @@ public class BubbleSort {
     }
 
     public static int bubbleSort(int[] a) {
+        int swaps = 0;
+        int previousSwaps = 0;
+        for (int j = 0; j < a.length; j++) {
+            for (int i = 1; i < a.length; i++) {
+                if (a[i - 1] > a[i]) {
+                    int temp = a[i - 1];
+                    a[i - 1] = a[i];
+                    a[i] = temp;
+                    swaps++;
+                }
+            }
+            if(previousSwaps == swaps) {
+                break;
+            }
+            previousSwaps = swaps;
+        }
+        return swaps;
+    }
+
+    public static int bubbleSort1stSolution(int[] a) {
         int n = a.length;
         int swaps = 0;
 

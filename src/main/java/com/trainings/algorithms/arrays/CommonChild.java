@@ -7,6 +7,10 @@ import java.util.Map;
 
 public class CommonChild {
     public static int commonChild(String s1, String s2) {
+        if(s1 == null || s2 == null || s1.isEmpty() || s2.isEmpty()) {
+            return 0;
+        }
+
         int max = 0;
         for (int l = 0; l < s1.length()-1; l++) {
             Map<Character, List<Integer>> map1 = getCharacterListMap(s1);

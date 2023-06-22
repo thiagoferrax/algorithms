@@ -22,4 +22,8 @@ public class CommonChildTest {
     public void example4(){
         assertEquals(3, CommonChild.commonChild("SHINCHAN", "NOHARAAA"));
     }
+    @Test
+    public void example5(){
+        assertEquals(15, CommonChild.commonChild("WEWOUCUIDGCGTRMEZEPXZFEJWISRSBBSYXAYDFEJJDLEBVHHKS", "FDAGCXGKCTKWNECHMRXZWMLRYUCOCZHJRRJBOAJOQJZZVUYXIC"));
+    }
 }
