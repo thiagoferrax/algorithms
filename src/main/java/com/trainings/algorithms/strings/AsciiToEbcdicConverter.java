@@ -14,7 +14,7 @@ public class AsciiToEbcdicConverter {
     private static final String ENTRADA = "entrada";
     private static final String SAIDA = "saida";
     private static final String IBM500 = "ibm500";
-    private static final String DEFAULT_CHARSET = Charset.defaultCharset().toString();
+    private static final String CHARSET_UTF8 = "UTF-8";
 
     private static final String CBS = "cbs";
     private static final Logger LOG = Logger.getLogger(AsciiToEbcdicConverter.class.getName());
@@ -25,10 +25,10 @@ public class AsciiToEbcdicConverter {
 
         if (inputFile.exists()) {
             try {
-                String lineSeparator = System.getProperty("line.separator");
+                String lineSeparator = "\r\n"; // Set the line separator to "\r\n" for Windows
                 String linePattern = "(?<=\\G.{" + cbs + "})";
 
-                List<String> lines = Files.readAllLines(inputFile.toPath(), Charset.forName(DEFAULT_CHARSET));
+                List<String> lines = Files.readAllLines(inputFile.toPath(), Charset.forName(CHARSET_UTF8));
                 String content = String.join(lineSeparator, lines);
                 String[] splitLines = content.split(linePattern);
                 List<String> outputLines = Arrays.asList(splitLines);
@@ -57,13 +57,13 @@ public class AsciiToEbcdicConverter {
                 byte[] inputBytes = Files.readAllBytes(inputFile.toPath());
                 String content = new String(inputBytes, Charset.forName(IBM500));
 
-                String lineSeparator = System.getProperty("line.separator");
+                String lineSeparator = "\r\n"; // Set the line separator to "\r\n" for Windows
                 String linePattern = "(?<=\\G.{" + cbs + "})";
                 String[] splitLines = content.split(linePattern);
 
                 List<String> outputLines = List.of(splitLines);
                 Path outputPath = outputFile.toPath();
-                Files.write(outputPath, outputLines, Charset.forName(DEFAULT_CHARSET));
+                Files.write(outputPath, outputLines, Charset.forName(CHARSET_UTF8));
 
                 LOG.info("The file has been converted from EBCDIC to ASCII. Please check the file at: " + outputPath);
 
@@ -76,6 +76,7 @@ public class AsciiToEbcdicConverter {
 
         LOG.info("The EBCDIC to ASCII conversion job has finished.");
     }
+
     public static void main(String[] args) {
         String inputFilePath = "input_file.txt";
         String outputFilePath = "output_file.txt";
