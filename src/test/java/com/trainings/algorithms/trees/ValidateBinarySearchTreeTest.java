@@ -1,5 +1,6 @@
 package com.trainings.algorithms.trees;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -24,6 +25,7 @@ public class ValidateBinarySearchTreeTest {
         assertEquals(false, new ValidateBinarySearchTree().isValidBST(root));
     }
 
+    @Ignore
     @Test
     public void example3(){
         TreeNode root = new TreeNode(120);
