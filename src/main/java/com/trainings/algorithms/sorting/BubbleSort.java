@@ -1,5 +1,6 @@
 package com.trainings.algorithms.sorting;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -68,6 +69,33 @@ public class BubbleSort {
                 break;
             }
         }
+
+        return swaps;
+    }
+
+    public static int bubbleSort3rdSolution(int[] a) {
+        if(a == null) return 0;
+
+        int swaps = 0;
+        boolean swapped;
+        int j = 0;
+
+        for (; j < a.length - 1; j++) {
+            swapped = false;
+            for (int i = 0; i < a.length - 1 - j; i++) {
+                if (a[i] > a[i + 1]) {
+                    int temp = a[i];
+                    a[i] = a[i + 1];
+                    a[i + 1] = temp;
+                    swaps++;
+                    swapped = true;
+                }
+            }
+            if (!swapped) break;
+        }
+
+        System.out.println(j);
+        System.out.println(Arrays.toString(a));
 
         return swaps;
     }
