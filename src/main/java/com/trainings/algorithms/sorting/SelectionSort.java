@@ -29,4 +29,20 @@ public class SelectionSort {
         }
     }
 
+    public static int[] selectionSort(int[] values) {
+        if (values == null || values.length <= 1) return values;
+
+        int indexMin;
+        for(int j = 0; j < values.length - 1; j++) {
+            indexMin = j;
+            for (int i = j + 1; i < values.length; i++) {
+                if (values[indexMin] > values[i]) {
+                    indexMin = i;
+                }
+            }
+            swap(values, j, indexMin);
+        }
+        return values;
+    }
+
 }
