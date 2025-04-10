@@ -30,5 +30,22 @@ public class InsertionSort {
         return values;
     }
 
+    public static int[] insertionSort(int[] values) {
+        for(int i = 0; i < values.length; i++) {
+            int postitionToInsert = i;
+            int valueToInsert = values[i];
+            for(int j = i-1; j >=0; j--) {
+                if(values[i] < values[j]) {
+                   postitionToInsert = j;
+                   valueToInsert = values[i];
+                }
+            }
+            for(int j = i; j > postitionToInsert; j--) {
+                values[j] = values[j-1];
+            }
+            values[postitionToInsert] = valueToInsert;
+        }
+        return values;
+    }
 }
 
