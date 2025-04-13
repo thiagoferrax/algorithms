@@ -1,5 +1,8 @@
 package com.trainings.algorithms.dynamicprogramming;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BestTimeToBuyAndSellStock {
 
     public int maxProfit(int[] prices) {
@@ -23,5 +26,28 @@ public class BestTimeToBuyAndSellStock {
         return maxProfit;
     }
 
+    public int maxProfit3rdSolution(int[] prices) {
+        Map<Integer, Integer> memoization = new HashMap<>();
+        return max(prices, prices.length-1, memoization);
+    }
 
+    private int max(int[] prices, int n, Map<Integer, Integer> memoization) {
+        if(n == 0) {
+            return 0;
+        } else if(memoization.containsKey(n)) {
+            return memoization.get(n);
+        } else {
+            int max = Math.max(max(prices, n-1, memoization), max(prices, n));
+            memoization.put(n, max);
+            return max;
+        }
+    }
+
+    private int max(int[] prices, int n) {
+        int max = 0;
+        for(int i = 0; i < n; i++) {
+            max = Math.max(max, prices[n] - prices[i]);
+        }
+        return max;
+    }
 }
